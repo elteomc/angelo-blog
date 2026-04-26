@@ -1,0 +1,13 @@
+---
+title: "Notes"
+---
+
+These are more polished than scratch notes.
+
+Possible TBD:
+
+- Matrix concentration inequalities
+- Laplacian solver chains
+- Parallel prefix tricks
+- GPU architecture
+- Gaussian mixture PCA

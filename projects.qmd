@@ -1,0 +1,9 @@
+---
+title: "Projects"
+---
+
+A selected list of things I've worked on or am currently building.
+
+## AGOP feature-learning experiments
+
+Status: exploratory

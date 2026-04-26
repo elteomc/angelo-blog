@@ -1,0 +1,14 @@
+---
+title: "Angelo Farfan"
+subtitle: "math, algorithms, scientific ML, and fun sidequests"
+---
+
+Hi, I'm Angelo. I'm an MIT undergrad interested in Math and CS.
+
+Right now I'm thinking about:
+
+- randomized algos with clean visual demos
+- scientific ML, and Julia experiments
+- how to write better notes without pretending everything was obvious
+
+This site is a mix of project notes, blog posts, experiments, and overthinking.

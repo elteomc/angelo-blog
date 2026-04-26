@@ -1,0 +1,42 @@
+/* Slightly more personal than the default Quarto look. */
+
+:root {
+  --angelo-accent: #3b4cc0;
+}
+
+body {
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.navbar-title {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+}
+
+a {
+  text-underline-offset: 3px;
+}
+
+.quarto-title-block .subtitle {
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+.callout {
+  border-radius: 12px;
+}
+
+.cell-output, pre {
+  border-radius: 10px;
+}
+
+blockquote {
+  border-left: 4px solid var(--angelo-accent);
+  padding-left: 1rem;
+  color: #444;
+}

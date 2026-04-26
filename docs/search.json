@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "projects.html",
+    "href": "projects.html",
+    "title": "Projects",
+    "section": "",
+    "text": "A selected list of things I’ve worked on or am currently building."
+  },
+  {
+    "objectID": "projects.html#agop-feature-learning-experiments",
+    "href": "projects.html#agop-feature-learning-experiments",
+    "title": "Projects",
+    "section": "AGOP feature-learning experiments",
+    "text": "AGOP feature-learning experiments\nStatus: exploratory"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Angelo Farfan",
+    "section": "",
+    "text": "Hi, I’m Angelo. I’m an MIT undergrad interested in Math and CS.\nRight now I’m thinking about: - randomized algos with clean visual demos - scientific ML, and Julia experiments - how to write better notes without pretending everything was obvious\nThis site is a mix of project notes, blog posts, experiments, and overthinking."
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "Posts, thoughts, experiments, and occasional debugging.\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I’m Angelo, and MIT undergrad studying math and computer science.\nOutside of coursework, I like table tennis, learning languages, Peruvian food, and debugging things I was completely sure were correct."
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "CV",
+    "section": "",
+    "text": "My CV will live here.\nFor now: - GitHub - Email"
+  },
+  {
+    "objectID": "notes.html",
+    "href": "notes.html",
+    "title": "Notes",
+    "section": "",
+    "text": "These are more polished than scratch notes.\nPossible TBD:\n\nMatrix concentration inequalities\nLaplacian solver chains\nParallel prefix tricks\nGPU architecture\nGaussian mixture PCA"
+  }
+]

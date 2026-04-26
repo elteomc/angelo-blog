@@ -1,0 +1,34 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Angelo Farfan"
+  site-url: "https://angelo.dev"
+  description: "Personal website and blog of Angelo Farfan."
+  navbar:
+    right:
+      - href: index.qmd
+        text: Home
+      - href: projects.qmd
+        text: Projects
+      - href: notes.qmd
+        text: Notes
+      - href: blog.qmd
+        text: Blog
+      - href: cv.qmd
+        text: CV
+      - href: about.qmd
+        text: About
+      - icon: github
+        href: https://github.com/elteomc
+  page-footer:
+    center: "© 2026 Angelo Farfan"
+
+format:
+  html:
+    theme:
+      light: cosmo
+    css: styles.css
+    toc: true
+    smooth-scroll: true

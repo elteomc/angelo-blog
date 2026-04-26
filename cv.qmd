@@ -1,0 +1,10 @@
+---
+title: "CV"
+---
+
+My CV will live here.
+
+For now:
+
+- [GitHub](https://github.com/elteomc)
+- [Email](mailto:angelo.farfan.ore@gmail.com)

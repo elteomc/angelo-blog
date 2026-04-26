@@ -1,0 +1,7 @@
+---
+title: "About"
+---
+
+I'm Angelo, and MIT undergrad studying math and computer science.
+
+Outside of coursework, I like table tennis, learning languages, Peruvian food, and debugging things I was completely sure were correct.
