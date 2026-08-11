@@ -5,8 +5,12 @@ project:
 website:
   title: "Angelo Farfan"
   site-url: "https://angelo.dev"
-  description: "Personal website and blog of Angelo Farfan."
+  description: "Mathematics, algorithms, machine learning, and other things I find interesting."
   navbar:
+    title: false
+    left:
+      - href: index.qmd
+        text: Angelo Farfan
     right:
       - href: index.qmd
         text: Home
@@ -28,7 +32,9 @@ website:
 format:
   html:
     theme:
-      light: cosmo
+      light: [cosmo, theme-light.css]
+      dark: [cosmo, theme-dark.css]
     css: styles.css
     toc: true
     smooth-scroll: true
+    code-copy: true

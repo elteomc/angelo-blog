@@ -1,14 +1,38 @@
 ---
-title: "Angelo Farfan"
-subtitle: "math, algorithms, scientific ML, and fun sidequests"
+title: false
+page-layout: full
+# subtitle: "math, algorithms, scientific ML, and fun sidequests"
 ---
 
-Hi, I'm Angelo. I'm an MIT undergrad interested in Math and CS.
+::: {.home-hero}
 
-Right now I'm thinking about:
+# Angelo Farfan
 
-- randomized algos with clean visual demos
-- scientific ML, and Julia experiments
-- how to write better notes without pretending everything was obvious
+<div class="home-kicker">
+math · algorithms · machine learning
+</div>
 
-This site is a mix of project notes, blog posts, experiments, and overthinking.
+I like neat algorithms, elegant mathematical structures, and understanding why things work.
+
+Right now I'm interested in scientific machine learning, and formal reasoning.
+
+[Writing](blog.qmd){.btn .btn-primary}
+[Projects](projects.qmd){.btn .btn-outline-primary}
+
+:::
+
+## Recent writing
+
+I'm just starting to fill this site, so more will appear here soon.
+
+## Selected projects
+
+### AGOP feature-learning experiments
+
+Experiments around feature-learning, implicit geometry, and how NNs organize representation.
+
+[View projects ->](projects.qmd)
+
+## Currently
+
+Chilling.
