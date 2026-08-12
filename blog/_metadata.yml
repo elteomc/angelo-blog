@@ -1,0 +1,11 @@
+freeze: auto
+author: "Angelo Farfan"
+
+toc: true
+toc-depth: 2
+page-layout: article
+
+format:
+  html:
+    code-copy: true
+    code-overflow: wrap

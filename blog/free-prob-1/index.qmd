@@ -1,0 +1,41 @@
+---
+title: "Free probability, I: adding large random matrices"
+subtitle: "Why a different notion of independence appears when random variables stop commuting"
+description: "A first look at free probability."
+date: 2026-08-12
+
+categories:
+  - mathematics
+  - probability
+  - random matrices
+
+toc: true
+---
+
+Suppose $A_n$ and $B_n$ are two independent $n times n$ Hermitian random matrices.
+
+Assume that, as $n \to \infty$, we understand the eigenvalues of each matrix separately. Perhaps their empirical spectral distributions converge to measures $\mu_A$ and $\mu_B$.
+
+What should we expect from $A_n + B_n$?
+
+At first this sounds like it ought to be easy. The difficulty is that matrices have eigenvectors.
+
+## Why this is not trivial
+
+## Random eigenvectors
+
+## Moments are spectral information
+
+## Noncommutative probability
+
+## So what is freeness?
+
+## What does freeness provides?
+
+## What is the distribution of $A+B$?
+
+## Back to random matrices
+
+## A numerical experiment
+
+## Other stuff
