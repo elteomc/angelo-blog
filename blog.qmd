@@ -1,5 +1,6 @@
 ---
 title: "Blog"
+description: "Longer explanations, experiments, and shenanigans"
 listing:
   contents: blog
   sort: "date desc"
@@ -10,4 +11,4 @@ listing:
 page-layout: full
 ---
 
-Posts, thoughts, experiments, and occasional debugging.
+<!-- Posts, thoughts, experiments, and occasional debugging. -->
