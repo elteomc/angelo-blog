@@ -1,10 +1,17 @@
 ---
-title: "Free probability, V: multiplying positive matrices"
+title: "Multiplying positive matrices"
 subtitle: "The S-transform and the geometry hidden in a product"
 description: "Define multiplicative free convolution, derive the S-transform convention, and work through free projections."
 date: 2026-10-17
 categories: [mathematics, probability, random matrices, free probability]
 toc: true
+site-root: ../../
+nav-writing: true
+series-label: "Free probability / Part 5 of 6"
+previous-url: ../free-prob-4/index.html
+previous-title: "Rotate the eigenvectors"
+next-url: ../free-prob-6/index.html
+next-title: "Covariance matrices and their products"
 ---
 
 [The complete series](../../free-probability.qmd) · Part 5 of 6
@@ -39,7 +46,7 @@ $$
 $$
 It is determined by the marginal laws and freeness. Our assumptions of positivity and boundedness make the law and square root unambiguous.
 
-## The first two moments already reveal the geometry
+## The first two product moments {#the-first-two-moments-already-reveal-the-geometry}
 
 Let $\alpha=\tau(a)$ and $\beta=\tau(b)$. Freeness gives
 $$
@@ -89,7 +96,7 @@ S(w)=\frac1{m_1}
 $$
 For mean-one laws this is $1-vw+O(w^2)$. Multiplying the two series adds their variances, exactly as the direct mixed-moment calculation predicted.
 
-## Two examples that fix the normalization
+## Checking the S-transform normalization {#two-examples-that-fix-the-normalization}
 
 For a constant $c>0$,
 $$
@@ -130,16 +137,19 @@ $$
 $$
 Choose the solution with $w\to0$ as $z\to\infty$ and the correct upper-half-plane behavior for $G$. This is the computational route we will use for covariance products in the final post.
 
-## Try it before continuing
+## Exercises {#try-it-before-continuing}
 
 1. What is $S_{\delta_1}$, and why is that necessary?
 2. Show directly that $S_{ca}(w)=S_a(w)/c$ for $c>0$.
 3. If two free positive mean-one variables each have second moment two, what is the second moment of their product?
 
-::: {.callout-note collapse="true" title="Answer sketches"}
+<details class="answer-sketch">
+<summary>Answer sketches</summary>
+
 1. It is one, the multiplicative identity. Multiplying by the identity operator must preserve the law.
 2. $\psi_{ca}(t)=\psi_a(ct)$, so the compositional inverse is $\chi_a(w)/c$.
 3. Each variance is one. The product variance is two and its mean is one, so its second moment is three.
-:::
+
+</details>
 
 [Previous: the matrix experiment](../free-prob-4/index.qmd) · [Next: covariance matrices and a product law](../free-prob-6/index.qmd)

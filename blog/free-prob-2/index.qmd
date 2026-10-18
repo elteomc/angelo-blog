@@ -1,10 +1,17 @@
 ---
-title: "Free probability, II: why crossings disappear"
+title: "Why crossings disappear"
 subtitle: "Noncrossing partitions, free cumulants, and the semicircle law"
 description: "Organizing mixed moments with partitions, then deriving the free central limit theorem in moments."
 date: 2026-10-17
 categories: [mathematics, probability, random matrices, free probability]
 toc: true
+site-root: ../../
+nav-writing: true
+series-label: "Free probability / Part 2 of 6"
+previous-url: ../free-prob-1/index.html
+previous-title: "Adding large random matrices"
+next-url: ../free-prob-3/index.html
+next-title: "Calculating the law of a sum"
 ---
 
 [The complete series](../../free-probability.qmd) · Part 2 of 6
@@ -15,7 +22,7 @@ $$
 $$
 Expanding every power by hand will become painful quickly. We need a way to organize the words. The useful bookkeeping objects are partitions whose blocks do not cross.
 
-## Draw the positions before manipulating the variables
+## Crossing and noncrossing partitions {#draw-the-positions-before-manipulating-the-variables}
 
 A partition divides $\{1,\ldots,n\}$ into disjoint nonempty blocks. It is **noncrossing** if there are no indices $i<j<k<\ell$ with $i,k$ in one block and $j,\ell$ in a different block.
 
@@ -67,7 +74,7 @@ $$
 $$
 For a symmetric sign variable, $m_2=m_4=1$, giving $\kappa_4=-1$. A negative fourth free cumulant is entirely possible.
 
-## The theorem that makes the bookkeeping useful
+## Mixed free cumulants vanish {#the-theorem-that-makes-the-bookkeeping-useful}
 
 The crucial result is the **mixed-cumulant characterization of freeness**: unital subalgebras are free exactly when every mixed free cumulant vanishes. Here mixed means that its arguments come from more than one of the subalgebras. [Speicher, Section 3](https://arxiv.org/html/1908.08125v2#S3).
 
@@ -87,7 +94,7 @@ m_4=-2+2(2)^2=6,
 $$
 recovering Part I without listing sixteen words.
 
-## A distribution made entirely of pairs
+## Semicircle moments count noncrossing pairings {#a-distribution-made-entirely-of-pairs}
 
 Suppose $s$ has cumulants
 $$
@@ -128,17 +135,20 @@ This also gives weak convergence of the laws. The common second moment ensures t
 
 The normal and semicircle laws play parallel roles: classical independent sums retain all pairings in their limiting moments, while free sums retain the noncrossing pairings.
 
-## Try it before continuing
+## Exercises {#try-it-before-continuing}
 
 1. Find the fourth cumulant of the variance-one semicircle law.
 2. Find the sixth moment of a centered semicircular variable with variance two.
 3. If $b$ is another free copy of a centered variance-one $a$, express $\tau((a+b)^4)$ in terms of $m_4(a)$.
 
-::: {.callout-note collapse="true" title="Answer sketches"}
+<details class="answer-sketch">
+<summary>Answer sketches</summary>
+
 1. $2-2(1)^2=0$.
 2. $C_3\,2^3=5\cdot8=40$.
 3. It is $2m_4(a)+4$. Equivalently, add the fourth cumulants and use the new variance two.
-:::
+
+</details>
 
 ## Further reading
 

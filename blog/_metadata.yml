@@ -1,11 +1,7 @@
-freeze: auto
-author: "Angelo Farfan"
-
+author: Angelo Farfan
 toc: true
 toc-depth: 2
-page-layout: article
-
-format:
-  html:
-    code-copy: true
-    code-overflow: wrap
+site-root: ../../
+nav-writing: true
+execute:
+  enabled: false

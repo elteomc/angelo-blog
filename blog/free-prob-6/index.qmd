@@ -1,10 +1,15 @@
 ---
-title: "Free probability, VI: covariance matrices and their products"
+title: "Covariance matrices and their products"
 subtitle: "From Marchenko-Pastur to the moments 1, 3, 12, 55"
 description: "Fix the sample-covariance normalization, derive its transforms, and predict the spectrum of a positive product."
 date: 2026-10-17
 categories: [mathematics, probability, random matrices, free probability]
 toc: true
+site-root: ../../
+nav-writing: true
+series-label: "Free probability / Part 6 of 6"
+previous-url: ../free-prob-5/index.html
+previous-title: "Multiplying positive matrices"
 ---
 
 [The complete series](../../free-probability.qmd) · Part 6 of 6
@@ -17,7 +22,7 @@ measures their spread across directions. Even when the population covariance is 
 
 We will calculate the limiting law, then multiply two independently oriented covariance matrices. This brings both transforms from the series into one example.
 
-## Fix the aspect ratio before naming the law
+## Aspect ratio and the Marchenko-Pastur law {#fix-the-aspect-ratio-before-naming-the-law}
 
 Take independent standard complex Gaussian entries, with $\mathbb E X_{ij}=0$ and $\mathbb E|X_{ij}|^2=1$. Let $n,m\to\infty$ with
 $$
@@ -40,7 +45,7 @@ In particular, $m_1=1$, $m_2=1+\gamma$, and the limiting spectral variance is $\
 
 Different references use different parameters for the free Poisson or Marchenko-Pastur law. In the free-Poisson convention with rate $\lambda$ and jump size $c$, cumulants are $\lambda c^k$. Our convention has $\lambda=1/\gamma$ and $c=\gamma$.
 
-## Derive the density and remember the zero atom
+## The density and the atom at zero {#derive-the-density-and-remember-the-zero-atom}
 
 Insert the R-transform into the Cauchy-transform equation:
 $$
@@ -96,7 +101,7 @@ S(w)=\frac1{(1+\gamma_1w)(1+\gamma_2w)}.
 $$
 The first derivative at zero confirms that the mean-one product has variance $\gamma_1+\gamma_2$.
 
-## A complete product calculation in the square case
+## Multiplying square covariance matrices {#a-complete-product-calculation-in-the-square-case}
 
 Set $\gamma_1=\gamma_2=1$. Consider independent square Gaussian covariance matrices $A_n,B_n$, each normalized by $1/n$, and the positive product
 $$
@@ -150,9 +155,10 @@ The last column is the sample standard deviation across the eight matrices, not 
 
 The histogram is an illustration. The moment table compares the numerical calculation with exact quantities derived before the experiment. Neither establishes a theorem about finite-dimensional extreme eigenvalues.
 
-The [full script](../../tools/free_probability_figures.py) constructs $A_n^{1/2}$ by a Hermitian eigendecomposition and diagonalizes $A_n^{1/2}B_nA_n^{1/2}$. It also checks the first eight Fuss-Catalan coefficients by recursively expanding the cubic equation, independently of the closed formula. [Part IV](../free-prob-4/index.qmd#reproduce-the-figures) gives reproduction instructions.
+<!-- The [full script](../../tools/free_probability_figures.py) constructs $A_n^{1/2}$ by a Hermitian eigendecomposition and diagonalizes $A_n^{1/2}B_nA_n^{1/2}$. It also checks the first eight Fuss-Catalan coefficients by recursively expanding the cubic equation, independently of the closed formula. [Part IV](../free-prob-4/index.qmd#reproduce-the-figures) gives reproduction instructions.
+ -->
 
-## What I would check before using this on a new problem
+## Assumptions to check on a new problem {#what-i-would-check-before-using-this-on-a-new-problem}
 
 The calculations depend on more than knowing the marginal eigenvalue histograms. First specify the normalized matrix and the aspect ratio. Then justify the joint asymptotic-freeness statement. For a product, choose the positive representative and check that the mean permits the ordinary S-transform. Finally, retain the correct Cauchy-transform branch and any atoms when recovering the law.
 
@@ -160,17 +166,20 @@ These checks prevent several tempting mistakes: multiplying eigenvalues coordina
 
 The series began with the observation that individual eigenvalues leave out relative geometry. Freeness supplies one precise limiting description of that geometry. Cumulants, the R-transform, and the S-transform then turn it into calculations we can test.
 
-## Try it before finishing
+## Exercises {#try-it-before-finishing}
 
 1. What are the limiting mean, variance, and zero mass for $\gamma=2$?
 2. Compute the second moment of a free product with $\gamma_1=1/2$ and $\gamma_2=2$.
 3. What moment equation would a product of $r$ free square covariance variables satisfy?
 
-::: {.callout-note collapse="true" title="Answer sketches"}
+<details class="answer-sketch">
+<summary>Answer sketches</summary>
+
 1. Mean one, variance two, zero mass one half. The mean is averaged over all eigenvalues, including the zeros.
 2. The variance is $1/2+2=5/2$, so the second moment is $1+5/2=7/2$.
 3. Its S-transform is $(1+w)^{-r}$, so $w=t(1+w)^{r+1}$. Lagrange inversion gives $m_k=\binom{(r+1)k}{k}/(rk+1)$.
-:::
+
+</details>
 
 ## Further reading
 

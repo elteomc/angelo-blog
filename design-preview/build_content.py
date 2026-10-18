@@ -21,8 +21,10 @@ for number in range(1, 7):
         return match.group(1) if match else ''
     rendered = root / f'docs/blog/free-prob-{number}/index.html'
     soup = BeautifulSoup(rendered.read_text(), 'html.parser')
-    main = soup.select_one('main#quarto-document-content')
-    main.select_one('header').decompose()
+    main = soup.select_one('.article-body.full-draft') or soup.select_one('main#quarto-document-content')
+    header = main.select_one('header')
+    if header is not None:
+        header.decompose()
     for p in list(main.find_all('p')):
         if p.get_text().startswith('The complete series') or p.get_text().startswith('Previous:'):
             p.decompose()

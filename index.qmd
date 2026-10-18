@@ -1,38 +1,10 @@
 ---
-title: false
-page-layout: full
-# subtitle: "math, algorithms, scientific ML, and fun sidequests"
+title: Angelo Farfan
+custom-layout: true
+home-page: true
+toc: false
 ---
 
-::: {.home-hero}
-
-# Angelo Farfan
-
-<div class="home-kicker">
-math · algorithms · machine learning
-</div>
-
-I like neat algorithms, elegant mathematical structures, and understanding why things work.
-
-Right now I'm interested in scientific machine learning, and formal reasoning.
-
-[Writing](blog.qmd){.btn .btn-primary}
-[Projects](projects.qmd){.btn .btn-outline-primary}
-
-:::
-
-## Recent writing
-
-I'm just starting to fill this site, so more will appear here soon.
-
-## Selected projects
-
-### AGOP feature-learning experiments
-
-Experiments around feature-learning, implicit geometry, and how NNs organize representation.
-
-[View projects ->](projects.qmd)
-
-## Currently
-
-Chilling.
+```{=html}
+<div class="editorial-home"><header class="plain-intro quarto-title-block"><p class="home-affiliation">Mathematics & computer science at MIT</p><h1>Angelo Farfan</h1><p class="intro">I like neat algorithms, elegant mathematical structures, and understanding why things work.</p><p class="interest">Right now I’m interested in scientific machine learning and formal reasoning.</p></header><div class="home-work"><section id="writing"><div class="section-heading"><h2>Selected writing</h2><a data-writing href="blog.html">All writing ↗</a></div><article class="home-writing"><div><h3><a data-series href="free-probability.html">Free probability</a></h3><p>What changes when random variables stop commuting? Six chapters on spectra, freeness, and the laws of matrix sums and products.</p><p class="home-meta">Six chapters</p><a data-series class="text-link" href="free-probability.html">Read the series ↗</a></div><a data-series class="home-diagram" href="free-probability.html" aria-label="Read the free probability series"><img src="assets/free-probability/pairings.svg" width="885" height="277" alt="Two noncrossing pairings and one crossing pairing of four points."></a></article></section><section id="projects"><div class="section-heading"><h2>Selected project</h2><a data-projects href="projects.html">All projects ↗</a></div><article class="home-project"><p class="home-meta">Graph learning</p><h3><a data-project href="projects/magnetic-pe/index.html">Spectral positional encodings for directed graph transformers</a></h3><p>I tested whether graph transformers could make better use of citation direction. Giving the baseline more spectral features made the answer less clear.</p><a data-project class="text-link" href="projects/magnetic-pe/index.html">Read the project ↗</a></article></section></div><section id="about" class="personal-note"><h2>Outside the coursework</h2><p>I like table tennis, learning languages, Peruvian food, and debugging things I was completely sure were correct.</p><a href="https://github.com/elteomc" class="text-link">GitHub ↗</a></section></div>
+```

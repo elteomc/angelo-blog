@@ -1,11 +1,11 @@
 const params = new URLSearchParams(location.search);
 const direction = params.get('direction') === 'studio' ? 'studio' : 'workshop';
-const page = ['home', 'writing', 'series', 'article', 'project'].includes(params.get('page')) ? params.get('page') : 'home';
+const page = ['home', 'writing', 'series', 'article', 'project', 'projects'].includes(params.get('page')) ? params.get('page') : 'home';
 const requestedChapter = Number(params.get('chapter'));
 const chapterNumber = Number.isInteger(requestedChapter) && requestedChapter >= 1 && requestedChapter <= 6 ? requestedChapter : 1;
 const chapters = window.previewChapters;
 const chapter = chapters[chapterNumber - 1];
-const url = (targetPage, targetDirection = direction, targetChapter = chapterNumber) => `?direction=${targetDirection}&page=${targetPage}&chapter=${targetChapter}&revision=8`;
+const url = (targetPage, targetDirection = direction, targetChapter = chapterNumber) => `?direction=${targetDirection}&page=${targetPage}&chapter=${targetChapter}&revision=9`;
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[char]));
 const chapterRows = items => items.map(item => `<li><a data-chapter="${item.number}" href="${url('article', direction, item.number)}"><span class="chapter-number">${String(item.number).padStart(2, '0')}</span><div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description)}</p></div><span class="entry-open" aria-hidden="true">↗</span></a></li>`).join('');
 document.body.dataset.direction = direction;
@@ -13,8 +13,11 @@ document.body.dataset.page = page;
 const main = document.querySelector('#main');
 if (page === 'home') {
   main.append(document.querySelector(`#${direction === 'studio' ? 'studio-home' : 'home'}-template`).content.cloneNode(true));
+ } else if (page === 'projects') {
+  main.innerHTML = `<div class="projects-index"><header><h1>Projects</h1><p>Experiments, implementations, and the questions they left me with.</p></header><article class="indexed-project"><div><p class="home-meta">Graph learning <span>October 2026</span></p><h2><a data-project href="?page=project">Spectral positional encodings for directed graph transformers</a></h2><p>I investigated magnetic Laplacian features on a citation graph, then gave the baseline the same number of channels. The remaining advantage was small and inconclusive.</p><a data-project class="text-link" href="?page=project">Read the project ↗</a></div><a data-project class="index-figure" href="?page=project" aria-label="Read the spectral positional encoding project"><img src="resources/magnetic-pe/comparison.svg" width="1800" height="756" alt="Validation accuracy for three paired seeds, with the equal-width difference and its uncertainty."></a></article></div>`;
 } else if (page === 'project') {
   main.innerHTML = window.projectWriting;
+  main.querySelector('.project-study').insertAdjacentHTML('beforeend', `<nav class="return-navigation" aria-label="Project navigation"><a data-projects href="?page=projects">← All projects</a><a data-home href="?page=home">Home</a></nav>`);
 } else if (page === 'writing') {
   main.innerHTML = `<div class="archive-layout"><header class="archive-header"><p class="eyebrow">Writing</p><h1>Notes on what<br>I’m learning.</h1><p>Mathematics, algorithms, and machine learning.</p></header><section class="archive-body"><a class="series-summary" href="${url('series')}"><span class="label">Six draft chapters</span><h2>Free probability</h2><p>From the geometry of a matrix sum to covariance products.</p><span class="text-link">About the series ↗</span></a><div class="list-heading"><h2>Chapters</h2><span>In reading order</span></div><ol class="reading-list">${chapterRows(chapters)}</ol></section></div>`;
 } else if (page === 'series') {
@@ -49,7 +52,8 @@ document.querySelectorAll('[data-article]').forEach(a => a.href = url('article',
 document.querySelectorAll('[data-series]').forEach(a => a.href = url('series'));
 document.querySelectorAll('[data-writing]').forEach(a => a.href = url('writing'));
 document.querySelectorAll('[data-chapter]').forEach(a => a.href = url('article', direction, Number(a.dataset.chapter)));
-for (const section of ['projects', 'about']) {
+document.querySelectorAll('[data-projects]').forEach(a => a.href = url('projects'));
+for (const section of ['about']) {
   document.querySelectorAll(`[data-${section}]`).forEach(a => a.href = `${url('home')}#${section}`);
 }
 if (page === 'article') {
@@ -67,3 +71,6 @@ if (page === 'article') {
   document.querySelectorAll('.full-draft section.level2').forEach(section => observer.observe(section));
 }
 document.title = `Angelo Farfan: ${direction === 'studio' ? 'Studio' : 'Workshop'}, ${page === 'article' ? chapter.title : page[0].toUpperCase()+page.slice(1)}`;
+
+const currentSection = ['writing', 'series', 'article'].includes(page) ? 'writing' : ['projects', 'project'].includes(page) ? 'projects' : null;
+if (currentSection) document.querySelector(`.masthead [data-${currentSection}]`).setAttribute('aria-current', 'page');

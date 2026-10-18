@@ -1,14 +1,8 @@
 ---
-title: "Blog"
-description: "Longer explanations, experiments, and shenanigans"
-listing:
-  contents: blog
-  sort: "date desc"
-  type: default
-  categories: true
-  sort-ui: false
-  filter-ui: false
-page-layout: full
+title: Writing
+custom-layout: true
+nav-writing: true
+toc: false
 ---
 
-<!-- Posts, thoughts, experiments, and occasional debugging. -->
+{{< include _includes/writing.html >}}

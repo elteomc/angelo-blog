@@ -36,3 +36,30 @@ Added October 18, 2026. Uncommitted local preview.
 ## Mathematical review before commit
 
 Reviewed the six chapters, their worked examples and exercise answers. Reproduced all figure-script assertions and matched the saved numerical output exactly. Browser checks found zero MathJax errors in every chapter. See design-preview/MATH_REVIEW.md for scope and evidence.
+
+## Homepage and project discovery, revision 09
+
+- Workshop is the default presentation. Studio remains available through the comparison control, preserving the current route.
+- The homepage introduces selected writing and magnetic-PE without duplicating the full chapter index. Existing personal introduction and interests remain available for editorial review.
+- Projects has a dedicated index containing the actual magnetic-PE study and comparison figure.
+- Main navigation identifies the current section. Project breadcrumbs and the bottom return link lead to the Projects index.
+- Added a keyboard skip link and roomier mobile navigation with theme controls.
+- Checked homepage, Projects, series and article routes at 320px without page-wide overflow or broken images. Checked project return navigation, Studio comparison, light and dark presentation, and preference persistence.
+- This batch remains uncommitted and unpublished.
+
+Projects index refinement: removed the secondary status line beneath the project description. Status remains on the project detail page. Uncommitted.
+
+## Workshop Quarto core migration
+
+- Replaced the original website shell with a shared Workshop HTML template and presentation assets. Production pages use real URLs and do not depend on the comparison router.
+- Added native homepage, Writing index, series page, Projects index and magnetic-PE case study. Existing article, About, Notes and CV URLs remain available.
+- Catalog-driven indexes support project entries, ordered series groups and standalone article sources. Article prose and math remain in Quarto sources.
+- Light, Dark and System persist across routes. Hidden article subtitles and figure captions preserve source content. Answers use native details elements.
+- Added post-render checks for missing files, broken fragment links, duplicate IDs and h1 counts. Normalized output doctypes to keep browsers in standards mode.
+- Validated all 14 rendered pages. Browser checks covered 11 primary routes at 320px, zero math errors across all six chapters, theme persistence and answer expansion. The link checker also rejected a deliberate broken-link fixture.
+- Studio remains in design-preview. Local Quarto review is at port 8877. No commit, push or deployment.
+- See WORKSHOP.md for authoring and maintenance instructions.
+
+### Writing endings
+
+Parts IV and V finish with Exercises and their answer sketches. Parts I, II, III, and VI finish with Further reading. The loose closing paragraph after Part IV’s exercises has been removed, with no additional exercises.

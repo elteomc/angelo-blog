@@ -1,9 +1,8 @@
 ---
-title: "Projects"
+title: Projects
+custom-layout: true
+nav-projects: true
+toc: false
 ---
 
-A selected list of things I've worked on or am currently building.
-
-## AGOP feature-learning experiments
-
-Status: exploratory
+{{< include _includes/projects.html >}}

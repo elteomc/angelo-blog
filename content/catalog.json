@@ -1,0 +1,57 @@
+{
+  "series": [
+    {
+      "number": 1,
+      "source": "blog/free-prob-1/index.qmd"
+    },
+    {
+      "number": 2,
+      "source": "blog/free-prob-2/index.qmd"
+    },
+    {
+      "number": 3,
+      "source": "blog/free-prob-3/index.qmd"
+    },
+    {
+      "number": 4,
+      "source": "blog/free-prob-4/index.qmd"
+    },
+    {
+      "number": 5,
+      "source": "blog/free-prob-5/index.qmd"
+    },
+    {
+      "number": 6,
+      "source": "blog/free-prob-6/index.qmd"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Spectral positional encodings for directed graph transformers",
+      "url": "projects/magnetic-pe/index.html",
+      "topic": "Graph learning",
+      "date": "October 2026",
+      "description": "I investigated magnetic Laplacian features on a citation graph, then gave the baseline the same number of channels. The remaining advantage was small and inconclusive.",
+      "image": "assets/workshop/magnetic-pe.svg",
+      "alt": "Three paired validation seeds and the uncertainty in the equal-width comparison."
+    }
+  ],
+  "articles": [],
+  "series_groups": [
+    {
+      "title": "Freeness and cumulants",
+      "start": 0,
+      "count": 2
+    },
+    {
+      "title": "Adding matrices",
+      "start": 2,
+      "count": 2
+    },
+    {
+      "title": "Multiplying matrices",
+      "start": 4,
+      "count": 2
+    }
+  ]
+}

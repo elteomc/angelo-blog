@@ -27,3 +27,13 @@ Found and resolved 2026-10-18. Reloading the revised HTML could retain the prior
 ## Resolved: missing design-preview theme controls
 
 The original Quarto site retained light and dark configuration, but the isolated preview had no theme control. Added a shared Light, Dark and System selector with persistent preference and theme palettes for Workshop and Studio. Verified navigation persistence and mobile layout.
+
+## Workshop migration integration issues
+
+- Initial render required generated includes before Quarto discovered project inputs. Keep generated includes in the project and refresh them before rendering.
+- Custom layout headings were moved by Quarto title-block processing. Disable that processing for the shared template.
+- Minimal HTML flattened collapsed callouts. Use native details elements for exercise answers.
+- The rendered document omitted its doctype and entered browser quirks mode. Restore the standard doctype in a post-render validation step.
+- Homepage project-index link matched the singular project route during conversion. Correct the explicit index target.
+
+Workshop migration issues above are resolved and verified in the final 14-page build. Quarto canonicalization requires explicit quarto-title-block classes on the intended heading containers. Native details replace flattened callouts. The post-render checker restores the doctype and enforces internal-link integrity. Internal experiment JSON is excluded from output resources.

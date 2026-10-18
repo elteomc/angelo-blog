@@ -40,3 +40,7 @@ Figure captions are omitted across the preview, including all six chapter snapsh
 ## Revision 06
 
 Project headings now name the research questions and decisions. Removed redundant section labels across the project and probability series. Revised generic chapter headings while keeping stable section anchors and matching sidebar titles. heading_overrides.json preserves these edits during content refreshes. Results use the full figure width with two separated columns and smaller numbers. Checked all six chapter heading/anchor pairs, desktop rendering, mobile overflow and chapter II navigation.
+
+## Revision 09
+
+Open `?page=home&revision=9` for the Workshop homepage or `?page=projects&revision=9` for the project index. Studio remains available through Compare Studio. Shared navigation keeps the current direction and theme.

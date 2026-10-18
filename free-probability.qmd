@@ -1,26 +1,13 @@
 ---
-title: "Free probability: from spectra to sums and products"
-description: "Six worked explanations connecting eigenvector geometry, free cumulants, and random-matrix experiments."
-page-layout: article
+title: Free probability
+custom-layout: true
+nav-writing: true
 toc: false
 ---
 
-Knowing the eigenvalues of two matrices does not determine the eigenvalues of their sum or product. This series studies what happens when their eigenvectors are randomly oriented, then develops the tools that make the limiting calculations possible.
+{{< include _includes/series.html >}}
 
-Start with linear algebra, basic probability, and comfort with power series. Parts III and VI use a little complex analysis, with the transform conventions and inversion formulas introduced along the way.
-
-::: {.table-responsive}
-| Part | Question | Main calculation |
-| --- | --- | --- |
-| [I. Adding large random matrices](blog/free-prob-1/index.qmd) | What does freeness say about eigenvector geometry? | Compare $\tau(aabb)$ with $\tau(abab)$ |
-| [II. Why crossings disappear](blog/free-prob-2/index.qmd) | How can we organize all those mixed moments? | Cumulants and the free central limit theorem |
-| [III. Calculating the law of a sum](blog/free-prob-3/index.qmd) | Can we recover an entire distribution? | Two free sign variables give an arcsine law |
-| [IV. Rotate the eigenvectors](blog/free-prob-4/index.qmd) | Does the prediction match finite matrices? | Aligned, permuted, and Haar-rotated spectra |
-| [V. Multiplying positive matrices](blog/free-prob-5/index.qmd) | What replaces the R-transform for products? | The S-transform and free projections |
-| [VI. Covariance matrices and their products](blog/free-prob-6/index.qmd) | What does free multiplication predict for data matrices? | Marchenko-Pastur and Fuss-Catalan moments |
-
-:::
-
-Each article ends with exercises and expandable answer sketches. Try the exercises before opening the answers, then explain the central calculation aloud without the page in front of you.
-
-The [experiment script](tools/free_probability_figures.py) produces the figures and [numerical checks](assets/free-probability/checks.json). These are finite-size illustrations of stated limiting results. The articles distinguish the theorems used as inputs from the calculations derived in the text.
+<!-- Preserved editorial notes, intentionally hidden from the series index.
+Before reading: linear algebra, basic probability, and comfort with power series. Parts III and VI use a little complex analysis.
+Exercises: each article ends with exercises and expandable answer sketches. Try a calculation before opening its answer.
+-->

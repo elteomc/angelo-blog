@@ -1,40 +1,33 @@
 project:
   type: website
   output-dir: docs
-
+  post-render:
+    - python3 tools/check_workshop.py
+  pre-render:
+    - python3 tools/build_workshop.py
+  render:
+    - "*.qmd"
+    - "blog/*/index.qmd"
+    - "projects/*/index.qmd"
+  resources:
+    - assets/workshop/
+    - "assets/free-probability/*.svg"
+    - "assets/free-probability/*.png"
 website:
-  title: "Angelo Farfan"
-  site-url: "https://angelo.dev"
-  description: "Mathematics, algorithms, machine learning, and other things I find interesting."
-  navbar:
-    title: false
-    left:
-      - href: index.qmd
-        text: Angelo Farfan
-    right:
-      - href: index.qmd
-        text: Home
-      - href: projects.qmd
-        text: Projects
-      - href: notes.qmd
-        text: Notes
-      - href: blog.qmd
-        text: Blog
-      - href: cv.qmd
-        text: CV
-      - href: about.qmd
-        text: About
-      - icon: github
-        href: https://github.com/elteomc
-  page-footer:
-    center: "© 2026 Angelo Farfan"
-
+  title: Angelo Farfan
+  site-url: https://angelo.dev
+  description: Mathematics, algorithms, machine learning, and other things I find interesting.
 format:
   html:
-    theme:
-      light: [cosmo, theme-light.css]
-      dark: [cosmo, theme-dark.css]
-    css: styles.css
+    minimal: true
+    title-block-style: none
+    template: layouts/workshop.html
+    html-math-method: mathjax
     toc: true
-    smooth-scroll: true
-    code-copy: true
+    toc-depth: 2
+    section-divs: true
+    highlight-style: github
+filters:
+  - layouts/workshop.lua
+site-root: ""
+lang: en

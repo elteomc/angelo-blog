@@ -1,11 +1,16 @@
 ---
-title: "Free probability, I: adding large random matrices"
+title: "Adding large random matrices"
 subtitle: "Why eigenvalues alone do not tell us the spectrum of a sum"
 description: "Eigenvector geometry, normalized traces, and a first calculation with free independence."
 date: 2026-08-12
 date-modified: 2026-10-17
 categories: [mathematics, probability, random matrices, free probability]
 toc: true
+site-root: ../../
+nav-writing: true
+series-label: "Free probability / Part 1 of 6"
+next-url: ../free-prob-2/index.html
+next-title: "Why crossings disappear"
 ---
 
 [The complete series](../../free-probability.qmd) · Part 1 of 6
@@ -57,7 +62,7 @@ To study the sum, expand $\tau_n((A+B)^k)$. Now words such as $AABB$ and $ABAB$ 
 
 For a random matrix, $\tau_n(A^k)$ is itself random. Its ensemble average is $\mathbb E[\tau_n(A^k)]$. We will distinguish these when discussing experiments and convergence.
 
-## A small amount of noncommutative probability
+## Noncommutative probability {#a-small-amount-of-noncommutative-probability}
 
 Our setting is a unital algebra $\mathcal A$ with an adjoint operation and a normalized positive trace $\tau$. Thus $\tau$ is linear and satisfies
 $$
@@ -81,7 +86,7 @@ We call $a$ and $b$ free when the unital algebras they generate are free. The co
 
 Why center? Because every factor can be split into its mean and its fluctuation. Expanding these splits reduces mixed moments to simpler ones until the alternating-centered rule applies. This recursively determines the joint moments from the two marginal moment sequences.
 
-## The first calculation that distinguishes freeness
+## A fourth-moment calculation {#the-first-calculation-that-distinguishes-freeness}
 
 Suppose $a,b$ are centered and free, with
 $$
@@ -110,7 +115,7 @@ To see the coefficient four, list the six words containing two of each letter. T
 
 Classical independence instead gives a coefficient of six.
 
-## What does that predict for a sum?
+## Adding two free sign variables {#what-does-that-predict-for-a-sum}
 
 Let both marginal laws be
 $$
@@ -124,23 +129,26 @@ The classical sum has masses $1/4,1/2,1/4$ at $-2,0,2$, and fourth moment eight.
 
 We write the law of a free sum as $\mu\boxplus\nu$, the **additive free convolution**. Part III will calculate the entire law in this example. Part IV will compare all three eigenbasis choices numerically.
 
-## When does the matrix model justify this rule?
+## Asymptotic freeness of random matrices {#when-does-the-matrix-model-justify-this-rule}
 
 One sufficient setting is that $D_n,E_n$ are deterministic Hermitian matrices with uniformly bounded operator norms and convergent empirical spectral measures. If $U_n$ is Haar unitary, then the pair $(D_n,U_nE_nU_n^*)$ converges in joint normalized-trace moments to a free pair, in probability. This is a standard asymptotic-freeness theorem, not something implied just by our definition. [Speicher, Section 7](https://arxiv.org/html/1908.08125v2#S7).
 
 At each finite dimension, the pair generally fails exact freeness. The theorem describes the limit for each fixed word. Independent random diagonal sign matrices illustrate why ordinary independence alone is insufficient: they commute, and their alternating fourth moment is identically one.
 
-## Try it before continuing
+## Exercises {#try-it-before-continuing}
 
 1. Compute $\tau((a+b)^2)$ for centered free variables of variances $\alpha,\beta$.
 2. For the symmetric two-point laws above, compute $\tau((a+b)^3)$.
 3. Explain why the identity $a^2=b^2=1$ is compatible with $\tau(abab)=0$.
 
-::: {.callout-note collapse="true" title="Answer sketches"}
+<details class="answer-sketch">
+<summary>Answer sketches</summary>
+
 1. The cross terms vanish, leaving $\alpha+\beta$.
 2. It is zero. The pure cubic moments vanish by symmetry, and the mixed terms vanish by freeness and cyclicity.
 3. The squares only simplify adjacent equal factors. Simplifying $abab$ to $a^2b^2$ would require commutativity.
-:::
+
+</details>
 
 ## Further reading
 

@@ -1,10 +1,17 @@
 ---
-title: "Free probability, IV: rotate the eigenvectors"
+title: "Rotate the eigenvectors"
 subtitle: "One spectrum, three alignments, three different sums"
 description: "A reproducible Haar-unitary experiment tests the arcsine prediction and distinguishes independence from freeness."
 date: 2026-10-17
 categories: [mathematics, probability, random matrices, free probability]
 toc: true
+site-root: ../../
+nav-writing: true
+series-label: "Free probability / Part 4 of 6"
+previous-url: ../free-prob-3/index.html
+previous-title: "Calculating the law of a sum"
+next-url: ../free-prob-5/index.html
+next-title: "Multiplying positive matrices"
 ---
 
 [The complete series](../../free-probability.qmd) · Part 4 of 6
@@ -84,7 +91,7 @@ The limiting second and fourth moments are 2 and 6. The last column is $\sqrt{\f
 
 These observations agree with the theorem. Three dimensions and ten draws do not establish a convergence rate, and the displayed trend need not be monotone for a different random seed.
 
-## What the limiting statement actually says
+## Large matrices and finite-size errors {#what-the-limiting-statement-actually-says}
 
 For deterministic bounded Hermitian sequences with convergent marginal laws, the Haar-rotation theorem controls joint normalized-trace moments for each fixed noncommutative polynomial. The uniformly bounded spectra in this example then let us turn moment convergence for the sum into weak convergence of its empirical spectral measure. [Speicher, Section 7](https://arxiv.org/html/1908.08125v2#S7).
 
@@ -92,6 +99,7 @@ This does not say that a finite pair is exactly free. It also does not, by itsel
 
 A simple example explains the last distinction. The matrices $\operatorname{diag}(10,0,\ldots,0)$ have all fixed positive normalized-trace moments tending to zero, but their largest eigenvalue remains ten. A vanishing fraction of outliers can disappear from a limiting spectral measure. Stronger random-matrix results address such questions, but they require stronger conclusions than ordinary moment convergence.
 
+<!--
 ## Reproduce the figures
 
 Download the [experiment script](../../tools/free_probability_figures.py) and inspect the [recorded results](../../assets/free-probability/checks.json). The script also makes the figures for Part VI. It uses NumPy and Matplotlib, with seed 1729. The recorded environment used NumPy 2.5.2 and Matplotlib 3.11.1.
@@ -105,18 +113,21 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 uv run python tools/free_probability_fi
 
 The script writes figures and result tables into the site. Floating-point details can vary with the numerical libraries. It checks unitarity, low-order moments, and the covariance calculations used later. The small displayed snippet illustrates the sampling method, while the full script fixes the random draw order needed to recreate the recorded tables.
 
-## Try it before continuing
+-->
+
+## Exercises {#try-it-before-continuing}
 
 1. Replace the Haar unitary by the identity. What happens to $T_n$?
 2. Why would subtracting only the ensemble mean be insufficient for a general finite-sample centered-moment diagnostic?
 3. Would a good histogram of $A+B$ prove that $A$ and $B$ are asymptotically free?
 
-::: {.callout-note collapse="true" title="Answer sketches"}
+<details class="answer-sketch">
+<summary>Answer sketches</summary>
+
 1. $A=B=D_n$, so $ABAB=I$ and $T_n=1$.
 2. A particular matrix may still have nonzero normalized trace. If the diagnostic requires centered factors, use $A-\tau_n(A)I$ and similarly for $B$, or account for those fluctuations. Our balanced signs are exactly centered already.
 3. No. Freeness constrains all alternating products of centered polynomials. One spectral histogram tests only a small part of that joint structure.
-:::
 
-We have now answered the original addition question, both analytically and numerically. Products require a new transform and a little care about positivity.
+</details>
 
 [Previous: the R-transform](../free-prob-3/index.qmd) · [Next: products and the S-transform](../free-prob-5/index.qmd)

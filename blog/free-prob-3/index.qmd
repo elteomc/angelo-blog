@@ -1,10 +1,17 @@
 ---
-title: "Free probability, III: calculating the law of a sum"
+title: "Calculating the law of a sum"
 subtitle: "The R-transform turns free addition into ordinary addition"
 description: "Derive the Cauchy-transform equation and calculate why two free sign variables have an arcsine sum."
 date: 2026-10-17
 categories: [mathematics, probability, random matrices, free probability]
 toc: true
+site-root: ../../
+nav-writing: true
+series-label: "Free probability / Part 3 of 6"
+previous-url: ../free-prob-2/index.html
+previous-title: "Why crossings disappear"
+next-url: ../free-prob-4/index.html
+next-title: "Rotate the eigenvectors"
 ---
 
 [The complete series](../../free-probability.qmd) · Part 3 of 6
@@ -13,7 +20,7 @@ We know that the free sum of two symmetric sign variables has second moment two 
 
 [Part II](../free-prob-2/index.qmd) supplied an additive sequence of numbers: the free cumulants. Packaging those numbers into a function lets us solve this question with a quadratic equation and a careful choice of square root.
 
-## A transform that remembers the law
+## The Cauchy transform {#a-transform-that-remembers-the-law}
 
 For a compactly supported probability measure $\mu$ on $\mathbb R$, define its **Cauchy transform** by
 $$
@@ -83,7 +90,7 @@ where the square root is the branch asymptotic to $z$ at infinity. The other sol
 
 Taking the boundary value in the upper half-plane recovers the semicircle density. Adding free semicircles of variances $v_1,v_2$ simply replaces $vw$ by $(v_1+v_2)w$. Their sum is semicircular with variance $v_1+v_2$.
 
-## The main example: two sign variables
+## Adding two free sign variables {#the-main-example-two-sign-variables}
 
 Let $\mu=\tfrac12\delta_{-1}+\tfrac12\delta_1$. Its transform is immediate:
 $$
@@ -122,7 +129,7 @@ $$
 $$
 The density diverges at the endpoints, but its integral is one. These integrable divergences are not atoms: multiplying the transform by $i\eta$ at either endpoint gives zero in the limit.
 
-## Check the result without transforms
+## Checking the moments {#check-the-result-without-transforms}
 
 Set $x=2\cos\theta$. The arcsine measure becomes uniform $d\theta/\pi$ on $[0,\pi]$, so
 $$
@@ -133,17 +140,20 @@ More generally, its odd moments vanish and its $2k$th moment is $\binom{2k}{k}$.
 
 Two free sign variables produce an arcsine law. Many free sign variables, summed and divided by the square root of their number, approach a semicircle. These are different questions, so there is no conflict between the two answers.
 
-## Try it before continuing
+## Exercises {#try-it-before-continuing}
 
 1. Find $R_{\delta_c}$.
 2. Derive the transform rule for $ca$ from cumulant scaling.
 3. Why is solving a polynomial equation for $G$ insufficient without a branch condition?
 
-::: {.callout-note collapse="true" title="Answer sketches"}
+<details class="answer-sketch">
+<summary>Answer sketches</summary>
+
 1. $G(z)=1/(z-c)$, so $K(w)=c+1/w$ and $R(w)=c$. Free addition of a constant translates the law.
 2. $R_{ca}(w)=cR_a(cw)$, since the $n$th cumulant scales by $c^n$.
 3. A polynomial may have several solutions. A probability Cauchy transform must be analytic in the upper half-plane, have negative imaginary part there, and behave like $1/z$ at infinity. Squaring can introduce extraneous branches.
-:::
+
+</details>
 
 ## Further reading
 
