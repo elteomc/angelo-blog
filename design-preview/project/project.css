@@ -1,0 +1,62 @@
+.project-study { max-width: 1060px; margin: 65px auto 100px; }
+.project-header { max-width: 900px; }
+.project-status { margin: 26px 0 18px; color: var(--muted); font: 13px/1.5 var(--sans); }
+.project-header h1 { font: 400 clamp(36px,4.8vw,62px)/1.08 Georgia,serif; letter-spacing: -.035em; margin: 0 0 28px; }
+.project-dek { max-width: 760px; font: 22px/1.55 Georgia,serif; }
+.project-links { margin: 28px 0; font: 14px/1.6 var(--sans); }
+.project-overview, .project-narrative { display: grid; grid-template-columns: 220px minmax(0,1fr); gap: 60px; }
+.project-overview { padding: 40px 0; margin-top: 35px; border-top: 1px solid var(--line); }
+.project-facts dl { margin: 0; font: 14px/1.5 var(--sans); }
+.project-facts dt { color: var(--muted); font-size: 12px; margin: 0 0 4px; }
+.project-facts dd { margin: 0 0 18px; }
+.project-question h2, .project-prose h2 { font: 400 29px/1.25 Georgia,serif; letter-spacing: -.02em; margin: 0 0 20px; }
+.project-question p, .project-prose p { font: 18px/1.8 Georgia,serif; }
+.project-result { margin: 25px 0 75px; padding: 35px 0 25px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.result-heading h2 { font: 400 36px/1.2 Georgia,serif; margin: 16px 0; }
+.result-heading > p:last-child { font: 15px/1.6 var(--sans); color: var(--muted); }
+.result-numbers { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 30px 0; max-width: 780px; }
+.result-numbers strong { display: block; font: 400 30px/1.4 Georgia,serif; }
+.result-numbers span { display: block; font: 13px/1.6 var(--sans); max-width: 300px; color: var(--muted); }
+.project-chart { margin: 30px 0 0; }
+.project-chart img { display: block; width: 100%; height: auto; background: white; }
+.project-chart figcaption { font: 13px/1.7 var(--sans); color: var(--muted); max-width: 800px; margin: 16px 0; }
+.project-navigation nav { display: grid; gap: 14px; font: 14px/1.5 var(--sans); }
+.project-navigation { align-self: start; position: sticky; top: 30px; }
+.project-prose section { margin-bottom: 55px; scroll-margin-top: 30px; }
+.project-table-wrap { overflow-x: auto; margin: 28px 0; }
+.project-prose table { width: 100%; border-collapse: collapse; font: 14px/1.6 var(--sans); }
+.project-prose caption { text-align: left; color: var(--muted); margin-bottom: 14px; }
+.project-prose th, .project-prose td { padding: 12px 8px; text-align: right; border-bottom: 1px solid var(--line); }
+.project-prose th:first-child { text-align: left; }
+.project-evidence > a { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 17px 0; border-bottom: 1px solid var(--line); font: 15px/1.5 var(--sans); }
+.project-evidence > a span { color: var(--muted); font-size: 12px; }
+body[data-direction=studio] .project-header { margin-left: 280px; }
+body[data-direction=studio] .project-header h1 { font-family: var(--sans); font-weight: 500; font-size: clamp(36px,4vw,52px); }
+body[data-direction=studio] .project-result { background: #f1f3ef; padding: 32px; }
+@media(max-width:800px) {
+ .project-study { margin: 35px auto 60px; }
+ .project-overview, .project-narrative { grid-template-columns: 1fr; gap: 25px; }
+ .project-facts dl { display: grid; grid-template-columns: 110px 1fr; gap: 8px 16px; }
+ .project-facts dd { margin-bottom: 8px; }
+ .project-navigation { position: static; border-bottom: 1px solid var(--line); padding-bottom: 25px; }
+ .project-navigation nav { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+ body[data-direction=studio] .project-header { margin-left: 0; }
+ body[data-direction=studio] .project-result { padding: 22px 14px; }
+ .project-dek { font-size: 20px; }
+ .result-heading h2 { font-size: 30px; }
+ .result-numbers { grid-template-columns: 1fr; gap: 20px; }
+ .project-question p, .project-prose p { font-size: 17px; }
+}
+
+
+.result-numbers { max-width: none; width: 100%; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 9%; }
+.result-numbers > div { padding-left: 5%; }
+.result-numbers strong { font-size: 26px; }
+.project-navigation nav { padding-top: 5px; }
+.project-status, .project-links { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+@media(max-width:700px) {
+ .result-numbers { gap: 18px; }
+ .result-numbers > div { padding-left: 0; }
+ .result-numbers strong { font-size: 22px; }
+ .result-numbers span { font-size: 12px; }
+}
