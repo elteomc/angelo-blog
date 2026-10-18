@@ -1,41 +1,149 @@
 ---
 title: "Free probability, I: adding large random matrices"
-subtitle: "Why a different notion of independence appears when random variables stop commuting"
-description: "A first look at free probability."
+subtitle: "Why eigenvalues alone do not tell us the spectrum of a sum"
+description: "Eigenvector geometry, normalized traces, and a first calculation with free independence."
 date: 2026-08-12
-
-categories:
-  - mathematics
-  - probability
-  - random matrices
-
+date-modified: 2026-10-17
+categories: [mathematics, probability, random matrices, free probability]
 toc: true
 ---
 
-Suppose $A_n$ and $B_n$ are two independent $n times n$ Hermitian random matrices.
+[The complete series](../../free-probability.qmd) · Part 1 of 6
 
-Assume that, as $n \to \infty$, we understand the eigenvalues of each matrix separately. Perhaps their empirical spectral distributions converge to measures $\mu_A$ and $\mu_B$.
+Suppose $A_n$ and $B_n$ are two independent $n\times n$ Hermitian random matrices. We understand the eigenvalues of each matrix separately. What should we expect from $A_n+B_n$?
 
-What should we expect from $A_n + B_n$?
+For ordinary independent random variables, the two distributions determine the distribution of the sum. Matrices make the question more interesting: their eigenvectors have a relative geometry, and that geometry affects addition.
 
-At first this sounds like it ought to be easy. The difficulty is that matrices have eigenvectors.
+Free probability gives us a way to calculate when those eigenvectors are sufficiently mixed. Independence of the random matrices, on its own, will not be enough.
 
-## Why this is not trivial
+## Eigenvalues are not enough
 
-## Random eigenvectors
+Take
+$$
+A=B_1=\begin{pmatrix}1&0\\0&-1\end{pmatrix},
+\qquad B_2=\begin{pmatrix}-1&0\\0&1\end{pmatrix}.
+$$
+Both choices of $B$ have spectrum $\{-1,1\}$. Nevertheless,
+$$
+\operatorname{spec}(A+B_1)=\{-2,2\},\qquad
+\operatorname{spec}(A+B_2)=\{0,0\}.
+$$
+The individual spectra have lost the information about which directions line up.
 
-## Moments are spectral information
+Writing $A=U\Lambda U^*$ and $B=V\Gamma V^*$ makes the missing ingredient explicit: the spectrum of their sum depends on the relative basis $U^*V$.
 
-## Noncommutative probability
+Here is a useful replacement for choosing an alignment. Keep deterministic diagonal matrices $D_n,E_n$, draw a **Haar unitary** $U_n$, and study
+$$
+D_n+U_nE_nU_n^*.
+$$
+Haar measure is the uniform probability measure on the unitary group, in the precise sense of invariance under multiplication by any fixed unitary. Conjugation preserves the spectrum of $E_n$ and randomizes its eigenbasis.
 
-## So what is freeness?
+Under suitable hypotheses, this produces a limiting rule for mixed moments. That rule is freeness.
 
-## What does freeness provides?
+## The trace turns a matrix into a distribution
 
-## What is the distribution of $A+B$?
+Define the empirical spectral measure and normalized trace by
+$$
+\mu_A=\frac1n\sum_{j=1}^n\delta_{\lambda_j(A)},
+\qquad \tau_n(A)=\frac1n\operatorname{Tr}(A).
+$$
+Then
+$$
+\boxed{\tau_n(A^k)=\int x^k\,d\mu_A(x).}
+$$
+A normalized trace of a power is exactly a spectral moment. The normalization gives total mass one, so moments remain comparable as the dimension changes.
 
-## Back to random matrices
+To study the sum, expand $\tau_n((A+B)^k)$. Now words such as $AABB$ and $ABAB$ appear. They cannot generally be rearranged into each other. Trace is cyclic, so $\tau(ABBA)=\tau(AABB)$, but it does not permit arbitrary permutations.
 
-## A numerical experiment
+For a random matrix, $\tau_n(A^k)$ is itself random. Its ensemble average is $\mathbb E[\tau_n(A^k)]$. We will distinguish these when discussing experiments and convergence.
 
-## Other stuff
+## A small amount of noncommutative probability
+
+Our setting is a unital algebra $\mathcal A$ with an adjoint operation and a normalized positive trace $\tau$. Thus $\tau$ is linear and satisfies
+$$
+\tau(1)=1,\qquad \tau(x^*x)\geq0,\qquad \tau(xy)=\tau(yx).
+$$
+Matrices with normalized trace are the finite-dimensional example. For bounded self-adjoint operators, the spectral theorem gives a probability law whose moments are $\tau(a^k)$. We use compactly supported laws throughout the series, so their moments determine them uniquely.
+
+Think of a self-adjoint element $a=a^*$ as a real random variable and $\tau$ as expectation. Multiplication may fail to commute, but positivity and spectral measures remain available.
+
+## Freeness is a rule for centered, alternating products
+
+Unital subalgebras $\mathcal A_1,\mathcal A_2,\ldots$ are **free** if
+$$
+\tau(x_1x_2\cdots x_m)=0
+$$
+whenever each $x_i$ belongs to $\mathcal A_{j_i}$, consecutive indices differ, and every factor is centered:
+$$
+j_i\neq j_{i+1},\qquad \tau(x_i)=0.
+$$
+We call $a$ and $b$ free when the unital algebras they generate are free. The condition therefore applies to centered polynomials in $a$ and $b$, not merely to the original variables.
+
+Why center? Because every factor can be split into its mean and its fluctuation. Expanding these splits reduces mixed moments to simpler ones until the alternating-centered rule applies. This recursively determines the joint moments from the two marginal moment sequences.
+
+## The first calculation that distinguishes freeness
+
+Suppose $a,b$ are centered and free, with
+$$
+\tau(a^2)=\alpha,\qquad \tau(b^2)=\beta.
+$$
+The definition immediately gives
+$$
+\tau(ab)=0,\qquad \tau(abab)=0.
+$$
+But $a^2b^2$ is different. Center the squares:
+$$
+0=\tau\bigl((a^2-\alpha1)(b^2-\beta1)\bigr)
+  =\tau(a^2b^2)-\alpha\beta.
+$$
+Consequently,
+$$
+\boxed{\tau(a^2b^2)=\alpha\beta,\qquad \tau(abab)=0.}
+$$
+For centered, classically independent scalar variables $X,Y$ with those variances, both corresponding expressions equal $\alpha\beta$, since $XYXY=X^2Y^2$.
+
+At second order, both theories give variance addition. At fourth order, the distinction becomes visible:
+$$
+\tau((a+b)^4)=\tau(a^4)+\tau(b^4)+4\alpha\beta.
+$$
+To see the coefficient four, list the six words containing two of each letter. The words $aabb,abba,baab,bbaa$ each contribute $\alpha\beta$. The alternating words $abab,baba$ vanish. Words with three of one letter and one of the other also vanish, by centering and cyclicity.
+
+Classical independence instead gives a coefficient of six.
+
+## What does that predict for a sum?
+
+Let both marginal laws be
+$$
+\mu=\tfrac12\delta_{-1}+\tfrac12\delta_1.
+$$
+Each variable is centered, with second and fourth moments equal to one. The free sum therefore has
+$$
+m_2=2,\qquad m_4=6.
+$$
+The classical sum has masses $1/4,1/2,1/4$ at $-2,0,2$, and fourth moment eight. Perfect alignment, where $b=a$, gives fourth moment sixteen.
+
+We write the law of a free sum as $\mu\boxplus\nu$, the **additive free convolution**. Part III will calculate the entire law in this example. Part IV will compare all three eigenbasis choices numerically.
+
+## When does the matrix model justify this rule?
+
+One sufficient setting is that $D_n,E_n$ are deterministic Hermitian matrices with uniformly bounded operator norms and convergent empirical spectral measures. If $U_n$ is Haar unitary, then the pair $(D_n,U_nE_nU_n^*)$ converges in joint normalized-trace moments to a free pair, in probability. This is a standard asymptotic-freeness theorem, not something implied just by our definition. [Speicher, Section 7](https://arxiv.org/html/1908.08125v2#S7).
+
+At each finite dimension, the pair generally fails exact freeness. The theorem describes the limit for each fixed word. Independent random diagonal sign matrices illustrate why ordinary independence alone is insufficient: they commute, and their alternating fourth moment is identically one.
+
+## Try it before continuing
+
+1. Compute $\tau((a+b)^2)$ for centered free variables of variances $\alpha,\beta$.
+2. For the symmetric two-point laws above, compute $\tau((a+b)^3)$.
+3. Explain why the identity $a^2=b^2=1$ is compatible with $\tau(abab)=0$.
+
+::: {.callout-note collapse="true" title="Answer sketches"}
+1. The cross terms vanish, leaving $\alpha+\beta$.
+2. It is zero. The pure cubic moments vanish by symmetry, and the mixed terms vanish by freeness and cyclicity.
+3. The squares only simplify adjacent equal factors. Simplifying $abab$ to $a^2b^2$ would require commutativity.
+:::
+
+## Further reading
+
+[Terence Tao's Notes 5](https://terrytao.wordpress.com/2010/02/10/245a-notes-5-free-probability/) develop the probability-space viewpoint and mixed-moment examples. [Speicher's lecture notes](https://arxiv.org/abs/1908.08125) give the definitions in Section 1 and the random-matrix connection in Section 7. The worked calculations here use the conventions stated above.
+
+[Next: noncrossing partitions and cumulants](../free-prob-2/index.qmd)

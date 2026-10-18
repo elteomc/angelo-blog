@@ -1,0 +1,152 @@
+---
+title: "Free probability, III: calculating the law of a sum"
+subtitle: "The R-transform turns free addition into ordinary addition"
+description: "Derive the Cauchy-transform equation and calculate why two free sign variables have an arcsine sum."
+date: 2026-10-17
+categories: [mathematics, probability, random matrices, free probability]
+toc: true
+---
+
+[The complete series](../../free-probability.qmd) · Part 3 of 6
+
+We know that the free sum of two symmetric sign variables has second moment two and fourth moment six. What is its entire distribution?
+
+[Part II](../free-prob-2/index.qmd) supplied an additive sequence of numbers: the free cumulants. Packaging those numbers into a function lets us solve this question with a quadratic equation and a careful choice of square root.
+
+## A transform that remembers the law
+
+For a compactly supported probability measure $\mu$ on $\mathbb R$, define its **Cauchy transform** by
+$$
+G_\mu(z)=\int\frac{1}{z-x}\,d\mu(x),\qquad \operatorname{Im}z>0.
+$$
+Our sign convention matters. With $1/(z-x)$, the imaginary part of $G$ is negative in the upper half-plane. Some references use the negative of this transform.
+
+For sufficiently large $|z|$, expand the geometric series:
+$$
+G_\mu(z)=\frac1z+\frac{m_1}{z^2}+\frac{m_2}{z^3}+\cdots.
+$$
+Thus $G$ encodes every moment, and its leading behavior must be $1/z$.
+
+It also recovers the density. Indeed,
+$$
+-\frac1\pi\operatorname{Im}G_\mu(x+i\eta)
+=\int\frac{\eta}{\pi((x-t)^2+\eta^2)}\,d\mu(t).
+$$
+The right side smooths the measure with a Cauchy kernel. At continuity points of a density $\rho$, letting $\eta\downarrow0$ gives $\rho(x)$. More generally, Stieltjes inversion recovers masses of intervals. An atom at $x_0$ can be checked separately through
+$$
+\mu(\{x_0\})=\lim_{\eta\downarrow0}i\eta G_\mu(x_0+i\eta).
+$$
+
+## From the moment formula to a functional equation
+
+Introduce the two generating series
+$$
+M(t)=1+\sum_{n\geq1}m_nt^n,
+\qquad R(w)=\sum_{n\geq1}\kappa_nw^{n-1}.
+$$
+Look at the block containing position 1 in a noncrossing partition. If that block has size $k$, it leaves $k$ ordered gaps, each carrying an independent noncrossing partition. This decomposes the moment formula into
+$$
+M(t)=1+\sum_{k\geq1}\kappa_k t^kM(t)^k
+=1+tM(t)R(tM(t)).
+$$
+Since $G(z)=z^{-1}M(z^{-1})$, substitution gives
+$$
+zG(z)=1+G(z)R(G(z)),
+$$
+or
+$$
+\boxed{z=\frac1{G(z)}+R(G(z)).}
+$$
+Initially this identity holds near infinity, or as a formal Laurent-series identity. We should not assume that the power series for $R$ converges at every value of $G$.
+
+Equivalently, let $K$ denote the local compositional inverse of $G$ near infinity, so $K(w)\sim1/w$ near zero. Then
+$$
+R(w)=K(w)-\frac1w.
+$$
+This is the **R-transform**. Cumulant additivity becomes
+$$
+\boxed{R_{\mu\boxplus\nu}(w)=R_\mu(w)+R_\nu(w).}
+$$
+The local inverse and analytic extension are developed rigorously in [Speicher, Theorem 4.12](https://arxiv.org/html/1908.08125v2#S4).
+
+## Warm-up: adding semicircles
+
+A centered semicircular variable of variance $v$ has only one nonzero cumulant, $\kappa_2=v$. Therefore $R(w)=vw$ and
+$$
+vG(z)^2-zG(z)+1=0.
+$$
+For $v>0$, choose the solution
+$$
+G(z)=\frac{z-\sqrt{z^2-4v}}{2v},
+$$
+where the square root is the branch asymptotic to $z$ at infinity. The other solution grows like $z/v$, which cannot be the transform of a probability measure.
+
+Taking the boundary value in the upper half-plane recovers the semicircle density. Adding free semicircles of variances $v_1,v_2$ simply replaces $vw$ by $(v_1+v_2)w$. Their sum is semicircular with variance $v_1+v_2$.
+
+## The main example: two sign variables
+
+Let $\mu=\tfrac12\delta_{-1}+\tfrac12\delta_1$. Its transform is immediate:
+$$
+G_\mu(z)=\frac12\left(\frac1{z-1}+\frac1{z+1}\right)
+=\frac{z}{z^2-1}.
+$$
+Solve $w=z/(z^2-1)$ for $z$:
+$$
+z=\frac{1\pm\sqrt{1+4w^2}}{2w}.
+$$
+The inverse with a $1/w$ pole uses the plus sign, with the square root analytic and equal to one at $w=0$. Hence
+$$
+R_\mu(w)=\frac{\sqrt{1+4w^2}-1}{2w}.
+$$
+Expanding gives $R_\mu(w)=w-w^3+2w^5-\cdots$, consistent with $\kappa_2=1$ and $\kappa_4=-1$.
+
+For $\nu=\mu\boxplus\mu$, add the two R-transforms. The equation for $G_\nu$ becomes
+$$
+z=\frac1{G_\nu(z)}+
+\frac{\sqrt{1+4G_\nu(z)^2}-1}{G_\nu(z)}
+=\frac{\sqrt{1+4G_\nu(z)^2}}{G_\nu(z)}.
+$$
+Squaring yields $(z^2-4)G_\nu(z)^2=1$. Choose the branch matching $G_\nu(z)\sim1/z$:
+$$
+\boxed{G_\nu(z)=\frac1{\sqrt{z^2-4}}.}
+$$
+Here $\sqrt{z^2-4}$ means the analytic branch on $\mathbb C\setminus[-2,2]$ asymptotic to $z$. It is not the pointwise principal square root of $z^2-4$ everywhere. The formula agrees with the transform near infinity and continues analytically to the upper half-plane.
+
+For $-2<x<2$, its boundary value is
+$$
+G_\nu(x+i0)=-\frac{i}{\sqrt{4-x^2}}.
+$$
+Therefore the answer is the **arcsine law**:
+$$
+\boxed{d\nu(x)=\frac{\mathbf1_{(-2,2)}(x)}{\pi\sqrt{4-x^2}}\,dx.}
+$$
+The density diverges at the endpoints, but its integral is one. These integrable divergences are not atoms: multiplying the transform by $i\eta$ at either endpoint gives zero in the limit.
+
+## Check the result without transforms
+
+Set $x=2\cos\theta$. The arcsine measure becomes uniform $d\theta/\pi$ on $[0,\pi]$, so
+$$
+\int x^2\,d\nu(x)=2,\qquad
+\int x^4\,d\nu(x)=6.
+$$
+More generally, its odd moments vanish and its $2k$th moment is $\binom{2k}{k}$. This agrees with our mixed-word calculations.
+
+Two free sign variables produce an arcsine law. Many free sign variables, summed and divided by the square root of their number, approach a semicircle. These are different questions, so there is no conflict between the two answers.
+
+## Try it before continuing
+
+1. Find $R_{\delta_c}$.
+2. Derive the transform rule for $ca$ from cumulant scaling.
+3. Why is solving a polynomial equation for $G$ insufficient without a branch condition?
+
+::: {.callout-note collapse="true" title="Answer sketches"}
+1. $G(z)=1/(z-c)$, so $K(w)=c+1/w$ and $R(w)=c$. Free addition of a constant translates the law.
+2. $R_{ca}(w)=cR_a(cw)$, since the $n$th cumulant scales by $c^n$.
+3. A polynomial may have several solutions. A probability Cauchy transform must be analytic in the upper half-plane, have negative imaginary part there, and behave like $1/z$ at infinity. Squaring can introduce extraneous branches.
+:::
+
+## Further reading
+
+[Speicher's lecture notes, Section 4](https://arxiv.org/html/1908.08125v2#S4) contain the analytic R-transform theory and the symmetric two-point example. [Tao's free probability notes](https://terrytao.wordpress.com/2010/02/10/245a-notes-5-free-probability/) give another route from transforms to free convolution. Check the sign convention when moving between references.
+
+[Previous: cumulants](../free-prob-2/index.qmd) · [Next: testing the prediction with random matrices](../free-prob-4/index.qmd)

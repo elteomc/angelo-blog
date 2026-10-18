@@ -1,0 +1,145 @@
+---
+title: "Free probability, V: multiplying positive matrices"
+subtitle: "The S-transform and the geometry hidden in a product"
+description: "Define multiplicative free convolution, derive the S-transform convention, and work through free projections."
+date: 2026-10-17
+categories: [mathematics, probability, random matrices, free probability]
+toc: true
+---
+
+[The complete series](../../free-probability.qmd) · Part 5 of 6
+
+Addition now has a workable recipe: identify the marginal laws, justify freeness, add their R-transforms, and recover the law of the sum.
+
+Products raise a preliminary problem. Even if $A$ and $B$ are positive semidefinite, $AB$ need not be Hermitian. What is the positive matrix whose spectral distribution we should study?
+
+## Put the product in a positive form
+
+For positive semidefinite $A,B$, use
+$$
+P=A^{1/2}BA^{1/2}.
+$$
+It is positive semidefinite because
+$$
+x^*Px=(A^{1/2}x)^*B(A^{1/2}x)\geq0.
+$$
+Cyclicity gives
+$$
+\operatorname{Tr}(P^k)=\operatorname{Tr}((AB)^k).
+$$
+For invertible $A$, the matrices are similar:
+$$
+A^{-1/2}(AB)A^{1/2}=A^{1/2}BA^{1/2}.
+$$
+For singular $A$, the determinant identity $\det(I-tXY)=\det(I-tYX)$ still gives the same characteristic polynomial, with $X=A^{1/2}$ and $Y=A^{1/2}B$. Nevertheless, the positive representative is preferable for spectral analysis and numerical eigensolvers.
+
+For bounded positive free variables $a,b$ in a tracial operator-algebra setting, the law of $a^{1/2}ba^{1/2}$ is called **multiplicative free convolution**, written
+$$
+\mu_a\boxtimes\mu_b.
+$$
+It is determined by the marginal laws and freeness. Our assumptions of positivity and boundedness make the law and square root unambiguous.
+
+## The first two moments already reveal the geometry
+
+Let $\alpha=\tau(a)$ and $\beta=\tau(b)$. Freeness gives
+$$
+\tau(ab)=\alpha\beta.
+$$
+Write $a=\alpha1+a_0$, $b=\beta1+b_0$, where the subscripted variables are centered. Expanding $abab$, terms with one centered factor vanish. Terms with two centered factors survive only when they use the same variable. The terms with three centered factors vanish by freeness and cyclicity, and $\tau(a_0b_0a_0b_0)=0$.
+
+Therefore
+$$
+\begin{aligned}
+\tau(abab)
+&=\alpha^2\beta^2+\beta^2\tau(a_0^2)+\alpha^2\tau(b_0^2)\\
+&=\beta^2m_2(a)+\alpha^2m_2(b)-\alpha^2\beta^2.
+\end{aligned}
+$$
+For mean-one variables with variances $v_a,v_b$, the product has mean one and variance $v_a+v_b$.
+
+Classically independent positive variables instead give $\mathbb E[X^2Y^2]=\mathbb E[X^2]\mathbb E[Y^2]$, hence variance $v_a+v_b+v_av_b$ when both means are one. The same two marginal spectra can produce a different second product moment depending on how their directions interact.
+
+## Build the S-transform
+
+Define the moment series without its constant term:
+$$
+\psi_\mu(t)=\int\frac{tx}{1-tx}\,d\mu(x)
+=\sum_{k\geq1}m_kt^k.
+$$
+Assume $m_1\neq0$. Since $\psi_\mu'(0)=m_1$, it has a local compositional inverse $\chi_\mu$ near zero. Set
+$$
+\boxed{S_\mu(w)=\frac{1+w}{w}\chi_\mu(w).}
+$$
+The apparent singularity at zero is removable. Because $\chi(w)=w/m_1+O(w^2)$,
+$$
+S_\mu(0)=\frac1{m_1}.
+$$
+For a positive law, the only zero-mean case is $\delta_0$, whose product law is trivially $\delta_0$. A centered sign variable, however, does not have this ordinary S-transform: its moment series has no linear term. We cannot reuse the sign example without changing the setup.
+
+The multiplicative analogue of R-transform additivity is the theorem
+$$
+\boxed{S_{\mu\boxtimes\nu}(w)=S_\mu(w)S_\nu(w).}
+$$
+This is a substantive theorem about free products, not a consequence of the inverse-function definition alone. Its combinatorial proof uses noncrossing partitions and their complements. See [Nica and Speicher, Lectures 14 and 18](https://www.math.uni-sb.de/ag/speicher/publikationen/Nica-Speicher.pdf).
+
+A short expansion connects it to our earlier calculation. Inverting $\psi(t)=m_1t+m_2t^2+\cdots$ gives
+$$
+S(w)=\frac1{m_1}
++\left(\frac1{m_1}-\frac{m_2}{m_1^3}\right)w+O(w^2).
+$$
+For mean-one laws this is $1-vw+O(w^2)$. Multiplying the two series adds their variances, exactly as the direct mixed-moment calculation predicted.
+
+## Two examples that fix the normalization
+
+For a constant $c>0$,
+$$
+\psi(t)=\frac{ct}{1-ct},\quad
+\chi(w)=\frac{w}{c(1+w)},\quad
+S_{\delta_c}(w)=\frac1c.
+$$
+Thus multiplying by a constant rescales the law and divides its S-transform by that constant.
+
+For a projection $p=p^*=p^2$ with $\tau(p)=\alpha>0$, every positive-order moment is $\alpha$. Its law is $(1-\alpha)\delta_0+\alpha\delta_1$, so
+$$
+\psi_p(t)=\frac{\alpha t}{1-t},\quad
+\chi_p(w)=\frac{w}{\alpha+w},\quad
+\boxed{S_p(w)=\frac{1+w}{\alpha+w}.}
+$$
+If $q$ is a free projection with trace $\beta>0$, then
+$$
+S_{pqp}(w)=\frac{(1+w)^2}{(\alpha+w)(\beta+w)}.
+$$
+Although $p$ and $q$ are projections, $pqp$ generally is not. Randomly oriented subspaces produce intermediate eigenvalues between zero and one.
+
+Its first two moments, using the calculation above, are
+$$
+m_1=\alpha\beta,\qquad
+m_2=\alpha\beta(\alpha+\beta-\alpha\beta).
+$$
+At $\alpha=\beta=1/2$, these are $1/4$ and $3/16$. An intersection indicator for independent commuting scalar events would instead have both moments equal to $1/4$. This gives a concrete distinction between multiplying free projections and multiplying independent indicator variables.
+
+## Recovering a law from its S-transform
+
+Use the same Cauchy-transform convention as Part III. Then
+$$
+\psi(1/z)=zG(z)-1.
+$$
+Writing $w=zG(z)-1$, the inverse relation is $\chi(w)=1/z$. Substituting into the S-transform definition gives
+$$
+\boxed{zwS(w)=1+w,\qquad G(z)=\frac{1+w}{z}.}
+$$
+Choose the solution with $w\to0$ as $z\to\infty$ and the correct upper-half-plane behavior for $G$. This is the computational route we will use for covariance products in the final post.
+
+## Try it before continuing
+
+1. What is $S_{\delta_1}$, and why is that necessary?
+2. Show directly that $S_{ca}(w)=S_a(w)/c$ for $c>0$.
+3. If two free positive mean-one variables each have second moment two, what is the second moment of their product?
+
+::: {.callout-note collapse="true" title="Answer sketches"}
+1. It is one, the multiplicative identity. Multiplying by the identity operator must preserve the law.
+2. $\psi_{ca}(t)=\psi_a(ct)$, so the compositional inverse is $\chi_a(w)/c$.
+3. Each variance is one. The product variance is two and its mean is one, so its second moment is three.
+:::
+
+[Previous: the matrix experiment](../free-prob-4/index.qmd) · [Next: covariance matrices and a product law](../free-prob-6/index.qmd)

@@ -1,0 +1,5 @@
+| Dimension | Mean second moment | Mean fourth moment | RMS alternating moment |
+| --- | ---: | ---: | ---: |
+| 64 | 2.00503 | 6.00984 | 0.02210 |
+| 128 | 2.00004 | 5.99541 | 0.01335 |
+| 256 | 2.00121 | 6.01167 | 0.00522 |

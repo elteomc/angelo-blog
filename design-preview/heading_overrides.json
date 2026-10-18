@@ -1,0 +1,21 @@
+{
+  "A small amount of noncommutative probability": "Noncommutative probability",
+  "The first calculation that distinguishes freeness": "A fourth-moment calculation",
+  "What does that predict for a sum?": "Adding two free sign variables",
+  "When does the matrix model justify this rule?": "Asymptotic freeness of random matrices",
+  "Try it before continuing": "Exercises",
+  "Try it before finishing": "Exercises",
+  "Draw the positions before manipulating the variables": "Crossing and noncrossing partitions",
+  "The theorem that makes the bookkeeping useful": "Mixed free cumulants vanish",
+  "A distribution made entirely of pairs": "Semicircle moments count noncrossing pairings",
+  "A transform that remembers the law": "The Cauchy transform",
+  "The main example: two sign variables": "Adding two free sign variables",
+  "Check the result without transforms": "Checking the moments",
+  "What the limiting statement actually says": "Large matrices and finite-size errors",
+  "The first two moments already reveal the geometry": "The first two product moments",
+  "Two examples that fix the normalization": "Checking the S-transform normalization",
+  "Fix the aspect ratio before naming the law": "Aspect ratio and the Marchenko-Pastur law",
+  "Derive the density and remember the zero atom": "The density and the atom at zero",
+  "A complete product calculation in the square case": "Multiplying square covariance matrices",
+  "What I would check before using this on a new problem": "Assumptions to check on a new problem"
+}
