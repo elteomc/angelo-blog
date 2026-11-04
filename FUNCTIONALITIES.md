@@ -192,3 +192,12 @@ Published November 4, 2026 with authorization to finish the agreed outline.
 - Made all twelve chapters available in the hub and Writing index, completed neighbor navigation, and updated homepage and editorial status.
 - Preserved orange italic emphasis, skull ornaments, P: and N: title links, informal source headings, and the existing free-probability rewriting notices.
 - The closing notes distinguish exact local calculations from proposed training experiments.
+
+## Simplify the series introduction
+
+Updated November 4, 2026.
+
+- Remove the long introductory paragraph and publication-status panel from the Scale and geometry hub.
+- Remove the series count and completion metadata from the homepage and the completion label from the Writing index.
+- Allow a collection to omit its introduction without producing an empty paragraph. Keep the short series question and chapter links.
+- Rebuild generated includes, rendered pages, and search data from the corrected sources.
