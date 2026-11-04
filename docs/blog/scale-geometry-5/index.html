@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What counts as a small layer change? | Angelo Farfan</title>
+<meta name="description" content="Compare worst-case and average activation changes, derive the RMS width factor, and see why a dense layer and an embedding need different rulers.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 5 of 12</a>
+<h1>What counts as a small layer change?</h1>
+
+
+<p class="dek" hidden="">Measure a weight perturbation through the activations it can move</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>The last post compared two updates with the same length and different rotation angles. That already made parameter distance look like an incomplete description of learning.</p>
+<p>There is another question underneath it. A layer does not exist to move its weights around. It exists to transform inputs into activations. If we call an update small, what exactly are we promising about those activations?</p>
+<p>We need <em>a choice of ruler</em>. A norm on the weight matrix becomes useful when it answers a question about the computation the layer performs.</p>
+<p>Start with a linear layer. It is simple enough that we can calculate the answer exactly, and rich enough to show why one matrix norm will not fit every purpose.</p>
+<section id="hold-the-input-fixed-and-look-at-the-output" class="level2">
+<h2>Hold the input fixed and look at the output</h2>
+<p>Let <span class="math inline">\(W\in\mathbb R^{m\times n}\)</span> and <span class="math inline">\(y=Wx\)</span>. Change the weights by a matrix <span class="math inline">\(\Delta W\)</span>, keeping the input fixed. The activation change is</p>
+<p><span class="math display">\[
+\Delta y=(W+\Delta W)x-Wx=\Delta W x.
+\]</span></p>
+<p>This is exact. There is no neglected higher-order term because the layer is linear in <span class="math inline">\(W\)</span> at a fixed <span class="math inline">\(x\)</span>.</p>
+<p>Suppose we measure input and output size with norms <span class="math inline">\(\lVert\cdot\rVert_X\)</span> and <span class="math inline">\(\lVert\cdot\rVert_Y\)</span>. The induced operator norm is</p>
+<p><span class="math display">\[
+N_{X\to Y}(\Delta W)
+=\sup_{x\ne0}\frac{\lVert\Delta W x\rVert_Y}{\lVert x\rVert_X}.
+\]</span></p>
+<p>It gives the bound</p>
+<p><span class="math display">\[
+\lVert\Delta y\rVert_Y
+\leq N_{X\to Y}(\Delta W)\lVert x\rVert_X.
+\]</span></p>
+<p>If inputs have norm at most one, the matrix norm is a worst-case activation-change budget. The choices of input and output norms specify what that promise means.</p>
+<p>This is the starting point of <a href="https://proceedings.mlr.press/v267/bernstein25a.html">Bernstein and Newhouse’s treatment of layer geometry</a>, especially Sections 3.3 and 4.1. The semantics of the layer determine which operator norm is worth considering.</p>
+</section>
+<section id="equal-frobenius-size-can-hide-different-worst-cases" class="level2">
+<h2>Equal Frobenius size can hide different worst cases</h2>
+<p>With Euclidean norms on both activation spaces, the induced norm is the spectral norm:</p>
+<p><span class="math display">\[
+N_{2\to2}(\Delta W)=\lVert\Delta W\rVert_{\mathrm{op}}
+=\sigma_{\max}(\Delta W).
+\]</span></p>
+<p>Compare two perturbations in two dimensions:</p>
+<p><span class="math display">\[
+A=\begin{pmatrix}1&amp;0\\0&amp;0\end{pmatrix},
+\qquad
+B=\frac1{\sqrt2}\begin{pmatrix}1&amp;0\\0&amp;1\end{pmatrix}.
+\]</span></p>
+<p>Both have Frobenius norm one. But <span class="math inline">\(A\)</span> can move the output by one on a unit input, while <span class="math inline">\(B\)</span> moves every unit input by <span class="math inline">\(1/\sqrt2\)</span>. Thus</p>
+<p><span class="math display">\[
+\lVert A\rVert_F=\lVert B\rVert_F=1,
+\qquad
+\lVert A\rVert_{\mathrm{op}}=1,
+\qquad
+\lVert B\rVert_{\mathrm{op}}=1/\sqrt2.
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/layer-perturbations.svg" alt="Images of the Euclidean unit input circle under two perturbations with Frobenius norm one. A maps the circle to a line segment reaching radius one. B maps it to a circle of radius one over square root two."></p>
+<figcaption>Images of the Euclidean unit input circle under two perturbations with Frobenius norm one. A maps the circle to a line segment reaching radius one. B maps it to a circle of radius one over square root two.</figcaption>
+</figure>
+</div>
+<p>The distinction grows with width. In <span class="math inline">\(n\)</span> dimensions, a rank-one matrix with its only nonzero singular value equal to one has the same Frobenius norm as <span class="math inline">\(I/\sqrt n\)</span>. Their operator norms are one and <span class="math inline">\(1/\sqrt n\)</span>.</p>
+<p>Frobenius size adds energy across singular directions. Spectral size asks for the largest response in any one direction. Neither description is meaningless. They answer different questions.</p>
+</section>
+<section id="an-average-asks-a-different-question-again" class="level2">
+<h2>An average asks a different question again</h2>
+<p>Suppose <span class="math inline">\(x\)</span> is uniformly distributed on the Euclidean unit sphere in <span class="math inline">\(\mathbb R^n\)</span>. Then <span class="math inline">\(\mathbb E[xx^\top]=I/n\)</span>, and</p>
+<p><span class="math display">\[
+\mathbb E\lVert\Delta W x\rVert_2^2
+=\frac1n\operatorname{tr}(\Delta W^\top\Delta W)
+=\frac1n\lVert\Delta W\rVert_F^2.
+\]</span></p>
+<p>For our two-dimensional <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, this mean squared activation change is <span class="math inline">\(1/2\)</span> in both cases. Their worst cases differ, but this particular average agrees.</p>
+<p>More generally, if <span class="math inline">\(C=\mathbb E[xx^\top]\)</span> is the input second-moment matrix,</p>
+<p><span class="math display">\[
+\mathbb E\lVert\Delta W x\rVert_2^2
+=\operatorname{tr}(\Delta W C\Delta W^\top).
+\]</span></p>
+<p>This formula uses the second moment, not necessarily the covariance. They agree when the input mean is zero.</p>
+<p>A weight perturbation can be large on a direction the data rarely uses. Conversely, a modest-looking change can align with a frequently amplified feature. The uniform-sphere calculation does not establish what is typical under an arbitrary training distribution.</p>
+<p>Before debating which matrix norm is best, decide whether the goal is a worst-case guarantee, a distributional average, or another functional quantity. The matrix entries alone do not make that choice for us.</p>
+</section>
+<section id="rms-measurements-introduce-an-explicit-width-factor" class="level2">
+<h2>RMS measurements introduce an explicit width factor</h2>
+<p>For a vector <span class="math inline">\(x\in\mathbb R^n\)</span>, define</p>
+<p><span class="math display">\[
+\lVert x\rVert_{\mathrm{RMS}}=\frac{\lVert x\rVert_2}{\sqrt n}.
+\]</span></p>
+<p>This measures a typical coordinate scale. A vector with all coordinates equal to one has RMS norm one at every width, while its Euclidean norm grows as <span class="math inline">\(\sqrt n\)</span>.</p>
+<p>Use RMS norms on the input and output of <span class="math inline">\(y=Wx\)</span>. Substituting their definitions into the operator norm gives</p>
+<p><span class="math display">\[
+N_{\mathrm{RMS}\to\mathrm{RMS}}(\Delta W)
+=\sqrt{\frac n m}\,\lVert\Delta W\rVert_{\mathrm{op}}.
+\]</span></p>
+<p>The factor is <span class="math inline">\(\sqrt{n/m}\)</span>, with input width in the numerator. A budget <span class="math inline">\(N(\Delta W)\leq\epsilon\)</span> therefore allows</p>
+<p><span class="math display">\[
+\lVert\Delta W\rVert_{\mathrm{op}}
+\leq\epsilon\sqrt{\frac m n}.
+\]</span></p>
+<p>For a map from four inputs to sixteen outputs, a perturbation with spectral norm one has RMS-to-RMS norm <span class="math inline">\(1/2\)</span>. For a map from sixteen inputs to four outputs, the same spectral norm corresponds to RMS-to-RMS norm two. The worst-case RMS responses differ by a factor of four.</p>
+<p>These are choices of measurement for the same forward expression <span class="math inline">\(y=Wx\)</span>. <em>RMS is a ruler here</em>, not an extra RMSNorm operation inserted into the network. Conventions that rescale the forward function itself can move width factors elsewhere, so the forward equation and the norm must be read together.</p>
+<p>This width factor will reappear in the next post’s update direction. It comes from the activation geometry before we choose an optimizer.</p>
+</section>
+<section id="a-lookup-table-has-different-input-semantics" class="level2">
+<h2>A lookup table has different input semantics</h2>
+<p>A dense layer may receive mixtures of input coordinates. An embedding lookup receives a one-hot vector <span class="math inline">\(e_j\)</span>, and its output is simply column <span class="math inline">\(j\)</span> of the embedding matrix <span class="math inline">\(E\)</span>.</p>
+<p>If we want every lookup to have a bounded Euclidean output change, the relevant quantity is</p>
+<p><span class="math display">\[
+\max_j\lVert\Delta E[:,j]\rVert_2.
+\]</span></p>
+<p>This is also the induced <span class="math inline">\(\ell_1\)</span>-to-Euclidean norm. Indeed,</p>
+<p><span class="math display">\[
+\lVert\Delta E x\rVert_2
+\leq\sum_j |x_j|\lVert\Delta E[:,j]\rVert_2
+\leq\lVert x\rVert_1\max_j\lVert\Delta E[:,j]\rVert_2.
+\]</span></p>
+<p>Equality is attained by choosing a one-hot input for a largest column. With an RMS output ruler, divide the column lengths by <span class="math inline">\(\sqrt m\)</span>.</p>
+<p>The same matrix can look different under the dense-layer question. Take</p>
+<p><span class="math display">\[
+\Delta E=\begin{pmatrix}1&amp;1\\0&amp;0\end{pmatrix}.
+\]</span></p>
+<p>Each lookup changes the Euclidean output by one. But the Euclidean unit input <span class="math inline">\((1,1)/\sqrt2\)</span> combines the columns and produces an output of length <span class="math inline">\(\sqrt2\)</span>. The spectral norm sees that mixture, while the lookup budget need not.</p>
+<p>The distinction is <em>what the input can be</em>. Matrix shape does not tell us whether the module is a dense transformation or a categorical lookup. Bernstein and Newhouse make this explicit in their Linear and Embed examples in Section 4.1.</p>
+</section>
+<section id="let-the-input-move-and-a-second-term-appears" class="level2">
+<h2>Let the input move and a second term appears</h2>
+<p>So far, we have held <span class="math inline">\(x\)</span> fixed. If upstream parameters also change the input by <span class="math inline">\(\Delta x\)</span>, then</p>
+<p><span class="math display">\[
+(W+\Delta W)(x+\Delta x)-Wx
+=\Delta W x+W\Delta x+\Delta W\Delta x.
+\]</span></p>
+<p>The first two terms form the differential. The final term is a finite-step interaction. For Euclidean measurements, for example,</p>
+<p><span class="math display">\[
+\lVert\Delta y\rVert_2
+\leq\lVert\Delta W\rVert_{\mathrm{op}}\lVert x\rVert_2
++\lVert W\rVert_{\mathrm{op}}\lVert\Delta x\rVert_2
++\lVert\Delta W\rVert_{\mathrm{op}}\lVert\Delta x\rVert_2.
+\]</span></p>
+<p>A local weight-update budget controls the first contribution. It does not erase input sensitivity or the interaction term. Shared normalization gains from Part 2 also belong in the joint perturbation when they move.</p>
+<p>This is why a layerwise measurement is a starting point for network geometry. Composing modules requires accounting for how one module’s output perturbation becomes another’s input perturbation. We will reach that question in Part 7.</p>
+<p>For now, the layer’s role gives us a constraint set for its update. The next question is how to choose a direction within that set to reduce the loss.</p>
+</section>
+<section id="try-changing-the-ruler" class="level2">
+<h2>Try changing the ruler</h2>
+<ol type="1">
+<li>In four dimensions, compare the Frobenius and operator norms of <span class="math inline">\(A=\operatorname{diag}(1,0,0,0)\)</span> and <span class="math inline">\(B=I/2\)</span>. What is their common mean squared response on uniformly distributed unit inputs?</li>
+<li>For a layer with nine input and four output coordinates, what spectral update budget gives an RMS-to-RMS budget of <span class="math inline">\(0.1\)</span>?</li>
+<li>For the two-column lookup example above, compare the largest column’s RMS change with the RMS-to-RMS operator norm of the same matrix.</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li>Both Frobenius norms are one. The operator norms are one and <span class="math inline">\(1/2\)</span>. The common mean squared response is <span class="math inline">\(1/4\)</span>.</li>
+<li><span class="math inline">\(\lVert\Delta W\rVert_{\mathrm{op}}\leq0.1\sqrt{4/9}=1/15\approx0.066667\)</span>.</li>
+<li>The largest column RMS is <span class="math inline">\(1/\sqrt2\)</span>. Since input and output dimensions are both two, the RMS-to-RMS norm equals the spectral norm, <span class="math inline">\(\sqrt2\)</span>. Their input unit sets differ, so this is not a contradiction.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p><a href="https://proceedings.mlr.press/v267/bernstein25a.html">Jeremy Bernstein and Laker Newhouse, Modular Duality in Deep Learning (ICML 2025)</a>, Definition 3, Examples 3 and 4, and Section 4.1, derives the dense and embedding operator norms used here. Its Linear module uses the forward convention <span class="math inline">\(y=Wx\)</span>, matching this post.</p>
+<p><a href="https://arxiv.org/abs/2405.14813v1">Tim Large and collaborators, Scalable Optimization in the Modular Norm (NeurIPS 2024)</a>, Section 3 and Appendix B, develops the module-level bounds that let local measurements compose. Its appendix also illustrates why forward scaling conventions matter when comparing norm formulas. The examples in this post are direct calculations about activation perturbations, not evidence that a particular layer budget yields more useful features.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-4/index.html" aria-label="Previous post: Momentum, rotation, and normalized updates">P: Momentum, rotation, and normalized updates <span class="link-mark" aria-hidden="true"></span></a><a href="../scale-geometry-6/index.html" aria-label="Next post: Choosing an update with a dual norm">N: Choosing an update with a dual norm <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#hold-the-input-fixed-and-look-at-the-output" id="toc-hold-the-input-fixed-and-look-at-the-output">Hold the input fixed and look at the output</a></li>
+<li><a href="#equal-frobenius-size-can-hide-different-worst-cases" id="toc-equal-frobenius-size-can-hide-different-worst-cases">Equal Frobenius size can hide different worst cases</a></li>
+<li><a href="#an-average-asks-a-different-question-again" id="toc-an-average-asks-a-different-question-again">An average asks a different question again</a></li>
+<li><a href="#rms-measurements-introduce-an-explicit-width-factor" id="toc-rms-measurements-introduce-an-explicit-width-factor">RMS measurements introduce an explicit width factor</a></li>
+<li><a href="#a-lookup-table-has-different-input-semantics" id="toc-a-lookup-table-has-different-input-semantics">A lookup table has different input semantics</a></li>
+<li><a href="#let-the-input-move-and-a-second-term-appears" id="toc-let-the-input-move-and-a-second-term-appears">Let the input move and a second term appears</a></li>
+<li><a href="#try-changing-the-ruler" id="toc-try-changing-the-ruler">Try changing the ruler</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>

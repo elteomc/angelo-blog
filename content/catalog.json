@@ -25,13 +25,11 @@
         },
         {
           "number": 5,
-          "title": "What counts as a small layer change?",
-          "description": "Measure a perturbation through its effect on activations."
+          "source": "blog/scale-geometry-5/index.qmd"
         },
         {
           "number": 6,
-          "title": "Choosing an update with a dual norm",
-          "description": "Derive an update direction from a linear support problem."
+          "source": "blog/scale-geometry-6/index.qmd"
         },
         {
           "number": 7,

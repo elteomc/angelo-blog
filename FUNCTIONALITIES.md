@@ -161,3 +161,23 @@ Approved November 4, 2026 after review.
 - Publish parts 3 and 4 with their worked derivations, figures, exercises, and checked source references.
 - Remove the review-only notices and update the hub and homepage to show four available posts and eight planned chapters.
 - Preserve the established occasional orange italics, skull ornaments, and informal source headings.
+
+
+## Layer geometry and dual norm review drafts
+
+Prepared November 4, 2026 after publication of the first four posts.
+
+- Added parts 5 and 6 with activation perturbation bounds, RMS width factors, dense and lookup semantics, dual support problems, and polar directions.
+- Added two reproducible diagrams, worked examples, exercises, and numerical checks for induced norms and duality.
+- Preserved occasional italic emphasis in the orange accent and the established source-heading voice.
+- Linked the new local drafts from Part 4 and the hub. The local index distinguishes four published posts, two review drafts, and six planned chapters.
+- The published docs tree remains at the posts 3 and 4 release. New drafts remain uncommitted and unpushed until review.
+
+
+## Publish layer geometry and dual norms
+
+Approved November 4, 2026.
+
+- Publish Parts 5 and 6 after review, including their two diagrams and twelve numerical checks.
+- Use P: and N: with the respective chapter titles in bottom navigation, retaining skull marks and descriptive assistive labels.
+- Update the hub and homepage to show six available posts. Completion and publication of Parts 7 through 12 is authorized after validation.

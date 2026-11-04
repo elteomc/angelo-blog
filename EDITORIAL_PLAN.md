@@ -8,7 +8,7 @@ Scale and geometry is the active main series. Its thread is normalization, weigh
 
 The existing website and six free-probability posts were pushed on November 4 with a bold In process of rewriting... notice. They remain available as unfinished writing. Preserve their sources and URLs while moving their revision queue behind the new series.
 
-Angelo authorized publication of the series hub and first two posts on November 4 after reviewing the local preview, with homepage and source-section presentation refinements. Angelo also approved publication of Parts 3 and 4 after reviewing their local drafts. The remaining eight chapters are planned. No future release dates or automatic publication have been set.
+Angelo authorized publication of the series hub and first two posts on November 4 after reviewing the local preview, with homepage and source-section presentation refinements. Angelo also approved publication of Parts 3 and 4 after reviewing their local drafts. Angelo approved publication of Parts 5 and 6 and authorized completion and publication of all six remaining posts without another review gate. Finish the agreed outline and complete mathematical and presentation checks before publishing. No future release dates or automatic publication have been set.
 
 ## Standing commitment
 
@@ -22,8 +22,8 @@ Aim for at least two posts per week as the series develops. Maintain one main se
 | 2 | What normalization makes invariant | Distinguish input normalization, block invariance, and joint gain compensation | Approved for publication |
 | 3 | Weight decay changes the clock | Separate a direct penalty from radius dynamics and the resulting effective step | Approved for publication |
 | 4 | Momentum, rotation, and normalized updates | Derive the radial and tangent update decomposition and keep optimizer conventions explicit | Approved for publication |
-| 5 | What counts as a small layer change? | Relate activation perturbations to a choice of matrix norm | Planned |
-| 6 | Choosing an update with a dual norm | Solve a concrete linear support problem and connect it to matrix update directions | Planned |
+| 5 | What counts as a small layer change? | Relate activation perturbations to a choice of matrix norm | Approved for publication |
+| 6 | Choosing an update with a dual norm | Solve a concrete linear support problem and connect it to matrix update directions | Approved for publication |
 | 7 | How Modula combines layer budgets | Derive the product-ball interpretation of the weighted maximum and its alternatives | Planned |
 | 8 | Constraining weights, constraining motion | Distinguish a weight manifold, tangent directions, update budgets, and retractions | Planned |
 | 9 | Fixed norms and the schedule question | Compare fixed weight and update norms with fair angular-schedule controls | Planned |
@@ -33,7 +33,7 @@ Aim for at least two posts per week as the series develops. Maintain one main se
 
 Parts 1 through 4 establish scale dynamics. Parts 5 through 8 build the language of layer and modular geometry. Parts 9 through 12 connect those tools to open research questions. The boundaries may change during editorial review.
 
-The first four posts were approved in pairs. Later posts need their own complete drafts and checks. A planned chapter appears on the hub without a link until its source exists.
+The first four posts were approved in pairs. The remaining posts are authorized for publication after complete drafts and checks. A planned chapter appears on the hub without a link until its source exists.
 
 ## Evidence and attribution
 
@@ -60,3 +60,5 @@ The learning-theory sequence beginning with small neuron updates and substantial
 ## Voice and presentation
 
 Keep occasional italic emphasis in the established orange accent. Use it for a phrase that carries a distinction, without coloring entire paragraphs. Preserve the skull link ornaments and the Yo twin, go read... source headings.
+
+Bottom chapter navigation uses P: and N: followed by the respective post title. Keep descriptive labels for assistive reading.

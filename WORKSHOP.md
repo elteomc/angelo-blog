@@ -40,3 +40,5 @@ Visible figure captions and article subtitles are hidden through presentation ru
 For the scale and geometry figures, run python3 tools/scale_geometry_figures.py. Verify numerical examples with python3 tools/check_scale_geometry.py and collection behavior with python3 tools/test_series_catalog.py.
 
 For parts 3 and 4, run python3 tools/check_decay_momentum.py to verify the finite-step examples and trajectory identities. Run python3 tools/decay_momentum_figures.py to rebuild their three figures. Render review-only work outside docs.
+
+For parts 5 and 6, run python3 tools/check_layer_duality.py to verify the activation and support examples. Run python3 tools/layer_duality_figures.py to rebuild their two diagrams. Keep review builds outside docs.

@@ -9,6 +9,8 @@ series-label: "Scale and geometry / Part 4 of 12"
 series-url: scale-geometry.html
 previous-url: ../scale-geometry-3/index.html
 previous-title: "Weight decay changes the clock"
+next-url: ../scale-geometry-5/index.html
+next-title: "What counts as a small layer change?"
 ---
 
 Under exact scale invariance, the current gradient is perpendicular to the current weight. Does that mean a momentum optimizer also steps perpendicular to the weight?

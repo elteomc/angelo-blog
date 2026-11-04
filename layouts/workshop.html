@@ -26,7 +26,7 @@ $if(rewrite-notice)$<aside class="publication-note" aria-label="Article status">
 $if(subtitle)$<p class="dek" hidden>$subtitle$</p>$endif$
 $if(author)$<div class="article-meta">$for(author)$$author$$sep$, $endfor$</div>$endif$
 </header><div class="article-body full-draft">$body$</div>
-$if(previous-url)$<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="$previous-url$">Previous: $previous-title$ <span class="link-mark" aria-hidden="true"></span></a>$if(next-url)$<a href="$next-url$">Next: $next-title$ <span class="link-mark" aria-hidden="true"></span></a>$endif$</nav>$else$$if(next-url)$<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="$next-url$">Next: $next-title$ <span class="link-mark" aria-hidden="true"></span></a></nav>$endif$$endif$
+$if(previous-url)$<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="$previous-url$" aria-label="Previous post: $previous-title$">P: $previous-title$ <span class="link-mark" aria-hidden="true"></span></a>$if(next-url)$<a href="$next-url$" aria-label="Next post: $next-title$">N: $next-title$ <span class="link-mark" aria-hidden="true"></span></a>$endif$</nav>$else$$if(next-url)$<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="$next-url$" aria-label="Next post: $next-title$">N: $next-title$ <span class="link-mark" aria-hidden="true"></span></a></nav>$endif$$endif$
 </article>$if(toc)$<aside class="contents"><nav aria-label="On this page">$table-of-contents$</nav>$if(series-label)$<a class="back-to-series" href="$site-root$$series-url$">All chapters <span class="link-mark" aria-hidden="true"></span></a>$endif$</aside>$endif$</div>
 $endif$
 </main>
