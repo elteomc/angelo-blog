@@ -15,6 +15,7 @@ def field(text, key):
     if not match:
         raise ValueError('Missing metadata: ' + key)
     return match.group(1).strip().strip('"')
+notice = '<aside class="publication-note" aria-label="Article status"><strong>In process of rewriting...</strong><p>This is a working draft, not a finished post.</p></aside>'
 rows = []
 for item in catalog['series']:
     source = ROOT / item['source']
@@ -22,12 +23,12 @@ for item in catalog['series']:
     url = item['source'].replace('.qmd', '.html')
     rows.append(f'<li><a href="{esc(url)}"><span class="chapter-number">{item["number"]:02}</span><div><h3>{esc(field(text, "title"))}</h3><p>{esc(field(text, "description"))}</p></div><span aria-hidden="true">↗</span></a></li>')
 listing = '<ol class="reading-list">' + ''.join(rows) + '</ol>'
-series = '<div class="series-layout"><header class="series-header quarto-title-block"><a href="blog.html">Writing</a><h1>Free probability</h1><p class="series-dek">Knowing the eigenvalues of two matrices does not determine the eigenvalues of their sum or product.</p><p>This series studies what happens when their eigenvectors are randomly oriented, then develops the tools that make the limiting calculations possible.</p><a class="start-reading" href="blog/free-prob-1/index.html">Start with Part I ↗</a></header><div class="series-sequence">'
+series = '<div class="series-layout"><header class="series-header quarto-title-block"><a href="blog.html">Writing</a><h1>Free probability</h1>' + notice + '<p class="series-dek">Knowing the eigenvalues of two matrices does not determine the eigenvalues of their sum or product.</p><p>This series studies what happens when their eigenvectors are randomly oriented, then develops the tools that make the limiting calculations possible.</p><a class="start-reading" href="blog/free-prob-1/index.html">Start with Part I ↗</a></header><div class="series-sequence">'
 for group in catalog['series_groups']:
     label, start, count = esc(group['title']), group['start'], group['count']
     series += '<section><div class="list-heading"><h2>' + label + '</h2></div><ol class="reading-list">' + ''.join(rows[start:start+count]) + '</ol></section>'
 series += '</div></div>'
-writing = '<div class="archive-layout"><header class="archive-header quarto-title-block"><h1>Writing</h1><p>Mathematics, algorithms, and machine learning.</p></header><section class="archive-body"><a class="series-summary" href="free-probability.html"><h2>Free probability</h2><p>From the geometry of a matrix sum to covariance products.</p></a>' + listing + '</section></div>'
+writing = '<div class="archive-layout"><header class="archive-header quarto-title-block"><h1>Writing</h1><p>Mathematics, algorithms, and machine learning.</p></header><section class="archive-body"><a class="series-summary" href="free-probability.html"><h2>Free probability</h2><p class="publication-status"><strong>In process of rewriting...</strong></p><p>From the geometry of a matrix sum to covariance products.</p></a>' + listing + '</section></div>'
 if catalog.get('articles'):
     standalone = '<section class="archive-body"><h2>Other writing</h2><ol class="reading-list">'
     for item in catalog['articles']:

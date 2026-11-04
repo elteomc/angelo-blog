@@ -1,51 +1,352 @@
 [
   {
-    "objectID": "projects.html",
-    "href": "projects.html",
-    "title": "Projects",
+    "objectID": "projects/magnetic-pe/index.html",
+    "href": "projects/magnetic-pe/index.html",
+    "title": "Spectral positional encodings for directed graph transformers",
     "section": "",
-    "text": "A selected list of things I’ve worked on or am currently building."
-  },
-  {
-    "objectID": "projects.html#agop-feature-learning-experiments",
-    "href": "projects.html#agop-feature-learning-experiments",
-    "title": "Projects",
-    "section": "AGOP feature-learning experiments",
-    "text": "AGOP feature-learning experiments\nStatus: exploratory"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Angelo Farfan",
-    "section": "",
-    "text": "Hi, I’m Angelo. I’m an MIT undergrad interested in Math and CS.\nRight now I’m thinking about: - randomized algos with clean visual demos - scientific ML, and Julia experiments - how to write better notes without pretending everything was obvious\nThis site is a mix of project notes, blog posts, experiments, and overthinking."
-  },
-  {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "Blog",
-    "section": "",
-    "text": "Posts, thoughts, experiments, and occasional debugging.\n\n\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "I’m Angelo, and MIT undergrad studying math and computer science.\nOutside of coursework, I like table tennis, learning languages, Peruvian food, and debugging things I was completely sure were correct."
-  },
-  {
-    "objectID": "cv.html",
-    "href": "cv.html",
-    "title": "CV",
-    "section": "",
-    "text": "My CV will live here.\nFor now: - GitHub - Email"
+    "text": "ProjectsResearch studyExploratory resultsSpectral positional encodings for directed graph transformersI investigated whether magnetic Laplacian features help a graph transformer use edge direction. Then I gave the baseline the same number of features.Code ↗\nDatasetogbn-arxiv169,343 nodesModelNeighborhood-attention GNNLatest experimentsOctober 2026StatusCompleted experimentsOpen research questionsDoes citation direction help?A paper citing another paper is different from being cited by it. Symmetrizing the citation graph loses that distinction. Magnetic Laplacian features offer a way to keep it in the positional encoding.I tested whether keeping that direction helps predict a paper’s subject. The awkward part: my first comparison gave the magnetic encoding four times as many channels. How much of the gain came from that?\nGiving the baseline 64 channelsI compared Magnetic-64 with LapPE-64 using three paired training seeds. The remaining mean gain was small, and its interval crossed zero. These are validation results on one fixed graph.+0.275percentage points in mean validation accuracy−0.285 to +0.835paired 95% t interval, in percentage points\nFrom edge directions to node featuresHow much was just extra width?A negative follow-upOne graph is not enough\nFrom edge directions to node featuresThe magnetic Laplacian attaches a complex phase to an edge according to its direction. The charge parameter q controls that phase. Its low-frequency eigenvectors supply positional information to the model.I used four charges (0.025, 0.05, 0.075 and 0.1), taking 16 real-valued channels from each. I concatenated those 64 channels with the node features.I used three layers of PyG TransformerConv neighborhood attention, with four heads and hidden width 64. Message passing sees symmetrized edges. Only the magnetic encoding gets the original edge directions.\nHow much was just extra width?My first seven-seed test comparison gave the magnetic encoding a +0.727 percentage-point gain. But I had compared 64 magnetic channels with 16 ordinary Laplacian channels. More features and more input parameters could explain some of that advantage.I reran the comparison with 64 channels and 65,832 parameters on both sides. In this validation experiment, the mean magnetic advantage fell from +0.569 points against LapPE-16 to +0.275 points against LapPE-64.\n\nMean best-checkpoint validation accuracy, seeds 100, 101 and 102\n\n\nEncoding\nChannels\nAccuracy\n\n\n\n\nLapPE-16\n16\n72.211%\n\n\nLapPE-64\n64\n72.505%\n\n\nMagnetic-64\n64\n72.780%\n\n\n\nI would not compare the old test score directly with these validation scores: the seeds and splits differ. Within the new experiment, widening the baseline clearly matters to the mean gap. Three seeds leave me unsure about the remaining gain. They do not establish that the encodings are equivalent, either.\nA negative follow-upI also tried choosing charges with a cheap ridge-regression proxy. The idea was to propagate features through the graph before scoring them, so the proxy would behave a little more like the GNN. I used training labels only.The extra propagation did not earn its keep. Its charge ranking agreed less with the historical GNN validation results: Spearman correlation 0.476, compared with 0.691 for the simple proxy. All three policies picked the same charge pair anyway.Aaand that’s where I stopped.\nOne graph is not enoughMatching the number of channels fixes one problem. It does not make the spectral features identical apart from direction. My model is also sensitive to the eigenvector coordinates, including their complex phases.So far I have one real graph, charges explored during earlier experiments, and a test set that has already influenced the work. Next I would fix a minimum useful gain before running more paired seeds, then try an independent directed task. I want to know whether the extra structure helps beyond this particular graph.\n\n← All projects"
   },
   {
     "objectID": "notes.html",
     "href": "notes.html",
     "title": "Notes",
     "section": "",
-    "text": "These are more polished than scratch notes.\nPossible TBD:\n\nMatrix concentration inequalities\nLaplacian solver chains\nParallel prefix tricks\nGPU architecture\nGaussian mixture PCA"
+    "text": "Notes\n\n\n\nThese are more polished than scratch notes.\nPossible TBD:\n\nMatrix concentration inequalities\nLaplacian solver chains\nParallel prefix tricks\nGPU architecture\nGaussian mixture PCA"
+  },
+  {
+    "objectID": "free-probability.html",
+    "href": "free-probability.html",
+    "title": "\nFree probability\n",
+    "section": "",
+    "text": "Writing\n\nFree probability\n\n\nIn process of rewriting…\n\nThis is a working draft, not a finished post.\n\n\n\nKnowing the eigenvalues of two matrices does not determine the eigenvalues of their sum or product.\n\n\nThis series studies what happens when their eigenvectors are randomly oriented, then develops the tools that make the limiting calculations possible.\n\nStart with Part I ↗\n\n\n\n\n\nFreeness and cumulants\n\n\n\n\n01\n\n\nAdding large random matrices\n\n\nEigenvector geometry, normalized traces, and a first calculation with free independence.\n\n\n↗\n\n\n02\n\n\nWhy crossings disappear\n\n\nOrganizing mixed moments with partitions, then deriving the free central limit theorem in moments.\n\n\n↗\n\n\n\n\n\n\nAdding matrices\n\n\n\n\n03\n\n\nCalculating the law of a sum\n\n\nDerive the Cauchy-transform equation and calculate why two free sign variables have an arcsine sum.\n\n\n↗\n\n\n04\n\n\nRotate the eigenvectors\n\n\nA reproducible Haar-unitary experiment tests the arcsine prediction and distinguishes independence from freeness.\n\n\n↗\n\n\n\n\n\n\nMultiplying matrices\n\n\n\n\n05\n\n\nMultiplying positive matrices\n\n\nDefine multiplicative free convolution, derive the S-transform convention, and work through free projections.\n\n\n↗\n\n\n06\n\n\nCovariance matrices and their products\n\n\nFix the sample-covariance normalization, derive its transforms, and predict the spectrum of a positive product.\n\n\n↗"
+  },
+  {
+    "objectID": "blog/free-prob-6/index.html#fix-the-aspect-ratio-before-naming-the-law",
+    "href": "blog/free-prob-6/index.html#fix-the-aspect-ratio-before-naming-the-law",
+    "title": "Covariance matrices and their products",
+    "section": "Aspect ratio and the Marchenko-Pastur law",
+    "text": "Aspect ratio and the Marchenko-Pastur law\nTake independent standard complex Gaussian entries, with \\(\\mathbb E X_{ij}=0\\) and \\(\\mathbb E|X_{ij}|^2=1\\). Let \\(n,m\\to\\infty\\) with \\[\n\\frac nm\\longrightarrow\\gamma\\in(0,\\infty).\n\\] We normalize the spectral measure by \\(1/n\\), over all \\(n\\) eigenvalues of \\(C\\). Its limiting mean is one.\nThe Marchenko-Pastur theorem identifies the limit. One moment formulation for this Gaussian model is \\[\nm_k=\\sum_{\\pi\\in NC(k)}\\gamma^{k-|\\pi|}.\n\\] This result comes from Gaussian moment expansion and counting the index sums that survive at leading order. We use that random-matrix theorem as input, rather than proving it from the transform identities. Nica and Speicher, Lecture 22 develop Gaussian moment methods and their connection to Wishart matrices.\nComparing with the free moment-cumulant formula gives \\[\n\\kappa_k=\\gamma^{k-1},\\qquad\nR(w)=\\frac1{1-\\gamma w}.\n\\] In particular, \\(m_1=1\\), \\(m_2=1+\\gamma\\), and the limiting spectral variance is \\(\\gamma\\).\nDifferent references use different parameters for the free Poisson or Marchenko-Pastur law. In the free-Poisson convention with rate \\(\\lambda\\) and jump size \\(c\\), cumulants are \\(\\lambda c^k\\). Our convention has \\(\\lambda=1/\\gamma\\) and \\(c=\\gamma\\)."
+  },
+  {
+    "objectID": "blog/free-prob-6/index.html#derive-the-density-and-remember-the-zero-atom",
+    "href": "blog/free-prob-6/index.html#derive-the-density-and-remember-the-zero-atom",
+    "title": "Covariance matrices and their products",
+    "section": "The density and the atom at zero",
+    "text": "The density and the atom at zero\nInsert the R-transform into the Cauchy-transform equation: \\[\nz=\\frac1G+\\frac1{1-\\gamma G}.\n\\] After rearranging, \\[\n\\gamma zG^2-(z+\\gamma-1)G+1=0.\n\\] Let \\[\na=(1-\\sqrt\\gamma)^2,\\qquad b=(1+\\sqrt\\gamma)^2.\n\\] The branch satisfying \\(G(z)\\sim1/z\\) is \\[\nG(z)=\\frac{z+\\gamma-1-\\sqrt{(z-a)(z-b)}}{2\\gamma z},\n\\] where the square root is asymptotic to \\(z\\) at infinity. Stieltjes inversion gives the law \\[\n\\boxed{\n\\mu_\\gamma=\n\\left(1-\\frac1\\gamma\\right)_+\\delta_0\n+\\frac{\\sqrt{(b-x)(x-a)}}{2\\pi\\gamma x}\n\\mathbf1_{(a,b)}(x)\\,dx.\n}\n\\] Here \\((r)_+=\\max(r,0)\\). The continuous density has mass \\(\\min(1,1/\\gamma)\\), with the rest at zero.\nThe atom is also visible before taking a limit. When \\(n&gt;m\\), a Gaussian \\(n\\times m\\) matrix has rank \\(m\\) almost surely. Thus \\(C\\) has exactly \\(n-m\\) zero eigenvalues, a fraction approaching \\(1-1/\\gamma\\). Keeping only the nonzero eigenvalues and renormalizing them would produce a different probability measure.\n\n\n\nSample covariance spectra for aspect ratios one half, one, and two, with the predicted continuous densities. The final panel has an additional zero atom of mass one half.\n\n\nEach panel uses one matrix with \\(n=320\\). In the final panel, the zero eigenvalues are omitted from the density bars, but their probability mass is retained in the normalization and annotated separately."
+  },
+  {
+    "objectID": "blog/free-prob-6/index.html#find-the-s-transform-without-another-integral",
+    "href": "blog/free-prob-6/index.html#find-the-s-transform-without-another-integral",
+    "title": "Covariance matrices and their products",
+    "section": "Find the S-transform without another integral",
+    "text": "Find the S-transform without another integral\nLet \\(w=\\psi(t)\\) and \\(M(t)=1+w\\). The moment-cumulant equation from Part III gives \\[\nw=t(1+w)R(t(1+w))\n=\\frac{t(1+w)}{1-\\gamma t(1+w)}.\n\\] Solve for \\(t\\): \\[\n\\chi(w)=\\frac{w}{(1+w)(1+\\gamma w)}.\n\\] Consequently, \\[\n\\boxed{S_{\\mu_\\gamma}(w)=\\frac1{1+\\gamma w}.}\n\\] For two free covariance laws with aspect ratios \\(\\gamma_1,\\gamma_2\\), multiplication gives \\[\nS(w)=\\frac1{(1+\\gamma_1w)(1+\\gamma_2w)}.\n\\] The first derivative at zero confirms that the mean-one product has variance \\(\\gamma_1+\\gamma_2\\)."
+  },
+  {
+    "objectID": "blog/free-prob-6/index.html#a-complete-product-calculation-in-the-square-case",
+    "href": "blog/free-prob-6/index.html#a-complete-product-calculation-in-the-square-case",
+    "title": "Covariance matrices and their products",
+    "section": "Multiplying square covariance matrices",
+    "text": "Multiplying square covariance matrices\nSet \\(\\gamma_1=\\gamma_2=1\\). Consider independent square Gaussian covariance matrices \\(A_n,B_n\\), each normalized by \\(1/n\\), and the positive product \\[\nP_n=A_n^{1/2}B_nA_n^{1/2}.\n\\] These independent Gaussian covariance ensembles are unitarily invariant and asymptotically free. Their norm control and marginal convergence justify using the positive product law. The limiting S-transform is \\[\nS(w)=\\frac1{(1+w)^2}.\n\\] With \\(t=\\chi(w)\\), this gives the exceptionally simple equation \\[\n\\boxed{w=t(1+w)^3.}\n\\] Because \\(w=\\sum_{k\\geq1}m_kt^k\\), its coefficients are the desired moments. The first terms follow by substitution: \\[\nw=t+3t^2+12t^3+55t^4+\\cdots.\n\\] For all orders, the Lagrange inversion identity for \\(w=t\\phi(w)\\) states \\[\n[t^k]w=\\frac1k[u^{k-1}]\\phi(u)^k.\n\\] Using \\(\\phi(u)=(1+u)^3\\) yields \\[\nm_k=\\frac1k\\binom{3k}{k-1}\n=\\boxed{\\frac1{2k+1}\\binom{3k}{k}}.\n\\] These are the order-two Fuss-Catalan numbers. The terminology is useful, but the equation \\(w=t(1+w)^3\\) already gives a direct way to compute them.\nThe same equation locates the positive right edge. With \\(t=1/z\\), \\[\nz=\\frac{(1+w)^3}{w}.\n\\] Starting at large positive \\(z\\), the physical solution has small positive \\(w\\). Its first positive turning point satisfies \\[\n\\frac{d}{dw}\\frac{(1+w)^3}{w}\n=\\frac{(1+w)^2(2w-1)}{w^2}=0.\n\\] Thus \\(w=1/2\\) and the right endpoint is \\(z=27/4\\). The resulting law has support \\([0,27/4]\\). A detailed analysis of this branch and its density appears in Młotkowski, Nowak, Penson, and Życzkowski, Section IV.2.1."
+  },
+  {
+    "objectID": "blog/free-prob-6/index.html#check-the-product-numerically",
+    "href": "blog/free-prob-6/index.html#check-the-product-numerically",
+    "title": "Covariance matrices and their products",
+    "section": "Check the product numerically",
+    "text": "Check the product numerically\nFor eight independent draws at \\(n=384\\), the first four moments are:\n\n\n\n\nMoment\nExact limit\nEmpirical mean\nSample standard deviation\n\n\n\n\n1\n1\n1.00021\n0.00288\n\n\n2\n3\n3.00147\n0.01510\n\n\n3\n12\n12.00329\n0.09935\n\n\n4\n55\n54.96451\n0.73908\n\n\n\n\nThe last column is the sample standard deviation across the eight matrices, not a confidence interval or an error bound. Higher moments fluctuate more because they give greater weight to large eigenvalues.\n\n\n\nA histogram of eigenvalues of eight positive covariance products, with the limiting right endpoint marked at 27/4.\n\n\nThe histogram is an illustration. The moment table compares the numerical calculation with exact quantities derived before the experiment. Neither establishes a theorem about finite-dimensional extreme eigenvalues."
+  },
+  {
+    "objectID": "blog/free-prob-6/index.html#what-i-would-check-before-using-this-on-a-new-problem",
+    "href": "blog/free-prob-6/index.html#what-i-would-check-before-using-this-on-a-new-problem",
+    "title": "Covariance matrices and their products",
+    "section": "Assumptions to check on a new problem",
+    "text": "Assumptions to check on a new problem\nThe calculations depend on more than knowing the marginal eigenvalue histograms. First specify the normalized matrix and the aspect ratio. Then justify the joint asymptotic-freeness statement. For a product, choose the positive representative and check that the mean permits the ordinary S-transform. Finally, retain the correct Cauchy-transform branch and any atoms when recovering the law.\nThese checks prevent several tempting mistakes: multiplying eigenvalues coordinate by coordinate, discarding zero eigenvalues, or choosing a convenient root of an algebraic equation without checking its asymptotics.\nThe series began with the observation that individual eigenvalues leave out relative geometry. Freeness supplies one precise limiting description of that geometry. Cumulants, the R-transform, and the S-transform then turn it into calculations we can test."
+  },
+  {
+    "objectID": "blog/free-prob-6/index.html#try-it-before-finishing",
+    "href": "blog/free-prob-6/index.html#try-it-before-finishing",
+    "title": "Covariance matrices and their products",
+    "section": "Exercises",
+    "text": "Exercises\n\nWhat are the limiting mean, variance, and zero mass for \\(\\gamma=2\\)?\nCompute the second moment of a free product with \\(\\gamma_1=1/2\\) and \\(\\gamma_2=2\\).\nWhat moment equation would a product of \\(r\\) free square covariance variables satisfy?\n\n\n\nAnswer sketches\n\n\nMean one, variance two, zero mass one half. The mean is averaged over all eigenvalues, including the zeros.\nThe variance is \\(1/2+2=5/2\\), so the second moment is \\(1+5/2=7/2\\).\nIts S-transform is \\((1+w)^{-r}\\), so \\(w=t(1+w)^{r+1}\\). Lagrange inversion gives \\(m_k=\\binom{(r+1)k}{k}/(rk+1)\\)."
+  },
+  {
+    "objectID": "blog/free-prob-6/index.html#further-reading",
+    "href": "blog/free-prob-6/index.html#further-reading",
+    "title": "Covariance matrices and their products",
+    "section": "Further reading",
+    "text": "Further reading\nMingo and Speicher, Free Probability and Random Matrices develops the random-matrix foundations. Penson and Życzkowski study the Fuss-Catalan laws arising from squared singular values of products. Młotkowski and collaborators explain the S-transform calculations and explicit densities. Their normalization conventions should be checked against the mean-one convention used here."
+  },
+  {
+    "objectID": "blog/free-prob-4/index.html#three-ways-to-use-exactly-the-same-eigenvalues",
+    "href": "blog/free-prob-4/index.html#three-ways-to-use-exactly-the-same-eigenvalues",
+    "title": "Rotate the eigenvectors",
+    "section": "Three ways to use exactly the same eigenvalues",
+    "text": "Three ways to use exactly the same eigenvalues\nFor even \\(n\\), set \\[\nD_n=\\operatorname{diag}(\\underbrace{1,\\ldots,1}_{n/2},\n\\underbrace{-1,\\ldots,-1}_{n/2}).\n\\] Compare these choices:\n\n\n\n\n\n\n\n\nSecond matrix\nRelative eigenbasis\nPrediction for the sum\n\n\n\n\n\\(D_n\\)\nPerfectly aligned\nHalf the eigenvalues at each of \\(-2,2\\)\n\n\n\\(P_nD_nP_n^*\\)\nA uniform random permutation\nLimiting masses \\(1/4,1/2,1/4\\) at \\(-2,0,2\\)\n\n\n\\(U_nD_nU_n^*\\)\nA Haar-random unitary rotation\nLimiting arcsine density on \\([-2,2]\\)\n\n\n\nA permutation randomizes which signs match, but both matrices remain diagonal. Its empirical matching frequencies approach the product of the two sign distributions. A Haar unitary also mixes the coordinate directions themselves.\n\n\n\nIdentical marginal spectra produce a two-point sum, a three-point sum, or an approximately arcsine sum, depending on the relative eigenbasis.\n\n\nThe Haar panel pools six independent draws at \\(n=384\\). The other two panels each show one matrix pair at that dimension. The vertical axes distinguish discrete probability mass from continuous density. The density’s endpoint singularity also makes the outer histogram bars sensitive to bin width."
+  },
+  {
+    "objectID": "blog/free-prob-4/index.html#sampling-a-haar-unitary-correctly",
+    "href": "blog/free-prob-4/index.html#sampling-a-haar-unitary-correctly",
+    "title": "Rotate the eigenvectors",
+    "section": "Sampling a Haar unitary correctly",
+    "text": "Sampling a Haar unitary correctly\nStart with a complex Gaussian matrix \\(Z\\) and compute a QR decomposition. Correct the phases on the diagonal of \\(R\\) so that the resulting triangular factor has positive real diagonal. The corresponding unitary factor has Haar distribution. This is the QR construction described by Mezzadri.\nimport numpy as np\n\nrng = np.random.default_rng(1729)\n\ndef haar_unitary(n):\n    z = (rng.normal(size=(n, n))\n         + 1j * rng.normal(size=(n, n))) / np.sqrt(2)\n    q, r = np.linalg.qr(z)\n    d = np.diag(r)\n    return q * (d / np.abs(d))[None, :]\n\nn = 384\nsigns = np.r_[np.ones(n // 2), -np.ones(n // 2)]\na = np.diag(signs)\nu = haar_unitary(n)\nb = (u * signs) @ u.conj().T\nspectrum = np.linalg.eigvalsh(a + b)\nThe zero-diagonal event has probability zero for an exact Gaussian draw. Column multiplication by signs implements \\(UD_n\\), and the conjugate transpose is essential for complex matrices.\nThe phase correction makes this a general Haar sampler. In this particular conjugation experiment, those column phases cancel against the diagonal \\(D_n\\), but that cancellation would not justify calling an arbitrary uncorrected QR output Haar."
+  },
+  {
+    "objectID": "blog/free-prob-4/index.html#test-a-mixed-moment-not-just-a-histogram",
+    "href": "blog/free-prob-4/index.html#test-a-mixed-moment-not-just-a-histogram",
+    "title": "Rotate the eigenvectors",
+    "section": "Test a mixed moment, not just a histogram",
+    "text": "Test a mixed moment, not just a histogram\nThe one-variable spectrum of \\(A+B\\) checks one consequence of freeness. We can also check a word that appears directly in the definition: \\[\nT_n=\\frac1n\\operatorname{Tr}(ABAB).\n\\] Both \\(A=D_n\\) and \\(B=U_nD_nU_n^*\\) are exactly centered. Freeness predicts \\(T_n\\to0\\).\nFor the aligned and permuted cases, \\(A\\) and \\(B\\) commute and square to the identity, so \\(ABAB=I\\) and \\(T_n=1\\) exactly. This is a particularly clear distinction.\nFor ten independent Haar draws at each size, the recorded results are:\n\n\n\n\n\n\n\n\n\n\nDimension\nMean second moment\nMean fourth moment\nRMS alternating moment\n\n\n\n\n64\n2.00503\n6.00984\n0.02210\n\n\n128\n2.00004\n5.99541\n0.01335\n\n\n256\n2.00121\n6.01167\n0.00522\n\n\n\n\nThe limiting second and fourth moments are 2 and 6. The last column is \\(\\sqrt{\\frac1{10}\\sum_jT_{n,j}^2}\\), rather than the signed average, so positive and negative fluctuations cannot cancel.\n\n\n\nThe observed root mean square alternating moment becomes smaller across the three tested matrix dimensions.\n\n\nThese observations agree with the theorem. Three dimensions and ten draws do not establish a convergence rate, and the displayed trend need not be monotone for a different random seed."
+  },
+  {
+    "objectID": "blog/free-prob-4/index.html#what-the-limiting-statement-actually-says",
+    "href": "blog/free-prob-4/index.html#what-the-limiting-statement-actually-says",
+    "title": "Rotate the eigenvectors",
+    "section": "Large matrices and finite-size errors",
+    "text": "Large matrices and finite-size errors\nFor deterministic bounded Hermitian sequences with convergent marginal laws, the Haar-rotation theorem controls joint normalized-trace moments for each fixed noncommutative polynomial. The uniformly bounded spectra in this example then let us turn moment convergence for the sum into weak convergence of its empirical spectral measure. Speicher, Section 7.\nThis does not say that a finite pair is exactly free. It also does not, by itself, provide a finite-size error bound, eigenvalue-spacing statistics, or convergence of the largest eigenvalue.\nA simple example explains the last distinction. The matrices \\(\\operatorname{diag}(10,0,\\ldots,0)\\) have all fixed positive normalized-trace moments tending to zero, but their largest eigenvalue remains ten. A vanishing fraction of outliers can disappear from a limiting spectral measure. Stronger random-matrix results address such questions, but they require stronger conclusions than ordinary moment convergence."
+  },
+  {
+    "objectID": "blog/free-prob-4/index.html#try-it-before-continuing",
+    "href": "blog/free-prob-4/index.html#try-it-before-continuing",
+    "title": "Rotate the eigenvectors",
+    "section": "Exercises",
+    "text": "Exercises\n\nReplace the Haar unitary by the identity. What happens to \\(T_n\\)?\nWhy would subtracting only the ensemble mean be insufficient for a general finite-sample centered-moment diagnostic?\nWould a good histogram of \\(A+B\\) prove that \\(A\\) and \\(B\\) are asymptotically free?\n\n\n\nAnswer sketches\n\n\n\\(A=B=D_n\\), so \\(ABAB=I\\) and \\(T_n=1\\).\nA particular matrix may still have nonzero normalized trace. If the diagnostic requires centered factors, use \\(A-\\tau_n(A)I\\) and similarly for \\(B\\), or account for those fluctuations. Our balanced signs are exactly centered already.\nNo. Freeness constrains all alternating products of centered polynomials. One spectral histogram tests only a small part of that joint structure."
+  },
+  {
+    "objectID": "blog/free-prob-2/index.html#draw-the-positions-before-manipulating-the-variables",
+    "href": "blog/free-prob-2/index.html#draw-the-positions-before-manipulating-the-variables",
+    "title": "Why crossings disappear",
+    "section": "Crossing and noncrossing partitions",
+    "text": "Crossing and noncrossing partitions\nA partition divides \\(\\{1,\\ldots,n\\}\\) into disjoint nonempty blocks. It is noncrossing if there are no indices \\(i&lt;j&lt;k&lt;\\ell\\) with \\(i,k\\) in one block and \\(j,\\ell\\) in a different block.\nFor four positions, the three pairings are \\[\n\\{\\{1,2\\},\\{3,4\\}\\},\\quad\n\\{\\{1,4\\},\\{2,3\\}\\},\\quad\n\\{\\{1,3\\},\\{2,4\\}\\}.\n\\] Only the last one crosses when the positions are placed around a circle.\n\n\n\nTwo noncrossing pairings and the crossing pairing on four cyclically ordered positions.\n\n\nFor \\(abab\\), pairing equal letters requires precisely the crossing pairing. For \\(aabb\\), it requires the first noncrossing pairing. This is the diagrammatic trace of our earlier calculation. To make it a general method, we introduce cumulants."
+  },
+  {
+    "objectID": "blog/free-prob-2/index.html#cumulants-are-defined-recursively-from-moments",
+    "href": "blog/free-prob-2/index.html#cumulants-are-defined-recursively-from-moments",
+    "title": "Why crossings disappear",
+    "section": "Cumulants are defined recursively from moments",
+    "text": "Cumulants are defined recursively from moments\nWrite \\(NC(n)\\) for the set of noncrossing partitions of \\(n\\) positions. The free cumulants \\(\\kappa_n\\) are the multilinear functionals defined by \\[\n\\tau(x_1\\cdots x_n)\n=\\sum_{\\pi\\in NC(n)}\\kappa_\\pi(x_1,\\ldots,x_n),\n\\] where \\[\n\\kappa_\\pi(x_1,\\ldots,x_n)\n=\\prod_{V\\in\\pi}\\kappa_{|V|}(x_{i_1},\\ldots,x_{i_{|V|}}),\n\\qquad V=\\{i_1&lt;\\cdots&lt;i_{|V|}\\}.\n\\] The factors on the right are scalars, so their product commutes. Within each cumulant, the original order of the arguments is retained.\nThis is a recursive definition: the one-block partition contributes \\(\\kappa_n\\), and all other blocks have smaller size. Once cumulants of lower orders are known, solve for \\(\\kappa_n\\).\nFor one variable, abbreviate \\(m_n=\\tau(a^n)\\) and \\(\\kappa_n=\\kappa_n(a,\\ldots,a)\\). The first relations are \\[\n\\begin{aligned}\nm_1&=\\kappa_1,\\\\\nm_2&=\\kappa_2+\\kappa_1^2,\\\\\nm_3&=\\kappa_3+3\\kappa_2\\kappa_1+\\kappa_1^3,\\\\\nm_4&=\\kappa_4+4\\kappa_3\\kappa_1+2\\kappa_2^2\n       +6\\kappa_2\\kappa_1^2+\\kappa_1^4.\n\\end{aligned}\n\\] That coefficient two counts the noncrossing pairings on four positions. Classical cumulants use all set partitions, so the corresponding coefficient is three.\nFor a centered variable, \\[\n\\kappa_2=m_2,\\qquad \\kappa_3=m_3,\\qquad\n\\boxed{\\kappa_4=m_4-2m_2^2.}\n\\] For a symmetric sign variable, \\(m_2=m_4=1\\), giving \\(\\kappa_4=-1\\). A negative fourth free cumulant is entirely possible."
+  },
+  {
+    "objectID": "blog/free-prob-2/index.html#the-theorem-that-makes-the-bookkeeping-useful",
+    "href": "blog/free-prob-2/index.html#the-theorem-that-makes-the-bookkeeping-useful",
+    "title": "Why crossings disappear",
+    "section": "Mixed free cumulants vanish",
+    "text": "Mixed free cumulants vanish\nThe crucial result is the mixed-cumulant characterization of freeness: unital subalgebras are free exactly when every mixed free cumulant vanishes. Here mixed means that its arguments come from more than one of the subalgebras. Speicher, Section 3.\nThis theorem connects the combinatorial definition to the alternating-centered definition. We use it here without reproducing its full induction proof.\nFor centered free \\(a,b\\), apply the moment formula to \\(abab\\). Singleton blocks vanish by centering. Blocks containing both letters vanish by the theorem. Pairing equal letters would cross. Every contribution is therefore zero.\nNow expand a cumulant of \\(a+b\\) by multilinearity. Every mixed choice of arguments vanishes, leaving only the all-\\(a\\) and all-\\(b\\) terms: \\[\n\\boxed{\\kappa_n(a+b)=\\kappa_n(a)+\\kappa_n(b).}\n\\] The full moment sequence does not add. The cumulant sequence does.\nFor the sum of two free symmetric sign variables, the second cumulant is two and the fourth is minus two. Hence \\[\nm_4=-2+2(2)^2=6,\n\\] recovering Part I without listing sixteen words."
+  },
+  {
+    "objectID": "blog/free-prob-2/index.html#a-distribution-made-entirely-of-pairs",
+    "href": "blog/free-prob-2/index.html#a-distribution-made-entirely-of-pairs",
+    "title": "Why crossings disappear",
+    "section": "Semicircle moments count noncrossing pairings",
+    "text": "Semicircle moments count noncrossing pairings\nSuppose \\(s\\) has cumulants \\[\n\\kappa_1(s)=0,\\quad \\kappa_2(s)=v,\\quad\n\\kappa_n(s)=0\\quad(n\\geq3).\n\\] Only partitions into pairs survive. Odd moments vanish, and \\[\n\\tau(s^{2k})=C_kv^k,\n\\qquad C_k=\\frac1{k+1}\\binom{2k}{k}.\n\\] Why Catalan numbers? Pair the first position with position \\(2j+2\\). Noncrossing forces the \\(2j\\) positions inside that pair and the remaining positions outside it to pair separately. If \\(C_0=1\\), this gives \\[\nC_k=\\sum_{j=0}^{k-1}C_jC_{k-1-j}.\n\\] Thus the even moments begin \\(1,v,2v^2,5v^3,14v^4\\) when the initial one is the zeroth moment.\nFor \\(v&gt;0\\), these are the moments of the semicircle density \\[\n\\rho_v(x)=\\frac{\\sqrt{4v-x^2}}{2\\pi v}\n\\,\\mathbf1_{\\{|x|\\leq2\\sqrt v\\}}.\n\\] The substitution \\(x=2\\sqrt v\\cos\\theta\\) verifies the moments by a beta integral. In particular, its variance is \\(v\\), and its fourth moment is \\(2v^2\\). When \\(v=0\\), the law is \\(\\delta_0\\)."
+  },
+  {
+    "objectID": "blog/free-prob-2/index.html#why-a-free-central-limit-theorem-follows",
+    "href": "blog/free-prob-2/index.html#why-a-free-central-limit-theorem-follows",
+    "title": "Why crossings disappear",
+    "section": "Why a free central limit theorem follows",
+    "text": "Why a free central limit theorem follows\nLet \\(a_1,a_2,\\ldots\\) be freely independent, identically distributed, bounded self-adjoint variables, centered with variance \\(v\\). Set \\[\ns_N=\\frac{a_1+\\cdots+a_N}{\\sqrt N}.\n\\] Multilinearity gives \\(\\kappa_k(ca)=c^k\\kappa_k(a)\\). Additivity then yields \\[\n\\kappa_k(s_N)=N^{1-k/2}\\kappa_k(a_1).\n\\] The first cumulant is zero, the second remains \\(v\\), and every fixed higher cumulant tends to zero. Since each fixed moment is a finite polynomial in cumulants, the moments converge to those of the semicircle law.\nThis also gives weak convergence of the laws. The common second moment ensures tightness. Convergence of higher even moments controls the tails needed to pass moments to any weak subsequential limit. The compactly supported semicircle law is moment-determinate, so every such limit is the same.\nThe normal and semicircle laws play parallel roles: classical independent sums retain all pairings in their limiting moments, while free sums retain the noncrossing pairings."
+  },
+  {
+    "objectID": "blog/free-prob-2/index.html#try-it-before-continuing",
+    "href": "blog/free-prob-2/index.html#try-it-before-continuing",
+    "title": "Why crossings disappear",
+    "section": "Exercises",
+    "text": "Exercises\n\nFind the fourth cumulant of the variance-one semicircle law.\nFind the sixth moment of a centered semicircular variable with variance two.\nIf \\(b\\) is another free copy of a centered variance-one \\(a\\), express \\(\\tau((a+b)^4)\\) in terms of \\(m_4(a)\\).\n\n\n\nAnswer sketches\n\n\n\\(2-2(1)^2=0\\).\n\\(C_3\\,2^3=5\\cdot8=40\\).\nIt is \\(2m_4(a)+4\\). Equivalently, add the fourth cumulants and use the new variance two."
+  },
+  {
+    "objectID": "blog/free-prob-2/index.html#further-reading",
+    "href": "blog/free-prob-2/index.html#further-reading",
+    "title": "Why crossings disappear",
+    "section": "Further reading",
+    "text": "Further reading\nSpeicher’s survey on noncrossing partitions explains the combinatorial foundations. Nica and Speicher’s book, Lectures 8 through 12, develops the free central limit theorem and cumulant machinery in detail."
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "\nWriting\n",
+    "section": "",
+    "text": "Writing\n\n\nMathematics, algorithms, and machine learning.\n\n\n\n\n\nFree probability\n\n\nIn process of rewriting…\n\n\nFrom the geometry of a matrix sum to covariance products.\n\n\n\n\n01\n\n\nAdding large random matrices\n\n\nEigenvector geometry, normalized traces, and a first calculation with free independence.\n\n\n↗\n\n\n02\n\n\nWhy crossings disappear\n\n\nOrganizing mixed moments with partitions, then deriving the free central limit theorem in moments.\n\n\n↗\n\n\n03\n\n\nCalculating the law of a sum\n\n\nDerive the Cauchy-transform equation and calculate why two free sign variables have an arcsine sum.\n\n\n↗\n\n\n04\n\n\nRotate the eigenvectors\n\n\nA reproducible Haar-unitary experiment tests the arcsine prediction and distinguishes independence from freeness.\n\n\n↗\n\n\n05\n\n\nMultiplying positive matrices\n\n\nDefine multiplicative free convolution, derive the S-transform convention, and work through free projections.\n\n\n↗\n\n\n06\n\n\nCovariance matrices and their products\n\n\nFix the sample-covariance normalization, derive its transforms, and predict the spectrum of a positive product.\n\n\n↗"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About\n\n\n\nI’m Angelo, and MIT undergrad studying math and computer science.\nOutside of coursework, I like table tennis, learning languages, Peruvian food, and debugging things I was completely sure were correct."
+  },
+  {
+    "objectID": "blog/free-prob-1/index.html#eigenvalues-are-not-enough",
+    "href": "blog/free-prob-1/index.html#eigenvalues-are-not-enough",
+    "title": "Adding large random matrices",
+    "section": "Eigenvalues are not enough",
+    "text": "Eigenvalues are not enough\nTake \\[\nA=B_1=\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix},\n\\qquad B_2=\\begin{pmatrix}-1&0\\\\0&1\\end{pmatrix}.\n\\] Both choices of \\(B\\) have spectrum \\(\\{-1,1\\}\\). Nevertheless, \\[\n\\operatorname{spec}(A+B_1)=\\{-2,2\\},\\qquad\n\\operatorname{spec}(A+B_2)=\\{0,0\\}.\n\\] The individual spectra have lost the information about which directions line up.\nWriting \\(A=U\\Lambda U^*\\) and \\(B=V\\Gamma V^*\\) makes the missing ingredient explicit: the spectrum of their sum depends on the relative basis \\(U^*V\\).\nHere is a useful replacement for choosing an alignment. Keep deterministic diagonal matrices \\(D_n,E_n\\), draw a Haar unitary \\(U_n\\), and study \\[\nD_n+U_nE_nU_n^*.\n\\] Haar measure is the uniform probability measure on the unitary group, in the precise sense of invariance under multiplication by any fixed unitary. Conjugation preserves the spectrum of \\(E_n\\) and randomizes its eigenbasis.\nUnder suitable hypotheses, this produces a limiting rule for mixed moments. That rule is freeness."
+  },
+  {
+    "objectID": "blog/free-prob-1/index.html#the-trace-turns-a-matrix-into-a-distribution",
+    "href": "blog/free-prob-1/index.html#the-trace-turns-a-matrix-into-a-distribution",
+    "title": "Adding large random matrices",
+    "section": "The trace turns a matrix into a distribution",
+    "text": "The trace turns a matrix into a distribution\nDefine the empirical spectral measure and normalized trace by \\[\n\\mu_A=\\frac1n\\sum_{j=1}^n\\delta_{\\lambda_j(A)},\n\\qquad \\tau_n(A)=\\frac1n\\operatorname{Tr}(A).\n\\] Then \\[\n\\boxed{\\tau_n(A^k)=\\int x^k\\,d\\mu_A(x).}\n\\] A normalized trace of a power is exactly a spectral moment. The normalization gives total mass one, so moments remain comparable as the dimension changes.\nTo study the sum, expand \\(\\tau_n((A+B)^k)\\). Now words such as \\(AABB\\) and \\(ABAB\\) appear. They cannot generally be rearranged into each other. Trace is cyclic, so \\(\\tau(ABBA)=\\tau(AABB)\\), but it does not permit arbitrary permutations.\nFor a random matrix, \\(\\tau_n(A^k)\\) is itself random. Its ensemble average is \\(\\mathbb E[\\tau_n(A^k)]\\). We will distinguish these when discussing experiments and convergence."
+  },
+  {
+    "objectID": "blog/free-prob-1/index.html#a-small-amount-of-noncommutative-probability",
+    "href": "blog/free-prob-1/index.html#a-small-amount-of-noncommutative-probability",
+    "title": "Adding large random matrices",
+    "section": "Noncommutative probability",
+    "text": "Noncommutative probability\nOur setting is a unital algebra \\(\\mathcal A\\) with an adjoint operation and a normalized positive trace \\(\\tau\\). Thus \\(\\tau\\) is linear and satisfies \\[\n\\tau(1)=1,\\qquad \\tau(x^*x)\\geq0,\\qquad \\tau(xy)=\\tau(yx).\n\\] Matrices with normalized trace are the finite-dimensional example. For bounded self-adjoint operators, the spectral theorem gives a probability law whose moments are \\(\\tau(a^k)\\). We use compactly supported laws throughout the series, so their moments determine them uniquely.\nThink of a self-adjoint element \\(a=a^*\\) as a real random variable and \\(\\tau\\) as expectation. Multiplication may fail to commute, but positivity and spectral measures remain available."
+  },
+  {
+    "objectID": "blog/free-prob-1/index.html#freeness-is-a-rule-for-centered-alternating-products",
+    "href": "blog/free-prob-1/index.html#freeness-is-a-rule-for-centered-alternating-products",
+    "title": "Adding large random matrices",
+    "section": "Freeness is a rule for centered, alternating products",
+    "text": "Freeness is a rule for centered, alternating products\nUnital subalgebras \\(\\mathcal A_1,\\mathcal A_2,\\ldots\\) are free if \\[\n\\tau(x_1x_2\\cdots x_m)=0\n\\] whenever each \\(x_i\\) belongs to \\(\\mathcal A_{j_i}\\), consecutive indices differ, and every factor is centered: \\[\nj_i\\neq j_{i+1},\\qquad \\tau(x_i)=0.\n\\] We call \\(a\\) and \\(b\\) free when the unital algebras they generate are free. The condition therefore applies to centered polynomials in \\(a\\) and \\(b\\), not merely to the original variables.\nWhy center? Because every factor can be split into its mean and its fluctuation. Expanding these splits reduces mixed moments to simpler ones until the alternating-centered rule applies. This recursively determines the joint moments from the two marginal moment sequences."
+  },
+  {
+    "objectID": "blog/free-prob-1/index.html#the-first-calculation-that-distinguishes-freeness",
+    "href": "blog/free-prob-1/index.html#the-first-calculation-that-distinguishes-freeness",
+    "title": "Adding large random matrices",
+    "section": "A fourth-moment calculation",
+    "text": "A fourth-moment calculation\nSuppose \\(a,b\\) are centered and free, with \\[\n\\tau(a^2)=\\alpha,\\qquad \\tau(b^2)=\\beta.\n\\] The definition immediately gives \\[\n\\tau(ab)=0,\\qquad \\tau(abab)=0.\n\\] But \\(a^2b^2\\) is different. Center the squares: \\[\n0=\\tau\\bigl((a^2-\\alpha1)(b^2-\\beta1)\\bigr)\n  =\\tau(a^2b^2)-\\alpha\\beta.\n\\] Consequently, \\[\n\\boxed{\\tau(a^2b^2)=\\alpha\\beta,\\qquad \\tau(abab)=0.}\n\\] For centered, classically independent scalar variables \\(X,Y\\) with those variances, both corresponding expressions equal \\(\\alpha\\beta\\), since \\(XYXY=X^2Y^2\\).\nAt second order, both theories give variance addition. At fourth order, the distinction becomes visible: \\[\n\\tau((a+b)^4)=\\tau(a^4)+\\tau(b^4)+4\\alpha\\beta.\n\\] To see the coefficient four, list the six words containing two of each letter. The words \\(aabb,abba,baab,bbaa\\) each contribute \\(\\alpha\\beta\\). The alternating words \\(abab,baba\\) vanish. Words with three of one letter and one of the other also vanish, by centering and cyclicity.\nClassical independence instead gives a coefficient of six."
+  },
+  {
+    "objectID": "blog/free-prob-1/index.html#what-does-that-predict-for-a-sum",
+    "href": "blog/free-prob-1/index.html#what-does-that-predict-for-a-sum",
+    "title": "Adding large random matrices",
+    "section": "Adding two free sign variables",
+    "text": "Adding two free sign variables\nLet both marginal laws be \\[\n\\mu=\\tfrac12\\delta_{-1}+\\tfrac12\\delta_1.\n\\] Each variable is centered, with second and fourth moments equal to one. The free sum therefore has \\[\nm_2=2,\\qquad m_4=6.\n\\] The classical sum has masses \\(1/4,1/2,1/4\\) at \\(-2,0,2\\), and fourth moment eight. Perfect alignment, where \\(b=a\\), gives fourth moment sixteen.\nWe write the law of a free sum as \\(\\mu\\boxplus\\nu\\), the additive free convolution. Part III will calculate the entire law in this example. Part IV will compare all three eigenbasis choices numerically."
+  },
+  {
+    "objectID": "blog/free-prob-1/index.html#when-does-the-matrix-model-justify-this-rule",
+    "href": "blog/free-prob-1/index.html#when-does-the-matrix-model-justify-this-rule",
+    "title": "Adding large random matrices",
+    "section": "Asymptotic freeness of random matrices",
+    "text": "Asymptotic freeness of random matrices\nOne sufficient setting is that \\(D_n,E_n\\) are deterministic Hermitian matrices with uniformly bounded operator norms and convergent empirical spectral measures. If \\(U_n\\) is Haar unitary, then the pair \\((D_n,U_nE_nU_n^*)\\) converges in joint normalized-trace moments to a free pair, in probability. This is a standard asymptotic-freeness theorem, not something implied just by our definition. Speicher, Section 7.\nAt each finite dimension, the pair generally fails exact freeness. The theorem describes the limit for each fixed word. Independent random diagonal sign matrices illustrate why ordinary independence alone is insufficient: they commute, and their alternating fourth moment is identically one."
+  },
+  {
+    "objectID": "blog/free-prob-1/index.html#try-it-before-continuing",
+    "href": "blog/free-prob-1/index.html#try-it-before-continuing",
+    "title": "Adding large random matrices",
+    "section": "Exercises",
+    "text": "Exercises\n\nCompute \\(\\tau((a+b)^2)\\) for centered free variables of variances \\(\\alpha,\\beta\\).\nFor the symmetric two-point laws above, compute \\(\\tau((a+b)^3)\\).\nExplain why the identity \\(a^2=b^2=1\\) is compatible with \\(\\tau(abab)=0\\).\n\n\n\nAnswer sketches\n\n\nThe cross terms vanish, leaving \\(\\alpha+\\beta\\).\nIt is zero. The pure cubic moments vanish by symmetry, and the mixed terms vanish by freeness and cyclicity.\nThe squares only simplify adjacent equal factors. Simplifying \\(abab\\) to \\(a^2b^2\\) would require commutativity."
+  },
+  {
+    "objectID": "blog/free-prob-1/index.html#further-reading",
+    "href": "blog/free-prob-1/index.html#further-reading",
+    "title": "Adding large random matrices",
+    "section": "Further reading",
+    "text": "Further reading\nTerence Tao’s Notes 5 develop the probability-space viewpoint and mixed-moment examples. Speicher’s lecture notes give the definitions in Section 1 and the random-matrix connection in Section 7. The worked calculations here use the conventions stated above."
+  },
+  {
+    "objectID": "blog/free-prob-3/index.html#a-transform-that-remembers-the-law",
+    "href": "blog/free-prob-3/index.html#a-transform-that-remembers-the-law",
+    "title": "Calculating the law of a sum",
+    "section": "The Cauchy transform",
+    "text": "The Cauchy transform\nFor a compactly supported probability measure \\(\\mu\\) on \\(\\mathbb R\\), define its Cauchy transform by \\[\nG_\\mu(z)=\\int\\frac{1}{z-x}\\,d\\mu(x),\\qquad \\operatorname{Im}z&gt;0.\n\\] Our sign convention matters. With \\(1/(z-x)\\), the imaginary part of \\(G\\) is negative in the upper half-plane. Some references use the negative of this transform.\nFor sufficiently large \\(|z|\\), expand the geometric series: \\[\nG_\\mu(z)=\\frac1z+\\frac{m_1}{z^2}+\\frac{m_2}{z^3}+\\cdots.\n\\] Thus \\(G\\) encodes every moment, and its leading behavior must be \\(1/z\\).\nIt also recovers the density. Indeed, \\[\n-\\frac1\\pi\\operatorname{Im}G_\\mu(x+i\\eta)\n=\\int\\frac{\\eta}{\\pi((x-t)^2+\\eta^2)}\\,d\\mu(t).\n\\] The right side smooths the measure with a Cauchy kernel. At continuity points of a density \\(\\rho\\), letting \\(\\eta\\downarrow0\\) gives \\(\\rho(x)\\). More generally, Stieltjes inversion recovers masses of intervals. An atom at \\(x_0\\) can be checked separately through \\[\n\\mu(\\{x_0\\})=\\lim_{\\eta\\downarrow0}i\\eta G_\\mu(x_0+i\\eta).\n\\]"
+  },
+  {
+    "objectID": "blog/free-prob-3/index.html#from-the-moment-formula-to-a-functional-equation",
+    "href": "blog/free-prob-3/index.html#from-the-moment-formula-to-a-functional-equation",
+    "title": "Calculating the law of a sum",
+    "section": "From the moment formula to a functional equation",
+    "text": "From the moment formula to a functional equation\nIntroduce the two generating series \\[\nM(t)=1+\\sum_{n\\geq1}m_nt^n,\n\\qquad R(w)=\\sum_{n\\geq1}\\kappa_nw^{n-1}.\n\\] Look at the block containing position 1 in a noncrossing partition. If that block has size \\(k\\), it leaves \\(k\\) ordered gaps, each carrying an independent noncrossing partition. This decomposes the moment formula into \\[\nM(t)=1+\\sum_{k\\geq1}\\kappa_k t^kM(t)^k\n=1+tM(t)R(tM(t)).\n\\] Since \\(G(z)=z^{-1}M(z^{-1})\\), substitution gives \\[\nzG(z)=1+G(z)R(G(z)),\n\\] or \\[\n\\boxed{z=\\frac1{G(z)}+R(G(z)).}\n\\] Initially this identity holds near infinity, or as a formal Laurent-series identity. We should not assume that the power series for \\(R\\) converges at every value of \\(G\\).\nEquivalently, let \\(K\\) denote the local compositional inverse of \\(G\\) near infinity, so \\(K(w)\\sim1/w\\) near zero. Then \\[\nR(w)=K(w)-\\frac1w.\n\\] This is the R-transform. Cumulant additivity becomes \\[\n\\boxed{R_{\\mu\\boxplus\\nu}(w)=R_\\mu(w)+R_\\nu(w).}\n\\] The local inverse and analytic extension are developed rigorously in Speicher, Theorem 4.12."
+  },
+  {
+    "objectID": "blog/free-prob-3/index.html#warm-up-adding-semicircles",
+    "href": "blog/free-prob-3/index.html#warm-up-adding-semicircles",
+    "title": "Calculating the law of a sum",
+    "section": "Warm-up: adding semicircles",
+    "text": "Warm-up: adding semicircles\nA centered semicircular variable of variance \\(v\\) has only one nonzero cumulant, \\(\\kappa_2=v\\). Therefore \\(R(w)=vw\\) and \\[\nvG(z)^2-zG(z)+1=0.\n\\] For \\(v&gt;0\\), choose the solution \\[\nG(z)=\\frac{z-\\sqrt{z^2-4v}}{2v},\n\\] where the square root is the branch asymptotic to \\(z\\) at infinity. The other solution grows like \\(z/v\\), which cannot be the transform of a probability measure.\nTaking the boundary value in the upper half-plane recovers the semicircle density. Adding free semicircles of variances \\(v_1,v_2\\) simply replaces \\(vw\\) by \\((v_1+v_2)w\\). Their sum is semicircular with variance \\(v_1+v_2\\)."
+  },
+  {
+    "objectID": "blog/free-prob-3/index.html#the-main-example-two-sign-variables",
+    "href": "blog/free-prob-3/index.html#the-main-example-two-sign-variables",
+    "title": "Calculating the law of a sum",
+    "section": "Adding two free sign variables",
+    "text": "Adding two free sign variables\nLet \\(\\mu=\\tfrac12\\delta_{-1}+\\tfrac12\\delta_1\\). Its transform is immediate: \\[\nG_\\mu(z)=\\frac12\\left(\\frac1{z-1}+\\frac1{z+1}\\right)\n=\\frac{z}{z^2-1}.\n\\] Solve \\(w=z/(z^2-1)\\) for \\(z\\): \\[\nz=\\frac{1\\pm\\sqrt{1+4w^2}}{2w}.\n\\] The inverse with a \\(1/w\\) pole uses the plus sign, with the square root analytic and equal to one at \\(w=0\\). Hence \\[\nR_\\mu(w)=\\frac{\\sqrt{1+4w^2}-1}{2w}.\n\\] Expanding gives \\(R_\\mu(w)=w-w^3+2w^5-\\cdots\\), consistent with \\(\\kappa_2=1\\) and \\(\\kappa_4=-1\\).\nFor \\(\\nu=\\mu\\boxplus\\mu\\), add the two R-transforms. The equation for \\(G_\\nu\\) becomes \\[\nz=\\frac1{G_\\nu(z)}+\n\\frac{\\sqrt{1+4G_\\nu(z)^2}-1}{G_\\nu(z)}\n=\\frac{\\sqrt{1+4G_\\nu(z)^2}}{G_\\nu(z)}.\n\\] Squaring yields \\((z^2-4)G_\\nu(z)^2=1\\). Choose the branch matching \\(G_\\nu(z)\\sim1/z\\): \\[\n\\boxed{G_\\nu(z)=\\frac1{\\sqrt{z^2-4}}.}\n\\] Here \\(\\sqrt{z^2-4}\\) means the analytic branch on \\(\\mathbb C\\setminus[-2,2]\\) asymptotic to \\(z\\). It is not the pointwise principal square root of \\(z^2-4\\) everywhere. The formula agrees with the transform near infinity and continues analytically to the upper half-plane.\nFor \\(-2&lt;x&lt;2\\), its boundary value is \\[\nG_\\nu(x+i0)=-\\frac{i}{\\sqrt{4-x^2}}.\n\\] Therefore the answer is the arcsine law: \\[\n\\boxed{d\\nu(x)=\\frac{\\mathbf1_{(-2,2)}(x)}{\\pi\\sqrt{4-x^2}}\\,dx.}\n\\] The density diverges at the endpoints, but its integral is one. These integrable divergences are not atoms: multiplying the transform by \\(i\\eta\\) at either endpoint gives zero in the limit."
+  },
+  {
+    "objectID": "blog/free-prob-3/index.html#check-the-result-without-transforms",
+    "href": "blog/free-prob-3/index.html#check-the-result-without-transforms",
+    "title": "Calculating the law of a sum",
+    "section": "Checking the moments",
+    "text": "Checking the moments\nSet \\(x=2\\cos\\theta\\). The arcsine measure becomes uniform \\(d\\theta/\\pi\\) on \\([0,\\pi]\\), so \\[\n\\int x^2\\,d\\nu(x)=2,\\qquad\n\\int x^4\\,d\\nu(x)=6.\n\\] More generally, its odd moments vanish and its \\(2k\\)th moment is \\(\\binom{2k}{k}\\). This agrees with our mixed-word calculations.\nTwo free sign variables produce an arcsine law. Many free sign variables, summed and divided by the square root of their number, approach a semicircle. These are different questions, so there is no conflict between the two answers."
+  },
+  {
+    "objectID": "blog/free-prob-3/index.html#try-it-before-continuing",
+    "href": "blog/free-prob-3/index.html#try-it-before-continuing",
+    "title": "Calculating the law of a sum",
+    "section": "Exercises",
+    "text": "Exercises\n\nFind \\(R_{\\delta_c}\\).\nDerive the transform rule for \\(ca\\) from cumulant scaling.\nWhy is solving a polynomial equation for \\(G\\) insufficient without a branch condition?\n\n\n\nAnswer sketches\n\n\n\\(G(z)=1/(z-c)\\), so \\(K(w)=c+1/w\\) and \\(R(w)=c\\). Free addition of a constant translates the law.\n\\(R_{ca}(w)=cR_a(cw)\\), since the \\(n\\)th cumulant scales by \\(c^n\\).\nA polynomial may have several solutions. A probability Cauchy transform must be analytic in the upper half-plane, have negative imaginary part there, and behave like \\(1/z\\) at infinity. Squaring can introduce extraneous branches."
+  },
+  {
+    "objectID": "blog/free-prob-3/index.html#further-reading",
+    "href": "blog/free-prob-3/index.html#further-reading",
+    "title": "Calculating the law of a sum",
+    "section": "Further reading",
+    "text": "Further reading\nSpeicher’s lecture notes, Section 4 contain the analytic R-transform theory and the symmetric two-point example. Tao’s free probability notes give another route from transforms to free convolution. Check the sign convention when moving between references."
+  },
+  {
+    "objectID": "blog/free-prob-5/index.html#put-the-product-in-a-positive-form",
+    "href": "blog/free-prob-5/index.html#put-the-product-in-a-positive-form",
+    "title": "Multiplying positive matrices",
+    "section": "Put the product in a positive form",
+    "text": "Put the product in a positive form\nFor positive semidefinite \\(A,B\\), use \\[\nP=A^{1/2}BA^{1/2}.\n\\] It is positive semidefinite because \\[\nx^*Px=(A^{1/2}x)^*B(A^{1/2}x)\\geq0.\n\\] Cyclicity gives \\[\n\\operatorname{Tr}(P^k)=\\operatorname{Tr}((AB)^k).\n\\] For invertible \\(A\\), the matrices are similar: \\[\nA^{-1/2}(AB)A^{1/2}=A^{1/2}BA^{1/2}.\n\\] For singular \\(A\\), the determinant identity \\(\\det(I-tXY)=\\det(I-tYX)\\) still gives the same characteristic polynomial, with \\(X=A^{1/2}\\) and \\(Y=A^{1/2}B\\). Nevertheless, the positive representative is preferable for spectral analysis and numerical eigensolvers.\nFor bounded positive free variables \\(a,b\\) in a tracial operator-algebra setting, the law of \\(a^{1/2}ba^{1/2}\\) is called multiplicative free convolution, written \\[\n\\mu_a\\boxtimes\\mu_b.\n\\] It is determined by the marginal laws and freeness. Our assumptions of positivity and boundedness make the law and square root unambiguous."
+  },
+  {
+    "objectID": "blog/free-prob-5/index.html#the-first-two-moments-already-reveal-the-geometry",
+    "href": "blog/free-prob-5/index.html#the-first-two-moments-already-reveal-the-geometry",
+    "title": "Multiplying positive matrices",
+    "section": "The first two product moments",
+    "text": "The first two product moments\nLet \\(\\alpha=\\tau(a)\\) and \\(\\beta=\\tau(b)\\). Freeness gives \\[\n\\tau(ab)=\\alpha\\beta.\n\\] Write \\(a=\\alpha1+a_0\\), \\(b=\\beta1+b_0\\), where the subscripted variables are centered. Expanding \\(abab\\), terms with one centered factor vanish. Terms with two centered factors survive only when they use the same variable. The terms with three centered factors vanish by freeness and cyclicity, and \\(\\tau(a_0b_0a_0b_0)=0\\).\nTherefore \\[\n\\begin{aligned}\n\\tau(abab)\n&=\\alpha^2\\beta^2+\\beta^2\\tau(a_0^2)+\\alpha^2\\tau(b_0^2)\\\\\n&=\\beta^2m_2(a)+\\alpha^2m_2(b)-\\alpha^2\\beta^2.\n\\end{aligned}\n\\] For mean-one variables with variances \\(v_a,v_b\\), the product has mean one and variance \\(v_a+v_b\\).\nClassically independent positive variables instead give \\(\\mathbb E[X^2Y^2]=\\mathbb E[X^2]\\mathbb E[Y^2]\\), hence variance \\(v_a+v_b+v_av_b\\) when both means are one. The same two marginal spectra can produce a different second product moment depending on how their directions interact."
+  },
+  {
+    "objectID": "blog/free-prob-5/index.html#build-the-s-transform",
+    "href": "blog/free-prob-5/index.html#build-the-s-transform",
+    "title": "Multiplying positive matrices",
+    "section": "Build the S-transform",
+    "text": "Build the S-transform\nDefine the moment series without its constant term: \\[\n\\psi_\\mu(t)=\\int\\frac{tx}{1-tx}\\,d\\mu(x)\n=\\sum_{k\\geq1}m_kt^k.\n\\] Assume \\(m_1\\neq0\\). Since \\(\\psi_\\mu'(0)=m_1\\), it has a local compositional inverse \\(\\chi_\\mu\\) near zero. Set \\[\n\\boxed{S_\\mu(w)=\\frac{1+w}{w}\\chi_\\mu(w).}\n\\] The apparent singularity at zero is removable. Because \\(\\chi(w)=w/m_1+O(w^2)\\), \\[\nS_\\mu(0)=\\frac1{m_1}.\n\\] For a positive law, the only zero-mean case is \\(\\delta_0\\), whose product law is trivially \\(\\delta_0\\). A centered sign variable, however, does not have this ordinary S-transform: its moment series has no linear term. We cannot reuse the sign example without changing the setup.\nThe multiplicative analogue of R-transform additivity is the theorem \\[\n\\boxed{S_{\\mu\\boxtimes\\nu}(w)=S_\\mu(w)S_\\nu(w).}\n\\] This is a substantive theorem about free products, not a consequence of the inverse-function definition alone. Its combinatorial proof uses noncrossing partitions and their complements. See Nica and Speicher, Lectures 14 and 18.\nA short expansion connects it to our earlier calculation. Inverting \\(\\psi(t)=m_1t+m_2t^2+\\cdots\\) gives \\[\nS(w)=\\frac1{m_1}\n+\\left(\\frac1{m_1}-\\frac{m_2}{m_1^3}\\right)w+O(w^2).\n\\] For mean-one laws this is \\(1-vw+O(w^2)\\). Multiplying the two series adds their variances, exactly as the direct mixed-moment calculation predicted."
+  },
+  {
+    "objectID": "blog/free-prob-5/index.html#two-examples-that-fix-the-normalization",
+    "href": "blog/free-prob-5/index.html#two-examples-that-fix-the-normalization",
+    "title": "Multiplying positive matrices",
+    "section": "Checking the S-transform normalization",
+    "text": "Checking the S-transform normalization\nFor a constant \\(c&gt;0\\), \\[\n\\psi(t)=\\frac{ct}{1-ct},\\quad\n\\chi(w)=\\frac{w}{c(1+w)},\\quad\nS_{\\delta_c}(w)=\\frac1c.\n\\] Thus multiplying by a constant rescales the law and divides its S-transform by that constant.\nFor a projection \\(p=p^*=p^2\\) with \\(\\tau(p)=\\alpha&gt;0\\), every positive-order moment is \\(\\alpha\\). Its law is \\((1-\\alpha)\\delta_0+\\alpha\\delta_1\\), so \\[\n\\psi_p(t)=\\frac{\\alpha t}{1-t},\\quad\n\\chi_p(w)=\\frac{w}{\\alpha+w},\\quad\n\\boxed{S_p(w)=\\frac{1+w}{\\alpha+w}.}\n\\] If \\(q\\) is a free projection with trace \\(\\beta&gt;0\\), then \\[\nS_{pqp}(w)=\\frac{(1+w)^2}{(\\alpha+w)(\\beta+w)}.\n\\] Although \\(p\\) and \\(q\\) are projections, \\(pqp\\) generally is not. Randomly oriented subspaces produce intermediate eigenvalues between zero and one.\nIts first two moments, using the calculation above, are \\[\nm_1=\\alpha\\beta,\\qquad\nm_2=\\alpha\\beta(\\alpha+\\beta-\\alpha\\beta).\n\\] At \\(\\alpha=\\beta=1/2\\), these are \\(1/4\\) and \\(3/16\\). An intersection indicator for independent commuting scalar events would instead have both moments equal to \\(1/4\\). This gives a concrete distinction between multiplying free projections and multiplying independent indicator variables."
+  },
+  {
+    "objectID": "blog/free-prob-5/index.html#recovering-a-law-from-its-s-transform",
+    "href": "blog/free-prob-5/index.html#recovering-a-law-from-its-s-transform",
+    "title": "Multiplying positive matrices",
+    "section": "Recovering a law from its S-transform",
+    "text": "Recovering a law from its S-transform\nUse the same Cauchy-transform convention as Part III. Then \\[\n\\psi(1/z)=zG(z)-1.\n\\] Writing \\(w=zG(z)-1\\), the inverse relation is \\(\\chi(w)=1/z\\). Substituting into the S-transform definition gives \\[\n\\boxed{zwS(w)=1+w,\\qquad G(z)=\\frac{1+w}{z}.}\n\\] Choose the solution with \\(w\\to0\\) as \\(z\\to\\infty\\) and the correct upper-half-plane behavior for \\(G\\). This is the computational route we will use for covariance products in the final post."
+  },
+  {
+    "objectID": "blog/free-prob-5/index.html#try-it-before-continuing",
+    "href": "blog/free-prob-5/index.html#try-it-before-continuing",
+    "title": "Multiplying positive matrices",
+    "section": "Exercises",
+    "text": "Exercises\n\nWhat is \\(S_{\\delta_1}\\), and why is that necessary?\nShow directly that \\(S_{ca}(w)=S_a(w)/c\\) for \\(c&gt;0\\).\nIf two free positive mean-one variables each have second moment two, what is the second moment of their product?\n\n\n\nAnswer sketches\n\n\nIt is one, the multiplicative identity. Multiplying by the identity operator must preserve the law.\n\\(\\psi_{ca}(t)=\\psi_a(ct)\\), so the compositional inverse is \\(\\chi_a(w)/c\\).\nEach variance is one. The product variance is two and its mean is one, so its second moment is three."
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "CV",
+    "section": "",
+    "text": "CV\n\n\n\nMy CV will live here.\nFor now:\n\nGitHub\nEmail"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Angelo Farfan",
+    "section": "",
+    "text": "Mathematics & computer science at MITAngelo FarfanI like neat algorithms, elegant mathematical structures, and understanding why things work.Right now I’m interested in scientific machine learning and formal reasoning.Selected writingAll writing ↗Free probabilityWhat changes when random variables stop commuting? Six chapters on spectra, freeness, and the laws of matrix sums and products.Six chaptersRead the series ↗Selected projectAll projects ↗Graph learningSpectral positional encodings for directed graph transformersI tested whether graph transformers could make better use of citation direction. Giving the baseline more spectral features made the answer less clear.Read the project ↗Outside the courseworkI like table tennis, learning languages, Peruvian food, and debugging things I was completely sure were correct.GitHub ↗"
+  },
+  {
+    "objectID": "projects.html",
+    "href": "projects.html",
+    "title": "\nProjects\n",
+    "section": "",
+    "text": "Projects\n\n\nExperiments, implementations, and the questions they left me with.\n\n\n\n\n\nGraph learning October 2026\n\n\nSpectral positional encodings for directed graph transformers\n\n\nI investigated magnetic Laplacian features on a citation graph, then gave the baseline the same number of channels. The remaining advantage was small and inconclusive.\n\nRead the project ↗"
   }
 ]

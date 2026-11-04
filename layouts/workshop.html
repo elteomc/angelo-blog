@@ -21,6 +21,7 @@ $else$
 <div class="article-layout"><article><header class="article-header quarto-title-block">
 $if(series-label)$<a class="eyebrow" href="$site-root$free-probability.html">$series-label$</a>$endif$
 <h1>$title$</h1>
+$if(rewrite-notice)$<aside class="publication-note" aria-label="Article status"><strong>In process of rewriting...</strong><p>This is a working draft, not a finished post.</p></aside>$endif$
 $if(subtitle)$<p class="dek" hidden>$subtitle$</p>$endif$
 $if(author)$<div class="article-meta">$for(author)$$author$$sep$, $endfor$</div>$endif$
 </header><div class="article-body full-draft">$body$</div>

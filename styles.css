@@ -1,42 +1,318 @@
-/* Slightly more personal than the default Quarto look. */
-
-:root {
-  --angelo-accent: #3b4cc0;
-}
+/* Global */
 
 body {
-  font-size: 1.05rem;
-  line-height: 1.65;
+  font-size: 1rem;
+  line-height: 1.7;
 }
 
-.navbar-title {
-  font-weight: 700;
-  letter-spacing: 0.02em;
+main {
+  min-height: 65vh;
 }
 
-h1, h2, h3 {
-  font-weight: 700;
+p {
+  margin-bottom: 1.1rem;
 }
 
 a {
-  text-underline-offset: 3px;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 0.06em;
+}
+
+
+
+/* Navbar */
+
+.navbar {
+  border-bottom: 1px solid
+    color-mix(in srgb, currentColor 10%, transparent);
+
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+  font-size: 0.92rem;
+}
+
+.navbar .navbar-brand {
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.navbar-nav .nav-link {
+  opacity: 0.78;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  opacity: 1;
+}
+
+
+
+/* Titles */
+
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: -0.025em;
+}
+
+h1 {
+  line-height: 1.08;
+}
+
+h2 {
+  margin-top: 2.8rem;
+  padding-top: 0.3rem;
+}
+
+h3 {
+  margin-top: 2rem;
+}
+
+.quarto-title-block {
+  margin-bottom: 2.6rem;
+  max-width: 860px;
+}
+
+.quarto-title-block .title {
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  line-height: 1.03;
+  letter-spacing: -0.045rem;
+  max-width: 850px;
 }
 
 .quarto-title-block .subtitle {
+  max-width: 720px;
+  margin-top: 0.7rem;
+
   font-size: 1.2rem;
-  opacity: 0.8;
+  line-height: 1.5;
+  opacity: 0.62;
 }
 
-.callout {
-  border-radius: 12px;
+.quarto-title-meta {
+  font-size: 0.83rem;
+  /* margin-top: 1.4rem; */
+  opacity: 0.7;
 }
 
-.cell-output, pre {
-  border-radius: 10px;
+
+
+/* Long-form articles */
+
+.quarto-container.page-columns main.content {
+  font-feature-settings: "kern" 1, "liga" 1;
+  max-width: 760px
 }
+
+main.content p,
+main.content li {
+  max-width: 74ch;
+}
+
+main.content > section > p {
+  text-wrap: pretty;
+}
+
+main.content h2 {
+  margin-top: 3.4rem;
+  margin-bottom: 1.15rem;
+  font-size: 1.65rem;
+}
+
+main.content h3 {
+  margin-top: 2.4rem;
+  margin-bottom: 0.85rem;
+  /* font-size: 1.65rem; */
+}
+
+
+
+/* Long-form article prose */
+.quarto-container.page-columns main.content p,
+.quarto-container.page-columns main.content li {
+  font-family:
+    "Source Serif 4",
+    "Source Serif Pro",
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 1.06rem;
+  line-height: 1.78;
+}
+
+
+
+/* Keep UI-ish text sans-serif */
+.quarto-title,
+.quarto-title-meta,
+#TOC,
+.navbar,
+.nav-footer,
+code,
+pre {
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+
+
+/* Mathematics */
+
+.math.display {
+  margin-top: 1.7rem;
+  margin-bottom: 1.7rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+mjx-container[display="true"] {
+  margin-top: 1.8rem !important;
+  margin-bottom: 1.8rem !important;
+}
+
+
+
+/* Code */
+
+pre {
+  border-radius: 6px;
+  border: 1px solid
+    color-mix(in srgb, currentColor 10%, transparent);
+
+  padding: 1rem 1.1rem;
+}
+
+code {
+  border-radius: 4px;
+}
+
+p code,
+li code {
+  padding: 0.12em 0.32em;
+  font-size: 0.9em;
+}
+
+.cell {
+  /* margin-top: 1.6rem; */
+  /* margin-bottom: 1.8rem; */
+  margin: 2rem 0;
+}
+
+.cell-output {
+  margin-top: 0.7rem;
+}
+
+
+
+/* Figures */
+
+figure {
+  margin-top: 2.2rem;
+  margin-bottom: 2.4rem;
+}
+
+figure img {
+  border-radius: 6px;
+}
+
+figcaption {
+  margin-top: 0.65rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  opacity: 0.65;
+}
+
+
+
+/* Blockquotes */
 
 blockquote {
-  border-left: 4px solid var(--angelo-accent);
-  padding-left: 1rem;
-  color: #444;
+  margin: 1.8rem 0;
+  padding: 0.2rem 0 0.2rem 1.2rem;
+
+  border-left: 2px solid currentColor;
+
+  font-size: 1.02rem;
+  opacity: 0.78;
+}
+
+
+
+/* Callouts */
+
+.callout {
+  border-radius: 7px;
+}
+
+.callout .callout-header {
+  font-weight: 600;
+}
+
+
+
+/* TOC */
+
+#TOC {
+  font-size: 0.84rem;
+  line-height: 1.45;
+  opacity: 0.78;
+}
+
+#TOC .active {
+  font-weight: 600;
+}
+
+#TOC a {
+  text-decoration: none;
+}
+
+
+
+/* Footer */
+
+.nav-footer {
+  margin-top: 5rem;
+  border-top: 1px solid
+    color-mix(in srgb, currentColor 10%, transparent);
+
+  font-size: 0.82rem;
+  opacity: 0.72;
+}
+
+
+
+/* Selection */
+
+::selection {
+  background: color-mix(in srgb, currentColor 18%, transparent);
+}
+
+
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  body {
+    font-size: 0.98rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .quarto-title-block .subtitle {
+    font-size: 1.08rem;
+  }
 }

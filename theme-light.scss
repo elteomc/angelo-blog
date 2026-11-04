@@ -1,0 +1,107 @@
+/*-- scss:defaults --*/
+
+
+
+// Core palette
+
+$body-bg: #fbfbfa;
+$body-color: #202124;
+
+$link-color: #3157c8;
+
+$primary: #3157c8;
+$secondary: #6f7785;
+
+$light: #f4f5f6;
+$dark: #202124;
+
+
+
+// Typography
+
+$font-family-sans-serif:
+  Inter,
+  ui-sans-serif,
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  sans-serif;
+
+$font-family-monospace:
+  "JetBrains Mono",
+  "SFMono-Regular",
+  Consolas,
+  "Liberation Mono",
+  monospace;
+
+$font-family-serif:
+  "Source Serif 4",
+  "Source Serif Pro",
+  Georgia,
+  "Times New Roman",
+  serif;
+
+$font-size-root: 17px;
+
+$headings-font-weight: 650;
+$headings-color: #181a1f;
+
+$h1-font-size: 2.35rem;
+$h2-font-size: 1.65rem;
+$h3-font-size: 1.28rem;
+$h4-font-size: 1.08rem;
+
+
+
+// Navigation
+
+$navbar-bg: #fbfbfa;
+$navbar-fg: #34373d;
+$navbar-hl: #3157c8;
+
+
+
+// Code
+
+$code-bg: #f0f1f3;
+$code-color: #2d3d62;
+
+$code-block-bg: #f5f6f7;
+$code-block-border-left: false;
+
+$btn-code-copy-color: #737985;
+$btn-code-copy-color-active: #3157c8;
+
+
+
+// Table of contents
+
+$toc-color: #747984;
+$toc-active-border: #3157c8;
+$toc-inactive-border: #dde0e5;
+$toc-font-size: 0.88rem;
+
+
+
+// Footer
+
+$footer-bg: #fbfbfa;
+$footer-fg: #7a7f89;
+
+
+
+// Callouts
+
+$callout-border-width: 2px;
+$callout-border-scale: 0%;
+$callout-icon-scale: 0%;
+
+
+
+/*-- scss:rules --*/
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}

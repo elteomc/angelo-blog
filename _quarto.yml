@@ -10,6 +10,7 @@ project:
     - "blog/*/index.qmd"
     - "projects/*/index.qmd"
   resources:
+    - "!docs/**"
     - assets/workshop/
     - "assets/free-probability/*.svg"
     - "assets/free-probability/*.png"

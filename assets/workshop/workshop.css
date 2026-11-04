@@ -602,3 +602,9 @@ figcaption { display:none; }
 
 .contents nav li > a { display:block; font-size:12px; line-height:1.55; padding:10px 0; border-bottom:1px solid var(--line); }
 @media(max-width:700px) { .contents { border-bottom:1px solid var(--line); padding-bottom:20px; } .contents nav ul { display:flex; flex-wrap:wrap; gap:0 18px; } .contents nav li > a { font-size:12px; } }
+
+
+.publication-note{margin:24px 0;padding:16px 20px;border-left:3px solid var(--accent);background:var(--panel);color:var(--ink)}
+.publication-note strong{display:block;font:700 16px/1.5 var(--sans)}
+.publication-note p{margin:5px 0 0;font:14px/1.6 var(--sans);color:var(--muted)}
+.publication-status{font:13px/1.6 var(--sans);color:var(--accent)}

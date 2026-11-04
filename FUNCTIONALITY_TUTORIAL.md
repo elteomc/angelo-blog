@@ -63,3 +63,15 @@ Projects index refinement: removed the secondary status line beneath the project
 ### Writing endings
 
 Parts IV and V finish with Exercises and their answer sketches. Parts I, II, III, and VI finish with Further reading. The loose closing paragraph after Part IV’s exercises has been removed, with no additional exercises.
+
+
+## Working-draft publication notices
+
+Added November 4, 2026.
+
+- The six existing free-probability articles retain their prose and display a bold In process of rewriting... notice directly below the title.
+- The series hub and Writing index identify the same unfinished status.
+- Article notices use rewrite-notice metadata and the shared template, with theme-aware presentation.
+- The current website is rendered afresh before publication so the committed output matches the Workshop sources.
+
+External preview builds exclude the existing docs tree from resource discovery to prevent duplicated output assets.

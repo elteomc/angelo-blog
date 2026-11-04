@@ -37,3 +37,8 @@ The original Quarto site retained light and dark configuration, but the isolated
 - Homepage project-index link matched the singular project route during conversion. Correct the explicit index target.
 
 Workshop migration issues above are resolved and verified in the final 14-page build. Quarto canonicalization requires explicit quarto-title-block classes on the intended heading containers. Native details replace flattened callouts. The post-render checker restores the doctype and enforces internal-link integrity. Internal experiment JSON is excluded from output resources.
+
+
+## PUB-001: published assets enter an external preview build twice
+
+Found November 4, 2026 while preparing the current site for publication. Rendering to an external output directory lets existing docs assets enter resource discovery and creates a redundant docs/assets subtree inside the new output. Status: resolved. The committed docs tree is excluded from project resources. A fresh 14-page render passed all local-link checks and contains no nested docs tree.
