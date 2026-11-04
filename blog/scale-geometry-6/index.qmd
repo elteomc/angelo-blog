@@ -9,6 +9,8 @@ series-label: "Scale and geometry / Part 6 of 12"
 series-url: scale-geometry.html
 previous-url: ../scale-geometry-5/index.html
 previous-title: "What counts as a small layer change?"
+next-url: ../scale-geometry-7/index.html
+next-title: "How Modula combines layer budgets"
 ---
 
 Suppose we have decided what a small layer update means. We can afford any perturbation inside a chosen norm ball. Which of those perturbations should we take?

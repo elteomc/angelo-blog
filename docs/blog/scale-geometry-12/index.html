@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From a counterexample to a research claim | Angelo Farfan</title>
+<meta name="description" content="Which attention symmetries and learning experiments could overturn the toy prediction?">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 12 of 12</a>
+<h1>From a counterexample to a research claim</h1>
+
+
+<p class="dek" hidden="">Synthetic controls, attention symmetries, and experiments that could overturn the explanation</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>We now have an exact obstruction: prescribed branch maps can fail to admit representatives with independent fixed matrix radii and one shared gain. We also have a proposed repair, grouping the matrices or restoring branch multipliers.</p>
+<p>That is a good place to start a research project. It is not yet the conclusion of one.</p>
+<p>The strongest next question is whether the obstruction survives the freedoms of the actual module and predicts an observable learning consequence after good optimization controls. A convincing test should be able to tell us that the explanation is wrong.</p>
+<section id="first-reproduce-the-claim-in-a-setting-it-actually-covers" class="level2">
+<h2>First reproduce the claim in a setting it actually covers</h2>
+<p>Use fixed isotropic features and two target maps whose Frobenius norms are one and <span class="math inline">\(b&gt;0\)</span>. Impose individual radii <span class="math inline">\(R_1=R_2=1\)</span> and a shared scalar gain. Part 11 gives</p>
+<p><span class="math display">\[
+g_*=(1+b)/2,\qquad
+\mathcal L_*=(b-1)^2/4.
+\]</span></p>
+<p>This is a prediction over a whole family of target imbalances, rather than a single failed training curve.</p>
+<p>For a small reproducible check, I used four-dimensional features taking the eight values <span class="math inline">\(z=\pm2e_j\)</span> with equal weight. Their second moment is exactly <span class="math inline">\(I\)</span>. A fixed matrix <span class="math inline">\(A_1\)</span> has Frobenius norm one, and <span class="math inline">\(A_2=bA_1\)</span>. The code evaluates the actual branch-output squared loss at the constrained optimum.</p>
+<p>Across 45 ratios from <span class="math inline">\(0.25\)</span> to three, this evaluated loss matches the formula within <span class="math inline">\(10^{-12}\)</span>. A joint group radius and independent branch multipliers both give zero fitting loss to numerical precision in the same calculation.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/research-controls.svg" alt="The minimum branch-fitting loss rises quadratically as the target norm ratio moves away from one under individual radii and a shared scalar gain. A joint radius and independent branch multipliers preserve the prescribed target maps and give zero loss in the same frozen-feature experiment."></p>
+<figcaption>The minimum branch-fitting loss rises quadratically as the target norm ratio moves away from one under individual radii and a shared scalar gain. A joint radius and independent branch multipliers preserve the prescribed target maps and give zero loss in the same frozen-feature experiment.</figcaption>
+</figure>
+</div>
+<p>These are direct finite-design evaluations, not neural-network training results. They check the algebra and the proposed intervention’s feasible set. Optimizer convergence is a separate experiment.</p>
+</section>
+<section id="attention-can-preserve-products-while-changing-branches" class="level2">
+<h2>Attention can preserve products while changing branches</h2>
+<p>For a bias-free attention head, using column-vector inputs, write</p>
+<p><span class="math display">\[
+q=W_Qx,\quad k=W_Kx',\quad v=W_Vx.
+\]</span></p>
+<p>Without positional rotations, the score depends on <span class="math inline">\(W_Q^\top W_K\)</span>. The value-output composition depends on <span class="math inline">\(W_OW_V\)</span>. For invertible matrices <span class="math inline">\(S\)</span> and <span class="math inline">\(T\)</span> of the appropriate head dimensions, the transformations</p>
+<p><span class="math display">\[
+W_Q\mapsto SW_Q,\qquad W_K\mapsto S^{-\top}W_K
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+W_V\mapsto TW_V,\qquad W_O\mapsto W_OT^{-1}
+\]</span></p>
+<p>preserve those products. The individual branch maps and their Frobenius norms may change.</p>
+<p>Thus failure to preserve each <span class="math inline">\(W_i\operatorname{diag}(\gamma)\)</span> is not enough to establish failure to preserve the attention function. Even equality of score matrices is sufficient rather than necessary for equality of softmax weights, since rowwise additive constants cancel.</p>
+</section>
+<section id="an-explicit-escape-from-the-branch-obstruction" class="level2">
+<h2>An explicit escape from the branch obstruction</h2>
+<p>Consider a scalar head with no positional rotations. The unconstrained teacher uses the shared gain <span class="math inline">\(g=1\)</span> and</p>
+<p><span class="math display">\[
+W_Q=1,\quad W_K=2,\quad W_V=1,\quad W_O=1.
+\]</span></p>
+<p>Its query, key, and value maps are respectively <span class="math inline">\(x\)</span>, <span class="math inline">\(2x\)</span>, and <span class="math inline">\(x\)</span>. Part 11’s shared-gain reasoning rules out preserving all three maps while setting <span class="math inline">\(|W_Q|=|W_K|=|W_V|=1\)</span>.</p>
+<p>Now require those three unit radii but leave <span class="math inline">\(W_O\)</span> unconstrained. Choose</p>
+<p><span class="math display">\[
+g'=\sqrt2,\quad W_Q'=W_K'=W_V'=1,
+\quad W_O'=1/\sqrt2.
+\]</span></p>
+<p>The new query and key maps are both <span class="math inline">\(\sqrt2x\)</span>. Their product is still <span class="math inline">\(2xx'\)</span>, so the softmax attention weights are unchanged for every input sequence. The values scale by <span class="math inline">\(\sqrt2\)</span>, which the output projection cancels. The final attention output is identical.</p>
+<p>The code verifies this directly on a small token sequence. More importantly, the displayed product identities prove it for arbitrary scalar token inputs in this specified architecture.</p>
+<p>This is <em>a negative control with teeth</em>. The branch-map obstruction is real, yet it does not imply an output-function obstruction under these constraints. Fixing the output projection too would be a different question and would require another analysis.</p>
+</section>
+<section id="positional-operations-restrict-the-available-transformations" class="level2">
+<h2>Positional operations restrict the available transformations</h2>
+<p>With rotary position matrices <span class="math inline">\(R_p\)</span>, a query-key score contains</p>
+<p><span class="math display">\[
+x^\top W_Q^\top R_p^\top R_q W_Kx'.
+\]</span></p>
+<p>After the general factor transformation above, the middle expression becomes</p>
+<p><span class="math display">\[
+W_Q^\top S^\top R_p^\top R_q S^{-\top}W_K.
+\]</span></p>
+<p>An arbitrary <span class="math inline">\(S\)</span> no longer cancels. Scalar rebalancing <span class="math inline">\(S=cI\)</span> still does. Other surviving transformations depend on the positional operators and the rest of the architecture.</p>
+<p>Query/key normalization, shared heads, biases, masks, and nonlinear gates can alter the analysis again. The correct equivalence class belongs to the actual computation graph, not to a convenient isolated matrix identity.</p>
+</section>
+<section id="measure-the-mechanism-before-running-a-leaderboard" class="level2">
+<h2>Measure the mechanism before running a leaderboard</h2>
+<p>A useful progression has several stages.</p>
+<ol type="1">
+<li><strong>Frozen branch teachers.</strong> Vary target imbalance and gain bounds. Compare measured fitting losses with the exact floor and channelwise feasibility criterion.</li>
+<li><strong>Frozen attention teachers.</strong> Supervise score and final-output behavior. Optimize over the remaining factorization freedoms before declaring a capacity restriction. Include the scalar escape above as a control the analysis must get right.</li>
+<li><strong>Learned features.</strong> Let upstream representations adapt. Determine whether they remove the predicted restriction or merely hide it behind extreme gain conditioning.</li>
+<li><strong>Completed training comparisons.</strong> Only after a mechanism survives the earlier tests, compare tuned decay, fixed norms, grouped constraints, and existing multiplier baselines at matched data and tuning budgets.</li>
+</ol>
+<p>The observable should follow the claim. A branch reconstruction error measures a different target from final task loss. Parameter norms, angular displacement, effective map changes, and gain trajectories diagnose different parts of the mechanism.</p>
+<p>When intervening at a checkpoint, preserve the represented function and transport optimizer state according to the convention being tested. Resetting moments changes the intervention. If an exact state transport is unavailable, measure and report that limitation.</p>
+</section>
+<section id="what-would-strengthen-or-weaken-the-direction" class="level2">
+<h2>What would strengthen or weaken the direction?</h2>
+<p>The explanation strengthens if compatibility or bounded-gain conditioning predicts a failure on new targets, survives the correct attention symmetries, and predicts a repair that transfers to learned-feature tasks. An effect that survives angular-schedule controls is more informative than an early curve at one nominal learning rate.</p>
+<p>It weakens if alternative factorizations remove the restriction, upstream features absorb it, or existing multipliers and scheduling explain all practically relevant differences. Those outcomes should change the research direction rather than be relabeled as optimizer improvements.</p>
+<p>The mathematical burden also includes prior work. A positive-feasibility criterion is an elementary matrix-scaling calculation. A publishable novelty claim needs a broader comparison with existing scaling, invariant optimization, and normalization results, not just an unfamiliar notation.</p>
+</section>
+<section id="return-to-the-question-about-scale" class="level2">
+<h2>Return to the question about scale</h2>
+<p>The series began with identical predictors taking different gradient steps. That forced us to distinguish functions from coordinates. Weight decay, momentum, layer norms, support directions, and manifold constraints each exposed another part of that distinction.</p>
+<p>The final question is sharper than fixing all norms or freeing all gains: which redundant scales can be controlled while preserving useful module behavior, and what measurable consequence follows?</p>
+<p>We have exact toy calculations and controls that can reject an overly broad interpretation. We do not yet have evidence of a new optimizer advantage on a trainable Transformer. That is the research program to carry beyond these twelve posts.</p>
+</section>
+<section id="try-to-break-the-explanation" class="level2">
+<h2>Try to break the explanation</h2>
+<ol type="1">
+<li>At <span class="math inline">\(b=2\)</span>, what fitting loss does the independent-radius frozen-branch model predict? What do the two scale-restoring controls achieve?</li>
+<li>Verify the query-key and value-output products in the scalar attention escape.</li>
+<li>Why would evaluating feasibility only at a checkpoint that already satisfies the constraints be a weak test?</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li>The floor is <span class="math inline">\(1/4\)</span>. A joint radius and independent branch multipliers can each achieve zero under the stated frozen-feature setup.</li>
+<li>The original query-key product is <span class="math inline">\(1\times2=2\)</span>, and the new one is <span class="math inline">\(\sqrt2\times\sqrt2=2\)</span>. The value-output product is one in both cases.</li>
+<li>Its own branch maps are feasible by construction. Use prescribed teachers, unconstrained target maps, or alternative representatives that test a prediction beyond that tautology.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p><a href="https://arxiv.org/abs/2601.04890v1">Learnable Multipliers</a>, Section 4.1 and Appendix C, discusses architectural scale symmetries and placement. <a href="https://arxiv.org/abs/2104.09864v5">RoFormer</a>, Section 3.2, gives the rotary-position construction that limits arbitrary basis changes.</p>
+<p><a href="https://arxiv.org/abs/2607.22444v1">Hyperball May Not Be a Free Lunch</a>, Section 4, motivates schedule controls, and <a href="https://arxiv.org/abs/2509.02046v3">Fantastic Pretraining Optimizers and Where to Find Them</a>, Sections 3 and 4, motivates completed-budget and tuning comparisons. The frozen-teacher evaluations and scalar attention escape here are self-contained synthetic controls. No literature training claim is reproduced.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-11/index.html" aria-label="Previous post: One gain, several constraints">P: One gain, several constraints <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#first-reproduce-the-claim-in-a-setting-it-actually-covers" id="toc-first-reproduce-the-claim-in-a-setting-it-actually-covers">First reproduce the claim in a setting it actually covers</a></li>
+<li><a href="#attention-can-preserve-products-while-changing-branches" id="toc-attention-can-preserve-products-while-changing-branches">Attention can preserve products while changing branches</a></li>
+<li><a href="#an-explicit-escape-from-the-branch-obstruction" id="toc-an-explicit-escape-from-the-branch-obstruction">An explicit escape from the branch obstruction</a></li>
+<li><a href="#positional-operations-restrict-the-available-transformations" id="toc-positional-operations-restrict-the-available-transformations">Positional operations restrict the available transformations</a></li>
+<li><a href="#measure-the-mechanism-before-running-a-leaderboard" id="toc-measure-the-mechanism-before-running-a-leaderboard">Measure the mechanism before running a leaderboard</a></li>
+<li><a href="#what-would-strengthen-or-weaken-the-direction" id="toc-what-would-strengthen-or-weaken-the-direction">What would strengthen or weaken the direction?</a></li>
+<li><a href="#return-to-the-question-about-scale" id="toc-return-to-the-question-about-scale">Return to the question about scale</a></li>
+<li><a href="#try-to-break-the-explanation" id="toc-try-to-break-the-explanation">Try to break the explanation</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>

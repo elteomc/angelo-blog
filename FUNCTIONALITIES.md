@@ -181,3 +181,14 @@ Approved November 4, 2026.
 - Publish Parts 5 and 6 after review, including their two diagrams and twelve numerical checks.
 - Use P: and N: with the respective chapter titles in bottom navigation, retaining skull marks and descriptive assistive labels.
 - Update the hub and homepage to show six available posts. Completion and publication of Parts 7 through 12 is authorized after validation.
+
+## Complete Scale and geometry
+
+Published November 4, 2026 with authorization to finish the agreed outline.
+
+- Added Parts 7 through 12 with modular budget allocation, tangent constraints and retractions, angular schedules, learnable scales, shared-gain feasibility, and research controls.
+- Added six reproducible diagrams and seventeen numerical checks for the worked examples, finite isotropic teacher evaluations, and attention factorization controls.
+- Directly evaluated 45 frozen-feature target ratios. Independent-radius losses match the analytic floor within 1e-12. A joint radius and independent branch multipliers restore exact fitting in this model.
+- Made all twelve chapters available in the hub and Writing index, completed neighbor navigation, and updated homepage and editorial status.
+- Preserved orange italic emphasis, skull ornaments, P: and N: title links, informal source headings, and the existing free-probability rewriting notices.
+- The closing notes distinguish exact local calculations from proposed training experiments.

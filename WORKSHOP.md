@@ -6,7 +6,7 @@ Run `python3 tools/build_workshop.py` once if generated includes are missing. No
 
 Run `quarto render --output-dir /tmp/angelo-workshop-site`, then serve that directory locally. The ordinary `quarto render` command still targets docs, but nothing deploys automatically from these commands.
 
-The current review server is http://127.0.0.1:8877/ and the comparison preview remains at http://127.0.0.1:8876/.
+The current series preview is http://127.0.0.1:8878/. It serves an external render from /tmp/angelo-scale-geometry-review. Refresh the output directory to update the running preview.
 
 ## Shared layout
 
@@ -42,3 +42,10 @@ For the scale and geometry figures, run python3 tools/scale_geometry_figures.py.
 For parts 3 and 4, run python3 tools/check_decay_momentum.py to verify the finite-step examples and trajectory identities. Run python3 tools/decay_momentum_figures.py to rebuild their three figures. Render review-only work outside docs.
 
 For parts 5 and 6, run python3 tools/check_layer_duality.py to verify the activation and support examples. Run python3 tools/layer_duality_figures.py to rebuild their two diagrams. Keep review builds outside docs.
+
+
+For Parts 7 through 12, run `PYTHONDONTWRITEBYTECODE=1 python3 tools/check_series_completion.py`. Rebuild the six figures with `PYTHONDONTWRITEBYTECODE=1 MPLCONFIGDIR=/tmp/angelo-blog-matplotlib python3 tools/series_completion_figures.py`. These commands use NumPy and Matplotlib in the existing environment.
+
+The finite frozen-teacher control uses eight equally weighted inputs in four dimensions and 45 target norm ratios. It directly evaluates analytically specified representatives, with no optimizer training. Reproduce its saved record with `PYTHONDONTWRITEBYTECODE=1 python3 tools/check_series_completion.py --results specs/006-complete-scale-geometry-series/frozen-teacher-results.json`. The record stays in the source repository and is not bundled as a reader resource.
+
+All twelve Scale and geometry chapters now have sources in the catalog. Chapter footer links display P: or N: followed by the respective title. The first chapter has only N:, and the last has only P:. The shared layout preserves descriptive previous and next assistive labels.

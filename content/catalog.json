@@ -33,33 +33,27 @@
         },
         {
           "number": 7,
-          "title": "How Modula combines layer budgets",
-          "description": "Build a network geometry from atomic modules and explain the weighted maximum."
+          "source": "blog/scale-geometry-7/index.qmd"
         },
         {
           "number": 8,
-          "title": "Constraining weights, constraining motion",
-          "description": "Separate a weight manifold, tangent directions, update size, and retraction."
+          "source": "blog/scale-geometry-8/index.qmd"
         },
         {
           "number": 9,
-          "title": "Fixed norms and the schedule question",
-          "description": "What survives a comparison that tunes angular schedules fairly?"
+          "source": "blog/scale-geometry-9/index.qmd"
         },
         {
           "number": 10,
-          "title": "Which scales should stay learnable?",
-          "description": "Trace normalization gains and branch multipliers through effective maps."
+          "source": "blog/scale-geometry-10/index.qmd"
         },
         {
           "number": 11,
-          "title": "One gain, several constraints",
-          "description": "Test simultaneous norm constraints with a frozen-feature compatibility calculation."
+          "source": "blog/scale-geometry-11/index.qmd"
         },
         {
           "number": 12,
-          "title": "From a counterexample to a research claim",
-          "description": "Which attention symmetries and learning experiments could overturn the toy prediction?"
+          "source": "blog/scale-geometry-12/index.qmd"
         }
       ],
       "groups": [

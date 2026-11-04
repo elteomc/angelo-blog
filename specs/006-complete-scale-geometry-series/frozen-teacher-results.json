@@ -1,0 +1,415 @@
+{
+  "design": "Eight equally weighted points plus and minus twice each coordinate vector in four dimensions",
+  "seed": 1126,
+  "method": "Direct branch-output loss evaluation at analytically specified representatives",
+  "max_formula_error": 4.440892098500626e-16,
+  "max_group_loss": 4.930380657631324e-32,
+  "max_multiplier_loss": 6.162975822039155e-33,
+  "rows": [
+    {
+      "ratio": 0.25,
+      "formula": 0.140625,
+      "individual": 0.140625,
+      "group": 2.8648207922760133e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 0.3125,
+      "formula": 0.1181640625,
+      "individual": 0.1181640625,
+      "group": 2.9912099448764257e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 0.375,
+      "formula": 0.09765625,
+      "individual": 0.09765624999999997,
+      "group": 4.237045877651919e-33,
+      "multipliers": 9.62964972193618e-35,
+      "individual_radii_error": 2.220446049250313e-16,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 0.4375,
+      "formula": 0.0791015625,
+      "individual": 0.07910156250000003,
+      "group": 2.311115933264683e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 8.881784197001252e-16
+    },
+    {
+      "ratio": 0.5,
+      "formula": 0.0625,
+      "individual": 0.06249999999999999,
+      "group": 5.7777898331617076e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 0.5625,
+      "formula": 0.0478515625,
+      "individual": 0.04785156249999999,
+      "group": 2.533801583084457e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 0.625,
+      "formula": 0.03515625,
+      "individual": 0.03515625,
+      "group": 1.9560225997682864e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 0.6875,
+      "formula": 0.0244140625,
+      "individual": 0.024414062499999997,
+      "group": 3.851859888774472e-34,
+      "multipliers": 0.0,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 0.75,
+      "formula": 0.015625,
+      "individual": 0.015624999999999983,
+      "group": 7.944461020597348e-34,
+      "multipliers": 3.851859888774472e-34,
+      "individual_radii_error": 2.220446049250313e-16,
+      "group_radius_squared_error": 8.881784197001252e-16
+    },
+    {
+      "ratio": 0.8125,
+      "formula": 0.0087890625,
+      "individual": 0.00878906249999999,
+      "group": 3.851859888774472e-34,
+      "multipliers": 3.851859888774472e-34,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 0.875,
+      "formula": 0.00390625,
+      "individual": 0.003906250000000007,
+      "group": 7.703719777548943e-34,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 8.881784197001252e-16
+    },
+    {
+      "ratio": 0.9375,
+      "formula": 0.0009765625,
+      "individual": 0.0009765625000000035,
+      "group": 3.851859888774472e-34,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 1.0,
+      "formula": 0.0,
+      "individual": 0.0,
+      "group": 0.0,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 1.0625,
+      "formula": 0.0009765625,
+      "individual": 0.0009765625,
+      "group": 0.0,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 1.125,
+      "formula": 0.00390625,
+      "individual": 0.003906249999999999,
+      "group": 9.62964972193618e-35,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 8.881784197001252e-16
+    },
+    {
+      "ratio": 1.1875,
+      "formula": 0.0087890625,
+      "individual": 0.008789062499999981,
+      "group": 1.5407439555097887e-33,
+      "multipliers": 3.851859888774472e-34,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 1.25,
+      "formula": 0.015625,
+      "individual": 0.015624999999999997,
+      "group": 3.0814879110195774e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 1.3125,
+      "formula": 0.0244140625,
+      "individual": 0.0244140625,
+      "group": 1.925929944387236e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 1.375,
+      "formula": 0.03515625,
+      "individual": 0.03515625,
+      "group": 5.488900341503622e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 1.4375,
+      "formula": 0.0478515625,
+      "individual": 0.0478515625,
+      "group": 4.8148248609680896e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 1.5,
+      "formula": 0.0625,
+      "individual": 0.06250000000000003,
+      "group": 3.587044521421227e-33,
+      "multipliers": 1.5407439555097887e-33,
+      "individual_radii_error": 2.220446049250313e-16,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 1.5625,
+      "formula": 0.0791015625,
+      "individual": 0.0791015625,
+      "group": 5.3926038442842604e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 1.625,
+      "formula": 0.09765625,
+      "individual": 0.09765625000000004,
+      "group": 1.1675950287847617e-32,
+      "multipliers": 1.5407439555097887e-33,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 8.881784197001252e-16
+    },
+    {
+      "ratio": 1.6875,
+      "formula": 0.1181640625,
+      "individual": 0.1181640625,
+      "group": 5.801863957466548e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 1.75,
+      "formula": 0.140625,
+      "individual": 0.14062499999999994,
+      "group": 3.5689889281925964e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 8.881784197001252e-16
+    },
+    {
+      "ratio": 1.8125,
+      "formula": 0.1650390625,
+      "individual": 0.1650390625,
+      "group": 2.4314865547888853e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 1.875,
+      "formula": 0.19140625,
+      "individual": 0.1914062499999999,
+      "group": 1.931948475463446e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 1.9375,
+      "formula": 0.2197265625,
+      "individual": 0.21972656249999992,
+      "group": 8.504184410684888e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 2.0,
+      "formula": 0.25,
+      "individual": 0.24999999999999997,
+      "group": 2.311115933264683e-32,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 2.0625,
+      "formula": 0.2822265625,
+      "individual": 0.28222656249999994,
+      "group": 5.3926038442842604e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 2.125,
+      "formula": 0.31640625,
+      "individual": 0.31640625,
+      "group": 5.422696499665311e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 2.220446049250313e-16
+    },
+    {
+      "ratio": 2.1875,
+      "formula": 0.3525390625,
+      "individual": 0.3525390625,
+      "group": 6.9634404551751e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 2.25,
+      "formula": 0.390625,
+      "individual": 0.390625,
+      "group": 8.474091755303838e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 2.3125,
+      "formula": 0.4306640625,
+      "individual": 0.4306640625,
+      "group": 4.237045877651919e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 2.375,
+      "formula": 0.47265625,
+      "individual": 0.4726562499999998,
+      "group": 3.851859888774472e-34,
+      "multipliers": 1.5407439555097887e-33,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 8.881784197001252e-16
+    },
+    {
+      "ratio": 2.4375,
+      "formula": 0.5166015625,
+      "individual": 0.5166015625,
+      "group": 1.2711137632955757e-32,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 2.5,
+      "formula": 0.5625,
+      "individual": 0.5625,
+      "group": 6.162975822039155e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 2.5625,
+      "formula": 0.6103515625,
+      "individual": 0.6103515625,
+      "group": 0.0,
+      "multipliers": 0.0,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 2.625,
+      "formula": 0.66015625,
+      "individual": 0.66015625,
+      "group": 3.851859888774472e-34,
+      "multipliers": 0.0,
+      "individual_radii_error": 0.0,
+      "group_radius_squared_error": 8.881784197001252e-16
+    },
+    {
+      "ratio": 2.6875,
+      "formula": 0.7119140625,
+      "individual": 0.7119140625,
+      "group": 0.0,
+      "multipliers": 0.0,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 8.881784197001252e-16
+    },
+    {
+      "ratio": 2.75,
+      "formula": 0.765625,
+      "individual": 0.765625,
+      "group": 0.0,
+      "multipliers": 0.0,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 2.8125,
+      "formula": 0.8212890625,
+      "individual": 0.8212890625,
+      "group": 2.6577833232543855e-32,
+      "multipliers": 0.0,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 8.881784197001252e-16
+    },
+    {
+      "ratio": 2.875,
+      "formula": 0.87890625,
+      "individual": 0.87890625,
+      "group": 7.703719777548943e-33,
+      "multipliers": 0.0,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 4.440892098500626e-16
+    },
+    {
+      "ratio": 2.9375,
+      "formula": 0.9384765625,
+      "individual": 0.9384765625,
+      "group": 4.930380657631324e-32,
+      "multipliers": 0.0,
+      "individual_radii_error": 1.1102230246251565e-16,
+      "group_radius_squared_error": 0.0
+    },
+    {
+      "ratio": 3.0,
+      "formula": 1.0,
+      "individual": 1.0000000000000004,
+      "group": 7.902331303063877e-33,
+      "multipliers": 6.162975822039155e-33,
+      "individual_radii_error": 2.220446049250313e-16,
+      "group_radius_squared_error": 0.0
+    }
+  ]
+}

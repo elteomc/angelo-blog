@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Constraining weights, constraining motion | Angelo Farfan</title>
+<meta name="description" content="Separate a weight manifold, tangent directions, update size, and retraction.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 8 of 12</a>
+<h1>Constraining weights, constraining motion</h1>
+
+
+<p class="dek" hidden="">The weight set, tangent budget, and finite-step return map answer different questions</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>An update can be small in the right norm and still leave the set of weights we intended to allow.</p>
+<p>Suppose a matrix must keep orthonormal columns, or an embedding vector must retain a fixed radius. Part 6’s unconstrained support direction does not automatically respect either condition. The admissible directions now depend on the current weight.</p>
+<p>Three choices need separate names: <em>where the weight may live</em>, how large a tangent displacement may be, and how a finite displacement returns to the allowed set. A manifold optimizer specifies all three.</p>
+<section id="a-sphere-gives-the-simplest-example" class="level2">
+<h2>A sphere gives the simplest example</h2>
+<p>Constrain a nonzero vector to the sphere <span class="math inline">\(\lVert w\rVert_2=R\)</span>. Differentiating <span class="math inline">\(\lVert w+tZ\rVert_2^2=R^2\)</span> at <span class="math inline">\(t=0\)</span> gives the tangent condition</p>
+<p><span class="math display">\[
+\langle w,Z\rangle=0.
+\]</span></p>
+<p>Let <span class="math inline">\(g\)</span> be the ambient loss gradient. Its tangent projection is</p>
+<p><span class="math display">\[
+g_T=g-\frac{\langle w,g\rangle}{R^2}w.
+\]</span></p>
+<p>Under a Euclidean displacement budget <span class="math inline">\(\lVert Z\rVert_2\leq\epsilon\)</span>, the constrained linear problem has solution</p>
+<p><span class="math display">\[
+Z_*=-\epsilon\frac{g_T}{\lVert g_T\rVert_2}
+\]</span></p>
+<p>when <span class="math inline">\(g_T\ne0\)</span>. Choose zero if <span class="math inline">\(g_T=0\)</span>. This follows because a tangent displacement pairs with <span class="math inline">\(g\)</span> exactly as it pairs with <span class="math inline">\(g_T\)</span>, and Cauchy-Schwarz solves the remaining support problem.</p>
+<p>The ambient gradient need not be tangent. We did not assume scale invariance of the loss here. The tangent condition comes from the weight constraint itself.</p>
+</section>
+<section id="a-tangent-step-is-still-only-locally-on-the-sphere" class="level2">
+<h2>A tangent step is still only locally on the sphere</h2>
+<p>For tangent <span class="math inline">\(Z\)</span>,</p>
+<p><span class="math display">\[
+\lVert w+Z\rVert_2^2=R^2+\lVert Z\rVert_2^2.
+\]</span></p>
+<p>The trial point leaves the sphere by a second-order amount. A radial retraction brings it back:</p>
+<p><span class="math display">\[
+\mathcal R_w(Z)=R\frac{w+Z}{\lVert w+Z\rVert_2}.
+\]</span></p>
+<p>Its derivative at zero returns <span class="math inline">\(Z\)</span>, so it agrees with the tangent displacement to first order. It is not an assertion that a finite straight step lies on a curved surface.</p>
+<p>For <span class="math inline">\(w=(1,0)\)</span> and <span class="math inline">\(Z=(0,1/2)\)</span>, the trial point is <span class="math inline">\((1,1/2)\)</span> and the retracted point is <span class="math inline">\((2,1)/\sqrt5\)</span>. The rotation is <span class="math inline">\(\arctan(1/2)\approx26.57^\circ\)</span>. More generally,</p>
+<p><span class="math display">\[
+\tan\theta=\frac{\lVert Z\rVert_2}{R},
+\qquad
+\lVert\mathcal R_w(Z)-w\rVert_2=2R\sin(\theta/2).
+\]</span></p>
+<p>Tangent length, arc length <span class="math inline">\(R\theta\)</span>, and chord length are close for small steps. They are different finite-step quantities.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/sphere-retraction.svg" alt="A tangent displacement leaves the unit circle at a trial point. Radial retraction returns it to the circle while preserving its new direction. The tangent length, rotation angle, and chord length are distinct."></p>
+<figcaption>A tangent displacement leaves the unit circle at a trial point. Radial retraction returns it to the circle while preserving its new direction. The tangent length, rotation angle, and chord length are distinct.</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-stiefel-constraint-preserves-more-than-one-length" class="level2">
+<h2>The Stiefel constraint preserves more than one length</h2>
+<p>For <span class="math inline">\(W\in\mathbb R^{m\times n}\)</span> with <span class="math inline">\(m\geq n\)</span>, the column Stiefel constraint is</p>
+<p><span class="math display">\[
+W^\top W=I_n.
+\]</span></p>
+<p>It fixes each column length and every pairwise column inner product. Differentiating gives</p>
+<p><span class="math display">\[
+W^\top Z+Z^\top W=0.
+\]</span></p>
+<p>Under Frobenius geometry, the tangent projection of an ambient matrix <span class="math inline">\(G\)</span> is</p>
+<p><span class="math display">\[
+\Pi_W(G)=G-W\operatorname{sym}(W^\top G),
+\qquad \operatorname{sym}(A)=\frac{A+A^\top}{2}.
+\]</span></p>
+<p>The removed term is Frobenius-orthogonal to every tangent matrix. A fixed Frobenius-radius support step therefore normalizes <span class="math inline">\(\Pi_W(G)\)</span>, just as in the sphere example.</p>
+<p>A convenient retraction is</p>
+<p><span class="math display">\[
+\mathcal R_W(Z)=(W+Z)
+\left[(W+Z)^\top(W+Z)\right]^{-1/2}.
+\]</span></p>
+<p>For tangent <span class="math inline">\(Z\)</span>, the Gram matrix in brackets is <span class="math inline">\(I+Z^\top Z\)</span>, which is positive definite. The retracted matrix has orthonormal columns and equals <span class="math inline">\(W+Z\)</span> to first order.</p>
+<p>The row-orthonormal version applies when the matrix shape calls for it. A rectangular matrix cannot generally have both orthonormal rows and orthonormal columns. The orientation of the constraint is part of the specification.</p>
+</section>
+<section id="a-different-tangent-norm-changes-the-support-problem" class="level2">
+<h2>A different tangent norm changes the support problem</h2>
+<p>Replacing the Frobenius budget by a spectral budget gives</p>
+<p><span class="math display">\[
+\min_Z\langle G,Z\rangle_F
+\quad\text{subject to}\quad
+W^\top Z+Z^\top W=0,
+\quad\lVert Z\rVert_{\mathrm{op}}\leq\epsilon.
+\]</span></p>
+<p>This is not the unconstrained polar problem from Part 6. Projecting an ambient polar factor is not automatically its solution.</p>
+<p>For a small counterexample, set <span class="math inline">\(W=I_2\)</span> and</p>
+<p><span class="math display">\[
+G=\begin{pmatrix}2&amp;1\\0&amp;1\end{pmatrix}.
+\]</span></p>
+<p>The tangent matrices are skew-symmetric. The ambient polar factor is</p>
+<p><span class="math display">\[
+P=\frac1{\sqrt{10}}\begin{pmatrix}3&amp;1\\-1&amp;3\end{pmatrix}.
+\]</span></p>
+<p>Its Frobenius tangent projection is <span class="math inline">\(J/\sqrt{10}\)</span>, where <span class="math inline">\(J=\left(\begin{smallmatrix}0&amp;1\\-1&amp;0\end{smallmatrix}\right)\)</span>. This has operator norm <span class="math inline">\(1/\sqrt{10}\)</span> and support value <span class="math inline">\(1/\sqrt{10}\)</span>. The feasible tangent matrix <span class="math inline">\(J\)</span> has operator norm one and support value one.</p>
+<p>For descent, negate these directions. Projection after dualization wasted available budget in this example. Renormalizing repairs this particular two-dimensional case, but that is not a general derivation of a constrained spectral oracle.</p>
+<p>This is why manifold methods must solve the support problem for their actual tangent set and norm. <em>The operations do not come with permission to commute.</em></p>
+</section>
+<section id="a-sphere-an-oblique-set-and-stiefel-are-different-constraints" class="level2">
+<h2>A sphere, an oblique set, and Stiefel are different constraints</h2>
+<p>A Frobenius sphere fixes one total matrix length while allowing its singular values and column lengths to redistribute. An oblique constraint fixes each column length, while leaving the angles between columns free. Stiefel additionally fixes those angles to be right angles.</p>
+<p>For example,</p>
+<p><span class="math display">\[
+W=\begin{pmatrix}1&amp;\cos\phi\\0&amp;\sin\phi\end{pmatrix}
+\]</span></p>
+<p>has unit columns for every <span class="math inline">\(\phi\)</span>. At <span class="math inline">\(\phi=60^\circ\)</span>, its singular values are <span class="math inline">\(\sqrt{3/2}\)</span> and <span class="math inline">\(\sqrt{1/2}\)</span>, so its condition number is <span class="math inline">\(\sqrt3\)</span>. As <span class="math inline">\(\phi\)</span> approaches zero, it becomes nearly rank deficient despite retaining both column lengths.</p>
+<p>A weight constraint can therefore remove useful functional freedoms, not merely redundant coordinate scales. Whether it preserves an architecture’s function class needs a separate argument. The later shared-gain examples will make that issue concrete.</p>
+</section>
+<section id="what-the-optimizer-must-specify" class="level2">
+<h2>What the optimizer must specify</h2>
+<p>A complete constrained update needs a weight set, its tangent directions, a norm or metric on those directions, and a finite-step return map. It also needs an account of optimizer memory when the base update has a momentum state.</p>
+<p>Fixing only the weight radius leaves the update geometry unspecified. Fixing only the update norm leaves the weight trajectory free to drift. The choices can cooperate, but they answer different questions.</p>
+<p>Next we examine a wrapper that explicitly controls both weight and proposal norms, and ask what that control does and does not say about angular schedules.</p>
+</section>
+<section id="try-staying-on-the-constraint-set" class="level2">
+<h2>Try staying on the constraint set</h2>
+<ol type="1">
+<li>On a radius-two sphere, take a tangent displacement of length one. What is the rotation after radial retraction?</li>
+<li>Verify that <span class="math inline">\(W^\top\Pi_W(G)+\Pi_W(G)^\top W=0\)</span> whenever <span class="math inline">\(W^\top W=I\)</span>.</li>
+<li>Why does the projected polar factor in the <span class="math inline">\(2\times2\)</span> example fail to maximize spectral-unit support?</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li><span class="math inline">\(\theta=\arctan(1/2)\approx26.57^\circ\)</span>. The tangent length is one, not the angle in radians.</li>
+<li>Substitute the projection formula. The remaining expression is <span class="math inline">\(W^\top G+G^\top W-2\operatorname{sym}(W^\top G)=0\)</span>.</li>
+<li>It equals <span class="math inline">\(J/\sqrt{10}\)</span>, while <span class="math inline">\(J\)</span> itself remains feasible and gives a larger pairing with <span class="math inline">\(G\)</span>.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p><a href="https://thinkingmachines.ai/blog/modular-manifolds/">Jeremy Bernstein, Modular Manifolds (2025)</a>, especially the sphere example and Manifold Muon discussion, separates weight constraints, tangent norms, support directions, and retractions. Its spectral manifold problem should not be replaced silently by a Frobenius projection.</p>
+<p><a href="https://proceedings.mlr.press/v267/bernstein25a.html">Bernstein and Newhouse, Modular Duality in Deep Learning (ICML 2025)</a>, Section 3, supplies the normed support framework. The Stiefel tangent identity and polar retraction above follow by differentiation and direct Gram-matrix calculation under the stated column convention.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-7/index.html" aria-label="Previous post: How Modula combines layer budgets">P: How Modula combines layer budgets <span class="link-mark" aria-hidden="true"></span></a><a href="../scale-geometry-9/index.html" aria-label="Next post: Fixed norms and the schedule question">N: Fixed norms and the schedule question <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#a-sphere-gives-the-simplest-example" id="toc-a-sphere-gives-the-simplest-example">A sphere gives the simplest example</a></li>
+<li><a href="#a-tangent-step-is-still-only-locally-on-the-sphere" id="toc-a-tangent-step-is-still-only-locally-on-the-sphere">A tangent step is still only locally on the sphere</a></li>
+<li><a href="#the-stiefel-constraint-preserves-more-than-one-length" id="toc-the-stiefel-constraint-preserves-more-than-one-length">The Stiefel constraint preserves more than one length</a></li>
+<li><a href="#a-different-tangent-norm-changes-the-support-problem" id="toc-a-different-tangent-norm-changes-the-support-problem">A different tangent norm changes the support problem</a></li>
+<li><a href="#a-sphere-an-oblique-set-and-stiefel-are-different-constraints" id="toc-a-sphere-an-oblique-set-and-stiefel-are-different-constraints">A sphere, an oblique set, and Stiefel are different constraints</a></li>
+<li><a href="#what-the-optimizer-must-specify" id="toc-what-the-optimizer-must-specify">What the optimizer must specify</a></li>
+<li><a href="#try-staying-on-the-constraint-set" id="toc-try-staying-on-the-constraint-set">Try staying on the constraint set</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One gain, several constraints | Angelo Farfan</title>
+<meta name="description" content="Test simultaneous norm constraints with a frozen-feature compatibility calculation.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 11 of 12</a>
+<h1>One gain, several constraints</h1>
+
+
+<p class="dek" hidden="">An exact compatibility test for fixed features and prescribed branch maps</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>A normalization gain can absorb a matrix’s scale. What happens when several matrices share that gain and each receives its own norm constraint?</p>
+<p>One compensating parameter must now satisfy several requirements at once. The existence of a symmetry for a single matrix does not prove that all the constraints can be imposed simultaneously.</p>
+<p>This note concerns frozen input features and prescribed branch maps. Within that setting, we can state the compatibility question exactly and derive a fitting floor when the scales disagree.</p>
+<section id="specify-what-must-be-preserved" class="level2">
+<h2>Specify what must be preserved</h2>
+<p>Let <span class="math inline">\(z(x)\in\mathbb R^d\)</span> be fixed features, and let several branches compute</p>
+<p><span class="math display">\[
+f_i(x)=A_i z(x),\qquad
+A_i=W_i\operatorname{diag}(\gamma).
+\]</span></p>
+<p>We prescribe the target matrices <span class="math inline">\(A_i\in\mathbb R^{m_i\times d}\)</span> and require</p>
+<p><span class="math display">\[
+\lVert W_i\rVert_F=R_i&gt;0
+\]</span></p>
+<p>for every branch. Every gain entry must be finite and nonzero. The question is whether one shared gain vector can represent all those target maps while meeting all the radii.</p>
+<p>Preserving each branch map is stronger than preserving the final network function. We keep the stronger requirement visible rather than quietly switching between them.</p>
+</section>
+<section id="the-compatibility-problem-becomes-linear" class="level2">
+<h2>The compatibility problem becomes linear</h2>
+<p>Define a nonnegative matrix of target column energies and a vector of squared radii:</p>
+<p><span class="math display">\[
+C_{ij}=\lVert A_i[:,j]\rVert_2^2,
+\qquad r_i=R_i^2.
+\]</span></p>
+<p>Then the representation exists if and only if</p>
+<p><span class="math display">\[
+Cq=r\quad\text{for some }q\in(0,\infty)^d.
+\]</span></p>
+<p>For necessity, the target identity forces <span class="math inline">\(W_i[:,j]=A_i[:,j]/\gamma_j\)</span>, so</p>
+<p><span class="math display">\[
+R_i^2=\sum_j\frac{\lVert A_i[:,j]\rVert_2^2}{\gamma_j^2}.
+\]</span></p>
+<p>Set <span class="math inline">\(q_j=\gamma_j^{-2}\)</span>. This gives the positive linear system.</p>
+<p>For sufficiency, given such a <span class="math inline">\(q\)</span>, choose <span class="math inline">\(\gamma_j=q_j^{-1/2}\)</span> and <span class="math inline">\(W_i[:,j]=q_j^{1/2}A_i[:,j]\)</span>. The effective maps and every required radius then follow directly.</p>
+<p>The criterion uses squared Frobenius lengths. It is not automatically a criterion for spectral or Stiefel constraints. It also excludes zero gain entries, which can hide nonzero weight columns when their target columns vanish.</p>
+</section>
+<section id="two-branches-make-the-geometry-visible" class="level2">
+<h2>Two branches make the geometry visible</h2>
+<p>Assume the first branch has positive column energies <span class="math inline">\(C_{1j}&gt;0\)</span>. For any feasible <span class="math inline">\(q&gt;0\)</span>,</p>
+<p><span class="math display">\[
+\frac{r_2}{r_1}
+=\sum_j\omega_j\frac{C_{2j}}{C_{1j}},
+\qquad
+\omega_j=\frac{C_{1j}q_j}{\sum_s C_{1s}q_s}&gt;0,
+\quad\sum_j\omega_j=1.
+\]</span></p>
+<p>The required squared-radius ratio must be a positive weighted average of the column-energy ratios. If those ratios are not all equal, feasibility is equivalent to</p>
+<p><span class="math display">\[
+\min_j\frac{C_{2j}}{C_{1j}}
+&lt;\frac{r_2}{r_1}
+&lt;\max_j\frac{C_{2j}}{C_{1j}}.
+\]</span></p>
+<p>Conversely, choose strictly positive averaging weights with the required mean and set <span class="math inline">\(q_j=r_1\omega_j/C_{1j}\)</span>. If all energy ratios equal a constant, the required radius ratio must equal that constant too.</p>
+<p>Take target rows <span class="math inline">\(A_1=(1,1)\)</span> and <span class="math inline">\(A_2=(1,2)\)</span>. Then</p>
+<p><span class="math display">\[
+C=\begin{pmatrix}1&amp;1\\1&amp;4\end{pmatrix}.
+\]</span></p>
+<p>The squared-radius vector <span class="math inline">\(r=(2,4)\)</span> is feasible, with <span class="math inline">\(q=(4/3,2/3)\)</span>. The gain magnitudes are approximately <span class="math inline">\((0.866025,1.224745)\)</span>.</p>
+<p>The boundary target <span class="math inline">\(r=(2,2)\)</span> would require <span class="math inline">\(q_2=0\)</span>. It is not feasible with a finite nonzero second gain. Allowing nonnegative coefficients can therefore admit limits that the original parameterization does not attain.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/shared-gain-cone.svg" alt="Positive combinations of the column-energy vectors one-one and one-four fill the open wedge between their rays. The target squared radii two-four lies inside. Two-two is on the excluded boundary, and two-ten lies outside."></p>
+<figcaption>Positive combinations of the column-energy vectors one-one and one-four fill the open wedge between their rays. The target squared radii two-four lies inside. Two-two is on the excluded boundary, and two-ten lies outside.</figcaption>
+</figure>
+</div>
+</section>
+<section id="finite-gain-bounds-impose-more-than-formal-feasibility" class="level2">
+<h2>Finite gain bounds impose more than formal feasibility</h2>
+<p>If <span class="math inline">\(0&lt;g_{\min}\leq|\gamma_j|\leq g_{\max}&lt;\infty\)</span>, then the exact condition becomes</p>
+<p><span class="math display">\[
+Cq=r,\qquad
+g_{\max}^{-2}\leq q_j\leq g_{\min}^{-2}.
+\]</span></p>
+<p>This is a box-constrained linear feasibility problem. A representation can exist in principle while requiring gain magnitudes outside a chosen stable range.</p>
+<p>In the example above, restricting both gain magnitudes to <span class="math inline">\([1,2]\)</span> forces <span class="math inline">\(q_j\in[1/4,1]\)</span>. The first equation <span class="math inline">\(q_1+q_2=2\)</span> then forces both coefficients to one, making the second equation equal five rather than four. The formally feasible target is no longer feasible under these gain bounds.</p>
+</section>
+<section id="a-proportional-pair-is-incompatible-at-equal-radii" class="level2">
+<h2>A proportional pair is incompatible at equal radii</h2>
+<p>If <span class="math inline">\(A_2=2A_1\ne0\)</span>, then <span class="math inline">\(C_{2j}=4C_{1j}\)</span> for every column. Any shared-gain representation must satisfy <span class="math inline">\(r_2=4r_1\)</span>.</p>
+<p>Equal imposed radii contradict that requirement. Increasing the number of columns does not repair this particular obstruction while the target relation <span class="math inline">\(A_2=2A_1\)</span> is preserved.</p>
+<p>That is an exact local statement. Learned upstream features, independent branch multipliers, or other function-preserving transformations can change the question. They are not included in this prescribed-map criterion.</p>
+</section>
+<section id="a-scalar-gain-gives-an-exact-fitting-floor" class="level2">
+<h2>A scalar gain gives an exact fitting floor</h2>
+<p>Now use one shared scalar <span class="math inline">\(g\geq0\)</span> instead of a channelwise vector. Assume fixed features satisfy <span class="math inline">\(\mathbb E[zz^\top]=I\)</span>, and supervise all branch outputs with targets <span class="math inline">\(A_i z\)</span>. The population loss is</p>
+<p><span class="math display">\[
+\mathcal L(g,W)=\frac12\sum_i\lVert gW_i-A_i\rVert_F^2,
+\qquad \lVert W_i\rVert_F=R_i.
+\]</span></p>
+<p>Write <span class="math inline">\(b_i=\lVert A_i\rVert_F&gt;0\)</span>. For a fixed positive <span class="math inline">\(g\)</span>, Cauchy-Schwarz shows that an optimal <span class="math inline">\(W_i\)</span> aligns with its target, giving</p>
+<p><span class="math display">\[
+\min_W\mathcal L(g,W)=\frac12\sum_i(gR_i-b_i)^2.
+\]</span></p>
+<p>Minimizing this scalar quadratic yields</p>
+<p><span class="math display">\[
+g_* =\frac{\sum_iR_ib_i}{\sum_iR_i^2},
+\]</span></p>
+<p><span class="math display">\[
+\mathcal L_* =\frac12\left(\sum_i b_i^2
+-\frac{(\sum_iR_ib_i)^2}{\sum_iR_i^2}\right).
+\]</span></p>
+<p>The floor vanishes exactly when the target norm vector is proportional to the radius vector. For <span class="math inline">\(R=(1,1)\)</span> and <span class="math inline">\(b=(1,2)\)</span>, the optimal gain is <span class="math inline">\(3/2\)</span> and the minimum loss is <span class="math inline">\(1/4\)</span>.</p>
+<p>No learning-rate correction can remove a global fitting floor inside this model. The formula does not say that every optimizer reaches the optimum, or that an end-to-end attention task has this same floor.</p>
+</section>
+<section id="grouping-changes-the-feasible-set" class="level2">
+<h2>Grouping changes the feasible set</h2>
+<p>Replace the individual radii with a joint constraint</p>
+<p><span class="math display">\[
+\sum_i\lVert W_i\rVert_F^2=R^2.
+\]</span></p>
+<p>For any nonzero target tuple, choose</p>
+<p><span class="math display">\[
+g=\frac{\sqrt{\sum_i\lVert A_i\rVert_F^2}}{R},
+\qquad W_i=A_i/g.
+\]</span></p>
+<p>All target maps are preserved and the joint constraint holds. Independent learned branch multipliers provide another way to restore the missing amplitude freedom.</p>
+<p>The distinction is <em>which scales the constraint fixes</em>. Individual radii fix relative branch norms as well as total scale. A group radius leaves those relative norms available.</p>
+<p>The next post asks whether this local obstruction predicts a failure in a real module. Before making that claim, we need to let attention use its own factorization freedoms and run controls that could overturn the proposed explanation.</p>
+</section>
+<section id="try-the-compatibility-test" class="level2">
+<h2>Try the compatibility test</h2>
+<ol type="1">
+<li>Verify <span class="math inline">\(Cq=(2,4)\)</span> for the example’s <span class="math inline">\(q=(4/3,2/3)\)</span>.</li>
+<li>If <span class="math inline">\(A_2=3A_1\ne0\)</span>, what ratio <span class="math inline">\(R_2/R_1\)</span> is necessary under a shared gain?</li>
+<li>In the scalar-gain model, take <span class="math inline">\(R=(1,1)\)</span> and <span class="math inline">\(b=(1,3)\)</span>. Find the optimum and fitting floor.</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li>The row sums are <span class="math inline">\(4/3+2/3=2\)</span> and <span class="math inline">\(4/3+4(2/3)=4\)</span>.</li>
+<li>Squared energies scale by nine, so <span class="math inline">\(R_2/R_1=3\)</span>.</li>
+<li><span class="math inline">\(g_*=2\)</span> and <span class="math inline">\(\mathcal L_*=[(2-1)^2+(2-3)^2]/2=1\)</span>.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p>The cone criterion and scalar fitting-floor calculation are elementary derivations from the displayed model. They are not claims of publication priority or a theorem about a full trainable Transformer.</p>
+<p><a href="https://arxiv.org/abs/2606.16899v2">Hyperball Optimization</a>, Section 4.1, gives the matrix-and-gain rescaling that motivates asking whether several constraints are compatible. <a href="https://arxiv.org/abs/2601.04890v1">Learnable Multipliers</a>, Sections 2 and 4.1 and Appendix C, supplies established multiplier and symmetry baselines. Neither citation substitutes for checking the exact consumers and constraints in a proposed application.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-10/index.html" aria-label="Previous post: Which scales should stay learnable?">P: Which scales should stay learnable? <span class="link-mark" aria-hidden="true"></span></a><a href="../scale-geometry-12/index.html" aria-label="Next post: From a counterexample to a research claim">N: From a counterexample to a research claim <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#specify-what-must-be-preserved" id="toc-specify-what-must-be-preserved">Specify what must be preserved</a></li>
+<li><a href="#the-compatibility-problem-becomes-linear" id="toc-the-compatibility-problem-becomes-linear">The compatibility problem becomes linear</a></li>
+<li><a href="#two-branches-make-the-geometry-visible" id="toc-two-branches-make-the-geometry-visible">Two branches make the geometry visible</a></li>
+<li><a href="#finite-gain-bounds-impose-more-than-formal-feasibility" id="toc-finite-gain-bounds-impose-more-than-formal-feasibility">Finite gain bounds impose more than formal feasibility</a></li>
+<li><a href="#a-proportional-pair-is-incompatible-at-equal-radii" id="toc-a-proportional-pair-is-incompatible-at-equal-radii">A proportional pair is incompatible at equal radii</a></li>
+<li><a href="#a-scalar-gain-gives-an-exact-fitting-floor" id="toc-a-scalar-gain-gives-an-exact-fitting-floor">A scalar gain gives an exact fitting floor</a></li>
+<li><a href="#grouping-changes-the-feasible-set" id="toc-grouping-changes-the-feasible-set">Grouping changes the feasible set</a></li>
+<li><a href="#try-the-compatibility-test" id="toc-try-the-compatibility-test">Try the compatibility test</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>
