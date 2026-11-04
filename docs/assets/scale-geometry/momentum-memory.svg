@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="734.4pt" height="360pt" viewBox="0 0 734.4 360" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.6.3, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 360 
+L 734.4 360 
+L 734.4 0 
+L 0 0 
+z
+" style="fill: #fffdf8"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 58.149248 313.2 
+L 327.002752 313.2 
+L 327.002752 72 
+L 58.149248 72 
+z
+" style="fill: #fffdf8"/>
+   </g>
+   <g id="matplotlib.axis_1"/>
+   <g id="matplotlib.axis_2"/>
+   <g id="line2d_1">
+    <path d="M 58.149248 302.44586 
+L 327.002752 302.44586 
+" clip-path="url(#p9a0cfc2f4f)" style="fill: none; stroke: #d8d8cd; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 73.512306 313.2 
+L 73.512306 72 
+" clip-path="url(#p9a0cfc2f4f)" style="fill: none; stroke: #d8d8cd; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 73.512306 302.44586 
+L 227.142879 225.630573 
+" clip-path="url(#p9a0cfc2f4f)" style="fill: none; stroke: #262c29; stroke-width: 1.3; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #262c29; font: 9px 'DejaVu Sans'; text-anchor: start" x="231.751796" y="240.993631" transform="rotate(-0 231.751796 240.993631)">current weight</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #262c29; font: 9px 'DejaVu Sans'; text-anchor: start" x="218.096275" y="119.967939" transform="rotate(-0 218.096275 119.967939)">next weight</text>
+   </g>
+   <g id="patch_3">
+    <path d="M 227.142879 225.630573 
+Q 219.546966 210.438747 212.951052 197.24692 
+" style="fill: none; stroke: #526f82; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 212.951052 201.719056 
+L 212.951052 197.24692 
+L 216.528761 199.930202 
+L 212.951052 201.719056 
+z
+" style="fill: #526f82; stroke: #526f82; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 211.951052 195.24692 
+Q 211.951052 160.680041 211.951052 128.34923 
+" style="fill: none; stroke: #ad492d; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 209.951052 132.34923 
+L 211.951052 128.34923 
+L 213.951052 132.34923 
+L 209.951052 132.34923 
+z
+" style="fill: #ad492d; stroke: #ad492d; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="text_3">
+    <text style="fill: #526f82; font: 10px 'DejaVu Sans'" transform="translate(101.165809 191.388175)">current gradient</text>
+    <text style="fill: #526f82; font: 10px 'DejaVu Sans'" transform="translate(101.165809 202.585987)">contribution</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #ad492d; font: 10px 'DejaVu Sans'" transform="translate(231.751796 156.053143)">memory</text>
+    <text style="fill: #ad492d; font: 10px 'DejaVu Sans'" transform="translate(231.751796 167.250955)">contribution</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #262c29; font: 11px 'DejaVu Sans'; text-anchor: start" x="58.149248" y="60" transform="rotate(-0 58.149248 60)">Where the step came from</text>
+   </g>
+   <g id="PathCollection_1">
+    <defs>
+     <path id="m8c5d709f80" d="M 0 2 
+C 0.530406 2 1.03916 1.789267 1.414214 1.414214 
+C 1.789267 1.03916 2 0.530406 2 0 
+C 2 -0.530406 1.789267 -1.03916 1.414214 -1.414214 
+C 1.03916 -1.789267 0.530406 -2 0 -2 
+C -0.530406 -2 -1.03916 -1.789267 -1.414214 -1.414214 
+C -1.789267 -1.03916 -2 -0.530406 -2 0 
+C -2 0.530406 -1.789267 1.03916 -1.414214 1.414214 
+C -1.03916 1.789267 -0.530406 2 0 2 
+z
+" style="stroke: #262c29"/>
+    </defs>
+    <g clip-path="url(#p9a0cfc2f4f)">
+     <use xlink:href="#m8c5d709f80" x="227.142879" y="225.630573" style="fill: #262c29; stroke: #262c29"/>
+     <use xlink:href="#m8c5d709f80" x="211.951052" y="126.113162" style="fill: #262c29; stroke: #262c29"/>
+    </g>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_5">
+    <path d="M 429.429248 313.2 
+L 698.282752 313.2 
+L 698.282752 72 
+L 429.429248 72 
+z
+" style="fill: #fffdf8"/>
+   </g>
+   <g id="matplotlib.axis_3"/>
+   <g id="matplotlib.axis_4"/>
+   <g id="line2d_4">
+    <path d="M 429.429248 302.44586 
+L 698.282752 302.44586 
+" clip-path="url(#pe9ab6dab23)" style="fill: none; stroke: #d8d8cd; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 444.792306 313.2 
+L 444.792306 72 
+" clip-path="url(#pe9ab6dab23)" style="fill: none; stroke: #d8d8cd; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 444.792306 302.44586 
+L 598.422879 225.630573 
+" clip-path="url(#pe9ab6dab23)" style="fill: none; stroke: #262c29; stroke-width: 1.3; stroke-linecap: square"/>
+   </g>
+   <g id="text_6">
+    <text style="fill: #262c29; font: 9px 'DejaVu Sans'; text-anchor: start" x="603.031796" y="240.993631" transform="rotate(-0 603.031796 240.993631)">current weight</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #262c29; font: 9px 'DejaVu Sans'; text-anchor: start" x="589.376275" y="119.967939" transform="rotate(-0 589.376275 119.967939)">next weight</text>
+   </g>
+   <g id="patch_6">
+    <path d="M 598.422879 225.630573 
+Q 612.249631 218.717197 624.076382 212.803822 
+" style="fill: none; stroke: #526f82; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 619.604246 212.803822 
+L 624.076382 212.803822 
+L 621.393101 216.38153 
+L 619.604246 212.803822 
+z
+" style="fill: #526f82; stroke: #526f82; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 626.076382 211.803822 
+Q 604.653717 168.958492 584.231052 128.113162 
+" style="fill: none; stroke: #ad492d; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 584.231052 132.585298 
+L 584.231052 128.113162 
+L 587.808761 130.796444 
+L 584.231052 132.585298 
+z
+" style="fill: #ad492d; stroke: #ad492d; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 598.422879 225.630573 
+Q 590.826966 175.871868 583.399771 127.218392 
+" style="fill: none; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #262c29; stroke-linecap: round"/>
+    <path d="M 582.026302 131.474398 
+L 583.399771 127.218392 
+L 585.980494 130.870771 
+L 582.026302 131.474398 
+z
+" style="fill: #262c29; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #262c29; stroke-linecap: round"/>
+   </g>
+   <g id="text_8">
+    <text style="fill: #526f82; font: 10px 'DejaVu Sans'; text-anchor: start" x="632.221605" y="227.166879" transform="rotate(-0 632.221605 227.166879)">radial</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #ad492d; font: 10px 'DejaVu Sans'; text-anchor: start" x="626.076382" y="161.105732" transform="rotate(-0 626.076382 161.105732)">tangent</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #262c29; font: 11px 'DejaVu Sans'; text-anchor: start" x="429.429248" y="60" transform="rotate(-0 429.429248 60)">The same step, split at the current weight</text>
+   </g>
+   <g id="PathCollection_2">
+    <g clip-path="url(#pe9ab6dab23)">
+     <use xlink:href="#m8c5d709f80" x="598.422879" y="225.630573" style="fill: #262c29; stroke: #262c29"/>
+     <use xlink:href="#m8c5d709f80" x="583.231052" y="126.113162" style="fill: #262c29; stroke: #262c29"/>
+    </g>
+   </g>
+  </g>
+  <g id="text_11">
+   <text style="fill: #262c29; font: 18px 'DejaVu Sans'; text-anchor: start" x="44.064" y="28.077188" transform="rotate(-0 44.064 28.077188)">The gradient is tangent. Its memory is not.</text>
+  </g>
+  <g id="text_12">
+   <text style="fill: #656a62; font: 9px 'DejaVu Sans'; text-anchor: start" x="44.064" y="340.2" transform="rotate(-0 44.064 340.2)">Second step with momentum 0.9, learning rate 0.5, and no decay.  Exact rotation: 25.30 degrees.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p9a0cfc2f4f">
+   <rect x="58.149248" y="72" width="268.853503" height="241.2"/>
+  </clipPath>
+  <clipPath id="pe9ab6dab23">
+   <rect x="429.429248" y="72" width="268.853503" height="241.2"/>
+  </clipPath>
+ </defs>
+</svg>

@@ -9,6 +9,8 @@ series-label: "Scale and geometry / Part 2 of 12"
 series-url: scale-geometry.html
 previous-url: ../scale-geometry-1/index.html
 previous-title: "The same network, a different step"
+next-url: ../scale-geometry-3/index.html
+next-title: "Weight decay changes the clock"
 ---
 
 The previous post started from a strong assumption: multiply one weight vector by any positive constant and the loss stays exactly the same. Under that assumption, a raw SGD step depends on the radius through $\eta/\|w\|_2^2$.

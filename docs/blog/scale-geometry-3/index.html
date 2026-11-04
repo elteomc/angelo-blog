@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weight decay changes the clock | Angelo Farfan</title>
+<meta name="description" content="Derive the radius recurrence and an exact SGD schedule equivalence, then separate those identities from an equilibrium approximation.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 3 of 12</a>
+<h1>Weight decay changes the clock</h1>
+
+
+<p class="dek" hidden="">How a penalty on a redundant radius becomes a change in the learning dynamics</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>Suppose shrinking a weight leaves every prediction unchanged. What could a penalty on that weight possibly be doing?</p>
+<p>The usual answer is that weight decay discourages large weights. That describes the coordinates, but it leaves the important question unanswered: what happens to learning?</p>
+<p><a href="../../blog/scale-geometry-1/index.html">Part 1</a> gave us the missing connection. For an exactly scale-invariant block, the radius disappears from the forward function and remains in the directional SGD step. <a href="../../blog/scale-geometry-2/index.html">Part 2</a> checked where that exact symmetry is available. Now we can follow the radius through an entire sequence of updates.</p>
+<p>There are two results worth keeping separate. We can derive an exact change of variables that replaces decay with a learning-rate schedule. We can also build a simplified model in which shrinkage balances the growth caused by gradient steps. The first is an identity. The second needs an additional assumption.</p>
+<section id="fix-the-convention-before-interpreting-the-penalty" class="level2">
+<h2>Fix the convention before interpreting the penalty</h2>
+<p>Let <span class="math inline">\(L_t\)</span> be the data loss on the minibatch used at step <span class="math inline">\(t\)</span>. Assume a positive rescaling of the block <span class="math inline">\(w\)</span> preserves the model’s predictions, so that</p>
+<p><span class="math display">\[
+L_t(cw)=L_t(w),\qquad c&gt;0.
+\]</span></p>
+<p>All other parameters are fixed in this calculation. The identity must hold for every minibatch used, and we stay away from <span class="math inline">\(w=0\)</span>.</p>
+<p>Our update is raw SGD without momentum:</p>
+<p><span class="math display">\[
+w_{t+1}=a_t w_t-\eta_t\nabla L_t(w_t),
+\qquad a_t=1-\eta_t\lambda_t&gt;0.
+\]</span></p>
+<p>Take <span class="math inline">\(\eta_t&gt;0\)</span> and <span class="math inline">\(\lambda_t\geq0\)</span>. For this algorithm, adding the penalty <span class="math inline">\(\lambda_t\|w\|_2^2/2\)</span> to the current loss produces exactly the displayed update. With an adaptive preconditioner or a momentum buffer, we must inspect the actual equations before making that identification.</p>
+<p>For the data loss, all radii on a positive ray are equivalent. Along that ray, the penalty can be made arbitrarily small by shrinking <span class="math inline">\(w\)</span>. It therefore does not directly distinguish a simpler predictor from a more complicated one within this equivalence class. That does not make the training dynamics, or their eventual effect on generalization, irrelevant.</p>
+<p>This distinction is the starting point of <a href="https://arxiv.org/abs/1706.05350v1">van Laarhoven’s normalization analysis</a>, Sections 2 through 4. It concerns a specified symmetry, not every weight in a normalized network.</p>
+</section>
+<section id="the-radius-records-what-decay-and-gradients-do-together" class="level2">
+<h2>The radius records what decay and gradients do together</h2>
+<p>Write <span class="math inline">\(w_t=R_t e_t\)</span> with <span class="math inline">\(R_t&gt;0\)</span> and <span class="math inline">\(\|e_t\|_2=1\)</span>. Define <span class="math inline">\(h_t=\nabla L_t(e_t)\)</span>. The scale identities from Part 1 give</p>
+<p><span class="math display">\[
+\nabla L_t(w_t)=\frac{h_t}{R_t},
+\qquad \langle e_t,h_t\rangle=0.
+\]</span></p>
+<p>The radial and tangent parts of the update are perpendicular. Squaring its norm gives the exact recurrence</p>
+<p><span class="math display">\[
+R_{t+1}^2
+=a_t^2R_t^2+\frac{\eta_t^2}{R_t^2}\|h_t\|_2^2.
+\]</span></p>
+<p>Decay contributes the first term. The finite gradient displacement contributes the second. A tangent step can increase a radius even though its first-order radial derivative is zero.</p>
+<p>The corresponding direction is</p>
+<p><span class="math display">\[
+e_{t+1}
+=\frac{e_t-\alpha_t h_t}{\|e_t-\alpha_t h_t\|_2},
+\qquad
+\alpha_t=\frac{\eta_t}{a_tR_t^2}.
+\]</span></p>
+<p>Here <span class="math inline">\(\alpha_t\)</span> is the coefficient in the exact normalized update. The actual rotation obeys <span class="math inline">\(\tan\theta_t=\alpha_t\|h_t\|_2\)</span>. An effective learning rate, a displacement length, and an angle are related quantities, but they are not interchangeable.</p>
+<p>At the same current weight and gradient, decreasing <span class="math inline">\(a_t\)</span> increases the rotation. Across different training runs, however, the weights and gradients soon differ. This one-step comparison is not a theorem that stronger decay always helps or always produces faster progress.</p>
+</section>
+<section id="replace-decay-with-a-different-learning-rate-schedule" class="level2">
+<h2>Replace decay with a different learning-rate schedule</h2>
+<p>There is a stronger statement than the local observation about <span class="math inline">\(R_t\)</span>.</p>
+<p>Define the cumulative shrinkage</p>
+<p><span class="math display">\[
+c_0=1,\qquad c_{t+1}=a_t c_t,
+\]</span></p>
+<p>and introduce coordinates <span class="math inline">\(z_t=w_t/c_t\)</span>. Since every <span class="math inline">\(c_t\)</span> is positive, <span class="math inline">\(z_t\)</span> and <span class="math inline">\(w_t\)</span> represent the same predictor. Their gradients satisfy</p>
+<p><span class="math display">\[
+\nabla L_t(w_t)=\frac1{c_t}\nabla L_t(z_t).
+\]</span></p>
+<p>Substitute <span class="math inline">\(w_t=c_tz_t\)</span> into the SGD update and divide by <span class="math inline">\(c_{t+1}\)</span>:</p>
+<p><span class="math display">\[
+z_{t+1}
+=z_t-\widetilde\eta_t\nabla L_t(z_t),
+\qquad
+\widetilde\eta_t=\frac{\eta_t}{c_t c_{t+1}}.
+\]</span></p>
+<p>There is no decay in the <span class="math inline">\(z\)</span> update. Its learning rate has changed instead. Starting both runs from the same weight, using the same minibatches, and using this transformed schedule makes their predictions agree at every step, under the stated symmetry.</p>
+<p>No equilibrium, averaging, or small-step approximation entered this derivation. If the minibatches are random, it is an identity for the same realized sequence of minibatches. The exact prediction agreement also uses the assumed forward symmetry, rather than merely an equality of scalar losses.</p>
+<p>For constant <span class="math inline">\(\eta\)</span> and <span class="math inline">\(a=1-\eta\lambda\)</span>, the formula simplifies to</p>
+<p><span class="math display">\[
+c_t=a^t,\qquad
+\widetilde\eta_t=\eta a^{-(2t+1)}.
+\]</span></p>
+<p>The first transformed learning rate is <span class="math inline">\(\eta/a\)</span>. Each subsequent one is larger by the factor <span class="math inline">\(a^{-2}\)</span>. This is the momentum-free equivalence studied in <a href="https://arxiv.org/html/1910.07454v3#S2.SS1">Li and Arora’s Section 2.1</a>. The initialization and first-step factor matter.</p>
+<p>The word <em>clock</em> is shorthand for this change in step coefficients. It does not mean that an arbitrary finite-step training run is the same trajectory played back faster.</p>
+</section>
+<section id="one-toy-run-in-two-coordinate-systems" class="level2">
+<h2>One toy run in two coordinate systems</h2>
+<p>Return to our predictor <span class="math inline">\(f_w(x)=w^\top x/\|w\|_2\)</span>, input <span class="math inline">\(x=(0,1)\)</span>, and target <span class="math inline">\(1\)</span>:</p>
+<p><span class="math display">\[
+L(w)=\frac12\left(\frac{w_2}{\|w\|_2}-1\right)^2.
+\]</span></p>
+<p>Use <span class="math inline">\(w_0=(1,0)\)</span>, <span class="math inline">\(\eta=0.1\)</span>, and <span class="math inline">\(\lambda=1\)</span>, so <span class="math inline">\(a=0.9\)</span>. These deliberately simple numbers illustrate the identity, not a recommended training configuration.</p>
+<p>The decayed first step is <span class="math inline">\(w_1=(0.9,0.1)\)</span>. The matched run has no decay and starts with learning rate <span class="math inline">\(0.1/0.9\)</span>, giving <span class="math inline">\(z_1=(1,1/9)\)</span>. Since <span class="math inline">\(w_1=0.9z_1\)</span>, their predictions agree exactly. Both rotate by approximately <span class="math inline">\(6.34^\circ\)</span>.</p>
+<p>The first three transformed learning rates are approximately <span class="math inline">\(0.111111\)</span>, <span class="math inline">\(0.137174\)</span>, and <span class="math inline">\(0.169351\)</span>. Keeping the no-decay learning rate fixed at <span class="math inline">\(0.1\)</span> would not give the same run.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/decay-clock.svg" alt="A 24-step toy calculation. Decayed SGD shrinks the weight radius while the equivalent no-decay coordinates keep a radius close to one. Their prediction curves overlap."></p>
+<figcaption>A 24-step toy calculation. Decayed SGD shrinks the weight radius while the equivalent no-decay coordinates keep a radius close to one. Their prediction curves overlap.</figcaption>
+</figure>
+</div>
+<p>The figure computes both recurrences independently. Their prediction discrepancy stays below <span class="math inline">\(10^{-12}\)</span> in this calculation. This verifies the example numerically. The algebra above is what establishes the equivalence.</p>
+</section>
+<section id="an-equilibrium-estimate-needs-one-more-assumption" class="level2">
+<h2>An equilibrium estimate needs one more assumption</h2>
+<p>The radius recurrence is exact, but <span class="math inline">\(\|h_t\|_2^2\)</span> changes with direction and minibatch. To get a simple scalar model, freeze that quantity at a positive constant <span class="math inline">\(Q\)</span>, and also hold <span class="math inline">\(\eta&gt;0\)</span> and <span class="math inline">\(\lambda&gt;0\)</span> fixed with <span class="math inline">\(0&lt;a&lt;1\)</span>.</p>
+<p>If this simplified recurrence has a fixed radius <span class="math inline">\(R_*\)</span>, then</p>
+<p><span class="math display">\[
+R_*^4=\frac{\eta^2Q}{1-a^2}
+\approx\frac{\eta Q}{2\lambda},
+\qquad \eta\lambda\ll1.
+\]</span></p>
+<p>The approximation uses <span class="math inline">\(1-(1-\eta\lambda)^2\approx2\eta\lambda\)</span>. It does not follow from scale invariance alone. In our deterministic toy problem, the directional gradient becomes small as the prediction approaches its target, so holding <span class="math inline">\(Q\)</span> fixed would miss part of the dynamics.</p>
+<p>For stochastic gradients, replacing <span class="math inline">\(Q\)</span> by an average also requires care: the radius and gradient magnitude may be correlated, and an expectation of an inverse radius is not the inverse of an expected radius. A stationary-radius heuristic is not the same result as the pathwise schedule identity.</p>
+<p>This is where the distinctions in the <a href="https://arxiv.org/abs/2010.02916v1">Intrinsic Learning Rate paper</a> become useful. Its direction-and-radius SDE and its Fast Equilibrium Conjecture have their own assumptions. Neither licenses a universal statement that every optimizer on every architecture depends only on <span class="math inline">\(\eta\lambda\)</span>.</p>
+</section>
+<section id="what-a-decay-comparison-must-hold-fixed" class="level2">
+<h2>What a decay comparison must hold fixed</h2>
+<p>On a truly invariant block, decay can change the optimization path without directly changing the predictor when applied alone. Those are compatible facts.</p>
+<p>To understand a comparison, I want the actual shrinkage factor <span class="math inline">\(a_t\)</span>, the nominal learning rate, the radius, and the angular displacement. Matching only the nominal learning rate can leave the directional dynamics unmatched. Matching one angle still does not establish matching useful feature changes.</p>
+<p>We also cannot transfer the derivation unchanged to epsilon-sensitive normalization, scale-sensitive gains, or a block that is only invariant under a joint transformation with another parameter. Part 2 explains why those distinctions matter.</p>
+<p>Next comes a complication that is present even under perfect forward invariance: the optimizer remembers. The current gradient is tangent, but its memory need not be.</p>
+</section>
+<section id="try-changing-the-clock" class="level2">
+<h2>Try changing the clock</h2>
+<ol type="1">
+<li>Set <span class="math inline">\(\lambda=0\)</span>. What happens to <span class="math inline">\(c_t\)</span> and the transformed schedule?</li>
+<li>With constant <span class="math inline">\(a=0.9\)</span>, what is the ratio <span class="math inline">\(\widetilde\eta_{t+1}/\widetilde\eta_t\)</span>? Why is it not <span class="math inline">\(1/a\)</span>?</li>
+<li>In the frozen-<span class="math inline">\(Q\)</span> model, take <span class="math inline">\(\eta=0.1\)</span>, <span class="math inline">\(\lambda=1\)</span>, and <span class="math inline">\(Q=1\)</span>. Compute the exact fixed radius and its angular step.</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li>Every <span class="math inline">\(a_t=1\)</span>, so <span class="math inline">\(c_t=1\)</span> and <span class="math inline">\(\widetilde\eta_t=\eta_t\)</span>. The change of coordinates becomes the identity.</li>
+<li>The ratio is <span class="math inline">\(1/0.9^2\approx1.234568\)</span>. Both <span class="math inline">\(c_t\)</span> and <span class="math inline">\(c_{t+1}\)</span> appear in the denominator of the transformed learning rate.</li>
+<li><span class="math inline">\(R_*=(0.01/0.19)^{1/4}\approx0.4790\)</span>. At that fixed point, <span class="math inline">\(\tan\theta=\sqrt{1-a^2}/a\)</span>, so <span class="math inline">\(\cos\theta=a\)</span> and <span class="math inline">\(\theta\approx25.84^\circ\)</span>. These are predictions of the frozen-<span class="math inline">\(Q\)</span> model, not of the earlier fitting trajectory.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p><a href="https://arxiv.org/abs/1706.05350v1">Twan van Laarhoven, L2 Regularization versus Batch and Weight Normalization (2017)</a>, Sections 2 through 4, develops the distinction between a direct norm penalty and its effect on effective learning rates, including equilibrium modeling.</p>
+<p><a href="https://arxiv.org/abs/1910.07454v3">Zhiyuan Li and Sanjeev Arora, An Exponential Learning Rate Schedule for Deep Learning (ICLR 2020)</a>, Section 2.1 and Theorem 2.1, gives the exact momentum-free schedule equivalence. The derivation here states the initialization and extends the displayed change of coordinates to explicitly specified varying <span class="math inline">\(a_t\)</span> and <span class="math inline">\(\eta_t\)</span>.</p>
+<p><a href="https://arxiv.org/abs/2010.02916v1">Zhiyuan Li, Kaifeng Lyu, and Sanjeev Arora, Reconciling Modern Deep Learning with Traditional Optimization Analyses: The Intrinsic Learning Rate (NeurIPS 2020)</a>, Sections 3 through 6, is the route into stochastic scale dynamics. Theorem 5.1 and the subsequent conjecture should be read separately.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-2/index.html">Previous: What normalization makes invariant <span class="link-mark" aria-hidden="true"></span></a><a href="../scale-geometry-4/index.html">Next: Momentum, rotation, and normalized updates <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#fix-the-convention-before-interpreting-the-penalty" id="toc-fix-the-convention-before-interpreting-the-penalty">Fix the convention before interpreting the penalty</a></li>
+<li><a href="#the-radius-records-what-decay-and-gradients-do-together" id="toc-the-radius-records-what-decay-and-gradients-do-together">The radius records what decay and gradients do together</a></li>
+<li><a href="#replace-decay-with-a-different-learning-rate-schedule" id="toc-replace-decay-with-a-different-learning-rate-schedule">Replace decay with a different learning-rate schedule</a></li>
+<li><a href="#one-toy-run-in-two-coordinate-systems" id="toc-one-toy-run-in-two-coordinate-systems">One toy run in two coordinate systems</a></li>
+<li><a href="#an-equilibrium-estimate-needs-one-more-assumption" id="toc-an-equilibrium-estimate-needs-one-more-assumption">An equilibrium estimate needs one more assumption</a></li>
+<li><a href="#what-a-decay-comparison-must-hold-fixed" id="toc-what-a-decay-comparison-must-hold-fixed">What a decay comparison must hold fixed</a></li>
+<li><a href="#try-changing-the-clock" id="toc-try-changing-the-clock">Try changing the clock</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>

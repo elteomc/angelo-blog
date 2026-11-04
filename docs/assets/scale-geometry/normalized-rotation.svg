@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="734.4pt" height="288pt" viewBox="0 0 734.4 288" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.6.3, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 288 
+L 734.4 288 
+L 734.4 0 
+L 0 0 
+z
+" style="fill: #fffdf8"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 44.064 229.581333 
+L 341.088 229.581333 
+L 341.088 72.818667 
+L 44.064 72.818667 
+z
+" style="fill: #fffdf8"/>
+   </g>
+   <g id="matplotlib.axis_1"/>
+   <g id="matplotlib.axis_2"/>
+   <g id="line2d_1">
+    <path d="M 44.064 204.829333 
+L 341.088 204.829333 
+" clip-path="url(#p4c42ef9a66)" style="fill: none; stroke: #d8d8cd; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 60.565333 229.581333 
+L 60.565333 72.818667 
+" clip-path="url(#p4c42ef9a66)" style="fill: none; stroke: #d8d8cd; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 60.565333 204.829333 
+Q 143.072 204.829333 223.342599 204.829333 
+" style="fill: none; stroke: #526f82; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 219.342599 202.829333 
+L 223.342599 204.829333 
+L 219.342599 206.829333 
+L 219.342599 202.829333 
+z
+" style="fill: #526f82; stroke: #526f82; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 225.578667 204.829333 
+Q 225.578667 163.576 225.578667 125.117752 
+" style="fill: none; stroke: #ad492d; stroke-width: 2.5; stroke-linecap: round"/>
+    <path d="M 223.578667 129.117752 
+L 225.578667 125.117752 
+L 227.578667 129.117752 
+L 223.578667 129.117752 
+z
+" style="fill: #ad492d; stroke: #ad492d; stroke-width: 2.5; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 60.565333 204.829333 
+Q 143.072 163.576 224.378667 122.922667 
+" style="fill: none; stroke: #262c29; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 219.906531 122.922667 
+L 224.378667 122.922667 
+L 221.695385 126.500375 
+L 219.906531 122.922667 
+z
+" style="fill: #262c29; stroke: #262c29; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #262c29; font: 16px 'DejaVu Sans'; text-anchor: start" x="85.317333" y="112.421867" transform="rotate(-0 85.317333 112.421867)">26.57 degrees</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #262c29; font: 10px 'DejaVu Sans'; text-anchor: start" x="232.1792" y="117.372267" transform="rotate(-0 232.1792 117.372267)">(1, 0.5)</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #526f82; font: 9px 'DejaVu Sans'; text-anchor: start" x="118.32" y="224.630933" transform="rotate(-0 118.32 224.630933)">initial weight (1, 0)</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_6">
+    <path d="M 415.344 229.581333 
+L 712.368 229.581333 
+L 712.368 72.818667 
+L 415.344 72.818667 
+z
+" style="fill: #fffdf8"/>
+   </g>
+   <g id="matplotlib.axis_3"/>
+   <g id="matplotlib.axis_4"/>
+   <g id="line2d_3">
+    <path d="M 415.344 204.829333 
+L 712.368 204.829333 
+" clip-path="url(#p2ab8dd863e)" style="fill: none; stroke: #d8d8cd; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 431.845333 229.581333 
+L 431.845333 72.818667 
+" clip-path="url(#p2ab8dd863e)" style="fill: none; stroke: #d8d8cd; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 431.845333 204.829333 
+Q 514.352 204.829333 594.622599 204.829333 
+" style="fill: none; stroke: #526f82; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 590.622599 202.829333 
+L 594.622599 204.829333 
+L 590.622599 206.829333 
+L 590.622599 202.829333 
+z
+" style="fill: #526f82; stroke: #526f82; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 596.858667 204.829333 
+Q 629.861333 180.077333 660.627932 157.002384 
+" style="fill: none; stroke: #ad492d; stroke-width: 2.5; stroke-linecap: round"/>
+    <path d="M 656.227932 157.802384 
+L 660.627932 157.002384 
+L 658.627932 161.002384 
+L 656.227932 157.802384 
+z
+" style="fill: #ad492d; stroke: #ad492d; stroke-width: 2.5; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 431.845333 204.829333 
+Q 547.354667 180.077333 661.55214 155.606446 
+" style="fill: none; stroke: #262c29; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 657.221873 154.488958 
+L 661.55214 155.606446 
+L 658.059989 158.400167 
+L 657.221873 154.488958 
+z
+" style="fill: #262c29; stroke: #262c29; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_4">
+    <text style="fill: #262c29; font: 16px 'DejaVu Sans'; text-anchor: start" x="456.597333" y="112.421867" transform="rotate(-0 456.597333 112.421867)">12.09 degrees</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #262c29; font: 10px 'DejaVu Sans'; text-anchor: start" x="669.464533" y="150.374933" transform="rotate(-0 669.464533 150.374933)">(1.4, 0.3)</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #526f82; font: 9px 'DejaVu Sans'; text-anchor: start" x="489.6" y="224.630933" transform="rotate(-0 489.6 224.630933)">initial weight (1, 0)</text>
+   </g>
+  </g>
+  <g id="text_7">
+   <text style="fill: #262c29; font: 18px 'DejaVu Sans'; text-anchor: start" x="44.064" y="25.197187" transform="rotate(-0 44.064 25.197187)">Equal update lengths do not fix the angle.</text>
+  </g>
+  <g id="text_8">
+   <text style="fill: #656a62; font: 9px 'DejaVu Sans'; text-anchor: start" x="44.064" y="272.16" transform="rotate(-0 44.064 272.16)">Both proposals have norm 1.  Both displacements have length 0.5.  Neither run uses weight decay.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p4c42ef9a66">
+   <rect x="44.064" y="72.818667" width="297.024" height="156.762667"/>
+  </clipPath>
+  <clipPath id="p2ab8dd863e">
+   <rect x="415.344" y="72.818667" width="297.024" height="156.762667"/>
+  </clipPath>
+ </defs>
+</svg>

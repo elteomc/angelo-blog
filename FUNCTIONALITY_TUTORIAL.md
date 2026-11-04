@@ -97,3 +97,22 @@ Updated November 4, 2026 after publication approval.
 - Rename the homepage groups Recent writing and Recent projects, remove the affiliation above the name, and let the interests sentence use the available desktop width.
 - Keep natural line wrapping on phones. The previous desktop wrap came from an inherited 500-pixel maximum width.
 - Rename the two opening source sections Yo twin, go read... while retaining their references and stable source-section anchors.
+
+
+## Weight decay and momentum review drafts
+
+Prepared November 4, 2026 on a separate local review branch.
+
+- Added parts 3 and 4 with exact radius and angle identities, a momentum-free schedule equivalence, explicit momentum conventions, worked examples, exercises, and primary references.
+- Added three reproducible figures and numerical checks comparing independently evolved trajectories and optimizer states.
+- Linked the new local drafts from the series hub and chapter navigation. Both articles display Draft for review, and the hub distinguishes two published posts, two review drafts, and eight planned chapters.
+- The published docs tree remains unchanged. No new draft content is committed or pushed before review.
+
+
+## Publish the weight decay and momentum posts
+
+Approved November 4, 2026 after review.
+
+- Publish parts 3 and 4 with their worked derivations, figures, exercises, and checked source references.
+- Remove the review-only notices and update the hub and homepage to show four available posts and eight planned chapters.
+- Preserve the established occasional orange italics, skull ornaments, and informal source headings.

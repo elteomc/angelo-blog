@@ -38,3 +38,5 @@ The build fails for broken local links, missing assets, missing fragment targets
 Visible figure captions and article subtitles are hidden through presentation rules, not removed from their sources. Internal experiment reports are not linked or bundled as reader resources. No source experiment data has been deleted.
 
 For the scale and geometry figures, run python3 tools/scale_geometry_figures.py. Verify numerical examples with python3 tools/check_scale_geometry.py and collection behavior with python3 tools/test_series_catalog.py.
+
+For parts 3 and 4, run python3 tools/check_decay_momentum.py to verify the finite-step examples and trajectory identities. Run python3 tools/decay_momentum_figures.py to rebuild their three figures. Render review-only work outside docs.

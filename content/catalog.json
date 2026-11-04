@@ -17,13 +17,11 @@
         },
         {
           "number": 3,
-          "title": "Weight decay changes the clock",
-          "description": "How does a redundant radius turn decay into a change in the learning dynamics?"
+          "source": "blog/scale-geometry-3/index.qmd"
         },
         {
           "number": 4,
-          "title": "Momentum, rotation, and normalized updates",
-          "description": "Which parts of an update rotate a weight, and which change its radius?"
+          "source": "blog/scale-geometry-4/index.qmd"
         },
         {
           "number": 5,

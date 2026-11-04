@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Momentum, rotation, and normalized updates | Angelo Farfan</title>
+<meta name="description" content="Decompose the momentum buffer into radial and tangent parts, compute an exact rotation, and see why normalizing an update does not fix its angle.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 4 of 12</a>
+<h1>Momentum, rotation, and normalized updates</h1>
+
+
+<p class="dek" hidden="">A tangent gradient does not imply a tangent optimizer step</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>Under exact scale invariance, the current gradient is perpendicular to the current weight. Does that mean a momentum optimizer also steps perpendicular to the weight?</p>
+<p>Only if its memory happens to point that way.</p>
+<p>A gradient from the last iteration was tangent to the weight at the last iteration. The weight has moved since then. Add that old gradient to the current one, and the resulting update can have a radial component even when both gradients came from the same perfectly scale-invariant loss.</p>
+<p>This changes the geometry behind the effective step. It also explains why two updates with the same norm can rotate a weight by different angles.</p>
+<section id="choose-a-buffer-convention-we-can-actually-analyze" class="level2">
+<h2>Choose a buffer convention we can actually analyze</h2>
+<p>Use the following momentum update with decoupled decay:</p>
+<p><span class="math display">\[
+m_t=\beta m_{t-1}+g_t,
+\qquad g_t=\nabla L_t(w_t),
+\]</span></p>
+<p><span class="math display">\[
+w_{t+1}=a_t w_t-\eta_t m_t,
+\qquad a_t=1-\eta_t\lambda_t&gt;0.
+\]</span></p>
+<p>Here <span class="math inline">\(0\leq\beta&lt;1\)</span>, <span class="math inline">\(m_{-1}=0\)</span>, <span class="math inline">\(\eta_t&gt;0\)</span>, and <span class="math inline">\(\lambda_t\geq0\)</span>. The buffer stores gradients before multiplication by the learning rate. There is no <span class="math inline">\((1-\beta)\)</span> factor, dampening, Nesterov lookahead, or decay term inside this buffer.</p>
+<p>That last choice matters. A coupled quadratic penalty would instead give</p>
+<p><span class="math display">\[
+m_t^{\mathrm{coupled}}
+=\beta m_{t-1}^{\mathrm{coupled}}+g_t+\lambda_t w_t,
+\qquad
+w_{t+1}=w_t-\eta_t m_t^{\mathrm{coupled}}.
+\]</span></p>
+<p>The penalty then persists in the buffer. With zero initial buffers, the first weight update agrees with our decoupled version, but the stored states differ and later weight updates generally diverge. With <span class="math inline">\(\beta=0\)</span> the distinction disappears for these equations.</p>
+<p><a href="https://arxiv.org/abs/1711.05101v3">Loshchilov and Hutter’s decoupled-weight-decay paper</a>, Section 2 and Algorithm 1, is a useful reference for keeping these choices separate. Its buffer stores a learning-rate-scaled contribution. Our displayed convention stores the unscaled gradient, so a changing learning rate requires its own bookkeeping.</p>
+<p>For the geometry below, assume the same blockwise forward invariance as before. Then <span class="math inline">\(g_t\perp w_t\)</span>. The statement is about the data gradient, not automatically about <span class="math inline">\(m_t\)</span>.</p>
+</section>
+<section id="split-the-proposed-update-at-the-current-weight" class="level2">
+<h2>Split the proposed update at the current weight</h2>
+<p>Write <span class="math inline">\(w_t=R_t e_t\)</span> with unit <span class="math inline">\(e_t\)</span>. Decompose the buffer into</p>
+<p><span class="math display">\[
+p_t=\langle e_t,m_t\rangle,
+\qquad v_t=m_t-p_t e_t,
+\qquad v_t\perp e_t.
+\]</span></p>
+<p>The scalar <span class="math inline">\(p_t\)</span> is the radial component of the buffer. The vector <span class="math inline">\(v_t\)</span> is its tangent component. The weight update becomes</p>
+<p><span class="math display">\[
+w_{t+1}
+=(a_tR_t-\eta_t p_t)e_t-\eta_t v_t.
+\]</span></p>
+<p>Everything about this one step is now a right triangle. Its new radius is</p>
+<p><span class="math display">\[
+R_{t+1}^2
+=(a_tR_t-\eta_t p_t)^2+\eta_t^2\|v_t\|_2^2.
+\]</span></p>
+<p>If <span class="math inline">\(a_tR_t-\eta_t p_t&gt;0\)</span>, the rotation satisfies</p>
+<p><span class="math display">\[
+\tan\theta_t
+=\frac{\eta_t\|v_t\|_2}{a_tR_t-\eta_t p_t}.
+\]</span></p>
+<p>The denominator contains information that <span class="math inline">\(\eta_t\|m_t\|_2/R_t\)</span> loses. If the denominator is zero or negative, use</p>
+<p><span class="math display">\[
+\theta_t=\operatorname{atan2}
+\left(\eta_t\|v_t\|_2,\ a_tR_t-\eta_t p_t\right),
+\]</span></p>
+<p>with an angle in <span class="math inline">\([0,\pi]\)</span> and a nonzero resulting weight. A negative denominator can mean a rotation beyond <span class="math inline">\(90^\circ\)</span>. Ordinary arctangent of the ratio would choose the wrong quadrant. If both arguments vanish, the next weight is zero and its direction is undefined.</p>
+<p>These are exact finite-step identities. No assumption about random gradients or equilibrium is needed.</p>
+</section>
+<section id="a-two-step-example-exposes-the-radial-memory" class="level2">
+<h2>A two-step example exposes the radial memory</h2>
+<p>Use the same normalized predictor and squared loss as Parts 1 and 3. Turn decay off for this example, set <span class="math inline">\(\eta=1/2\)</span> and <span class="math inline">\(\beta=0.9\)</span>, and begin at <span class="math inline">\(w_0=(1,0)\)</span>.</p>
+<p>The first gradient and buffer are <span class="math inline">\(g_0=m_0=(0,-1)\)</span>, so <span class="math inline">\(w_1=(1,1/2)\)</span>. The old gradient is no longer perpendicular to the new weight:</p>
+<p><span class="math display">\[
+\langle w_1,m_0\rangle=-1/2.
+\]</span></p>
+<p>The new gradient is still tangent. Direct differentiation gives</p>
+<p><span class="math display">\[
+g_1\approx(0.197771,-0.395542),
+\qquad
+m_1\approx(0.197771,-1.295542).
+\]</span></p>
+<p>Since <span class="math inline">\(R_1=\sqrt5/2\)</span>, the radial component is</p>
+<p><span class="math display">\[
+p_1=\frac{\langle w_1,m_1\rangle}{R_1}
+=-\frac{\beta\eta\|m_0\|_2^2}{R_1}
+\approx-0.402492.
+\]</span></p>
+<p>The equality uses <span class="math inline">\(m_0\perp w_0\)</span> and <span class="math inline">\(g_1\perp w_1\)</span>. It is a statement about this second step with a zero initial buffer, not a formula for every later <span class="math inline">\(p_t\)</span>.</p>
+<p>The tangent component has norm <span class="math inline">\(\|v_1\|_2\approx1.247214\)</span>. The exact geometric formula gives a rotation of approximately <span class="math inline">\(25.30^\circ\)</span>, and the next weight is</p>
+<p><span class="math display">\[
+w_2\approx(0.901115,1.147771).
+\]</span></p>
+<p>Pretending that the whole buffer were tangent would instead give <span class="math inline">\(\arctan(\eta\|m_1\|_2/R_1)\approx30.37^\circ\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/momentum-memory.svg" alt="The second momentum step in the worked example. The current gradient step is tangent, but the contribution from the previous gradient has a radial component. The same total step splits exactly into radial and tangent displacements."></p>
+<figcaption>The second momentum step in the worked example. The current gradient step is tangent, but the contribution from the previous gradient has a radial component. The same total step splits exactly into radial and tangent displacements.</figcaption>
+</figure>
+</div>
+<p>The negative <span class="math inline">\(p_1\)</span> has a useful interpretation. We subtract the buffer, so its negative radial component adds an outward displacement. The step contains more radial growth than we would infer from a tangent-gradient picture alone.</p>
+</section>
+<section id="a-unit-update-does-not-fix-a-rotation" class="level2">
+<h2>A unit update does not fix a rotation</h2>
+<p>Suppose we normalize a nonzero proposed update <span class="math inline">\(u\)</span> to length one and apply <span class="math inline">\(w^+=aw-\eta u\)</span>. Set</p>
+<p><span class="math display">\[
+r=\langle e,u\rangle,
+\qquad \|u-r e\|_2=\sqrt{1-r^2}.
+\]</span></p>
+<p>When <span class="math inline">\(aR-\eta r&gt;0\)</span>,</p>
+<p><span class="math display">\[
+\tan\theta
+=\frac{\eta\sqrt{1-r^2}}{aR-\eta r}.
+\]</span></p>
+<p>For a tangent unit update, <span class="math inline">\(r=0\)</span> and the familiar ratio is <span class="math inline">\(\eta/(aR)\)</span>. If the update is not tangent, that ratio does not determine the angle.</p>
+<p>Take <span class="math inline">\(w=(1,0)\)</span>, <span class="math inline">\(a=1\)</span>, and <span class="math inline">\(\eta=1/2\)</span>. Both <span class="math inline">\(u=(0,-1)\)</span> and <span class="math inline">\(\widetilde u=(-0.8,-0.6)\)</span> have unit norm. They produce</p>
+<p><span class="math display">\[
+w^+=(1,0.5),\qquad
+\widetilde w^+=(1.4,0.3),
+\]</span></p>
+<p>with rotations <span class="math inline">\(26.57^\circ\)</span> and <span class="math inline">\(12.09^\circ\)</span>. Both relative displacement lengths are <span class="math inline">\(1/2\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/normalized-rotation.svg" alt="Two unit-length update proposals at the same weight and learning rate. Their displacement lengths match, but one rotates the weight by 26.57 degrees and the other by 12.09 degrees."></p>
+<figcaption>Two unit-length update proposals at the same weight and learning rate. Their displacement lengths match, but one rotates the weight by 26.57 degrees and the other by 12.09 degrees.</figcaption>
+</figure>
+</div>
+<p>Normalizing an update controls its length. Removing its radial component is a separate operation. Renormalizing the resulting weight is another: multiplying a nonzero <span class="math inline">\(w^+\)</span> by a positive scalar does not undo the angle it already acquired.</p>
+</section>
+<section id="a-rescaled-checkpoint-also-needs-a-rescaled-buffer" class="level2">
+<h2>A rescaled checkpoint also needs a rescaled buffer</h2>
+<p>Momentum makes the optimizer state part of any trajectory comparison.</p>
+<p>For a constant <span class="math inline">\(c&gt;0\)</span>, an exactly corresponding run under our convention uses</p>
+<p><span class="math display">\[
+\widetilde w_t=cw_t,
+\qquad
+\widetilde m_{t-1}=m_{t-1}/c,
+\qquad
+\widetilde\eta_t=c^2\eta_t.
+\]</span></p>
+<p>Keep <span class="math inline">\(\beta\)</span> and <span class="math inline">\(a_t\)</span> the same in both runs. The gradients scale as <span class="math inline">\(1/c\)</span>, so the buffer recurrence preserves <span class="math inline">\(\widetilde m_t=m_t/c\)</span>. The weight recurrence then preserves <span class="math inline">\(\widetilde w_{t+1}=cw_{t+1}\)</span>.</p>
+<p>If decay is parameterized by <span class="math inline">\(a_t=1-\eta_t\lambda_t\)</span>, matching <span class="math inline">\(a_t\)</span> requires <span class="math inline">\(\widetilde\lambda_t=\lambda_t/c^2\)</span>. Rescaling the learning rate while leaving <span class="math inline">\(\lambda_t\)</span> fixed would change the shrinkage too.</p>
+<p>At a checkpoint, keeping the old buffer unchanged, or resetting it to zero, breaks this correspondence in general. A resulting transient cannot automatically be attributed to the geometry of the represented function.</p>
+<details>
+<summary>
+What becomes of Part 3’s exact clock change?
+</summary>
+<p>Keep the cumulative shrinkage <span class="math inline">\(c_{t+1}=a_tc_t\)</span> and the coordinates <span class="math inline">\(z_t=w_t/c_t\)</span>. For the decoupled convention used here, define <span class="math inline">\(q_t=c_tm_t\)</span>. For <span class="math inline">\(t\geq1\)</span>,</p>
+<p><span class="math display">\[
+q_t=\beta a_{t-1}q_{t-1}+\nabla L_t(z_t),
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+z_{t+1}=z_t-\frac{\eta_t}{c_tc_{t+1}}q_t.
+\]</span></p>
+<p>With the zero initial buffer, <span class="math inline">\(q_0=\nabla L_0(z_0)\)</span>. This is again an exact no-decay representation, but the effective momentum coefficient has changed as well as the learning rate. For constant <span class="math inline">\(a\)</span>, it is <span class="math inline">\(\beta a\)</span>.</p>
+<p>The transformation is a direct calculation for our explicitly chosen buffer. It is not the momentum formula from Li and Arora’s coupled-penalty convention. Their Section 2.2 treats that convention with a different full-state transformation.</p>
+<p>Copying only the schedule from Part 3 while retaining <span class="math inline">\(\beta\)</span> would generally compare different trajectories.</p>
+</details>
+</section>
+<section id="one-angle-cannot-summarize-the-whole-learning-process" class="level2">
+<h2>One angle cannot summarize the whole learning process</h2>
+<p>Even an exact angle only describes the present directional displacement. Momentum also changes correlations between updates over time. A long sequence of similarly directed rotations can travel differently from a sequence whose rotations cancel, even if their per-step angle magnitudes agree.</p>
+<p><a href="https://arxiv.org/abs/2305.17212v4">Kosson, Messmer, and Jaggi</a> distinguish instantaneous update sizes from longer-term contributions in their rotational-equilibrium analysis. Their predictions use a simplified random-walk model. We have used exact local identities here, rather than importing its equilibrium assumptions.</p>
+<p>We now have three quantities to keep track of: the radius, the tangent displacement, and the radial component of the optimizer’s proposal. We also need its memory when comparing trajectories. None of these alone says whether a learned feature became more useful.</p>
+<p>The next part of the series turns toward that missing functional measurement: what should count as a small change to a layer when its job is to transform activations?</p>
+</section>
+<section id="try-moving-the-memory" class="level2">
+<h2>Try moving the memory</h2>
+<ol type="1">
+<li>At <span class="math inline">\(w=(1,0)\)</span>, let <span class="math inline">\(u=(0,-1)\)</span>, <span class="math inline">\(a=0.8\)</span>, and <span class="math inline">\(\eta=0.2\)</span>. Compute the new weight and its angle.</li>
+<li>With <span class="math inline">\(w=(1,0)\)</span>, <span class="math inline">\(u=(1,0)\)</span>, and <span class="math inline">\(a=1\)</span>, what happens at <span class="math inline">\(\eta=1\)</span> and <span class="math inline">\(\eta=2\)</span>? Why is the tangent-ratio formula insufficient?</li>
+<li>Double a weight and compare the same represented predictor. How should the unscaled buffer, learning rate, and decay coefficient change under our constant-<span class="math inline">\(c\)</span> correspondence?</li>
+<li>In the expandable clock calculation, use <span class="math inline">\(a=0.9\)</span> and <span class="math inline">\(\beta=0.9\)</span>. What momentum coefficient does the no-decay <span class="math inline">\(q\)</span> recurrence use after the first step?</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li><span class="math inline">\(w^+=(0.8,0.2)\)</span> and <span class="math inline">\(\theta=\arctan(1/4)\approx14.04^\circ\)</span>.</li>
+<li>At <span class="math inline">\(\eta=1\)</span>, the new weight is zero and its direction is undefined. At <span class="math inline">\(\eta=2\)</span>, it is <span class="math inline">\((-1,0)\)</span> and the angle is <span class="math inline">\(180^\circ\)</span>. The tangent numerator is zero in both cases, but the radial part distinguishes them.</li>
+<li>Divide the buffer by two, multiply the learning rate by four, and divide <span class="math inline">\(\lambda\)</span> by four, preserving the same shrinkage factor and <span class="math inline">\(\beta\)</span>. Resetting the buffer is a different intervention.</li>
+<li>It is <span class="math inline">\(\beta a=0.81\)</span>. This answer depends on the decoupled, unscaled-buffer convention displayed in this post.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p><a href="https://arxiv.org/abs/1711.05101v3">Ilya Loshchilov and Frank Hutter, Decoupled Weight Decay Regularization (ICLR 2019)</a>, Section 2 and Algorithm 1, distinguishes coupled regularization from decoupled shrinkage. Check both decay placement and whether the buffer stores a gradient or a learning-rate-scaled displacement.</p>
+<p><a href="https://arxiv.org/abs/1910.07454v3">Zhiyuan Li and Sanjeev Arora, An Exponential Learning Rate Schedule for Deep Learning (ICLR 2020)</a>, Definition 1.2 and Sections 2.2 and 2.3, treats trajectory equivalence with momentum and the required state transformations. Its coupled-penalty convention differs from the decoupled example derived here.</p>
+<p><a href="https://arxiv.org/abs/2305.17212v4">Atli Kosson, Bettina Messmer, and Martin Jaggi, Rotational Equilibrium: How Weight Decay Balances Learning Across Neural Networks (ICML 2024)</a>, Sections 2 and 3.1 and Appendices C and L, connects angular updates, momentum, and total update contributions. The equilibrium estimates require their modeling assumptions. Our worked examples and radial-tangent identities are direct finite-step calculations, not evidence for an optimizer ranking.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-3/index.html">Previous: Weight decay changes the clock <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#choose-a-buffer-convention-we-can-actually-analyze" id="toc-choose-a-buffer-convention-we-can-actually-analyze">Choose a buffer convention we can actually analyze</a></li>
+<li><a href="#split-the-proposed-update-at-the-current-weight" id="toc-split-the-proposed-update-at-the-current-weight">Split the proposed update at the current weight</a></li>
+<li><a href="#a-two-step-example-exposes-the-radial-memory" id="toc-a-two-step-example-exposes-the-radial-memory">A two-step example exposes the radial memory</a></li>
+<li><a href="#a-unit-update-does-not-fix-a-rotation" id="toc-a-unit-update-does-not-fix-a-rotation">A unit update does not fix a rotation</a></li>
+<li><a href="#a-rescaled-checkpoint-also-needs-a-rescaled-buffer" id="toc-a-rescaled-checkpoint-also-needs-a-rescaled-buffer">A rescaled checkpoint also needs a rescaled buffer</a></li>
+<li><a href="#one-angle-cannot-summarize-the-whole-learning-process" id="toc-one-angle-cannot-summarize-the-whole-learning-process">One angle cannot summarize the whole learning process</a></li>
+<li><a href="#try-moving-the-memory" id="toc-try-moving-the-memory">Try moving the memory</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>
