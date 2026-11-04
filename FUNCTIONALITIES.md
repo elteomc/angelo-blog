@@ -201,3 +201,13 @@ Updated November 4, 2026.
 - Remove the series count and completion metadata from the homepage and the completion label from the Writing index.
 - Allow a collection to omit its introduction without producing an empty paragraph. Keep the short series question and chapter links.
 - Rebuild generated includes, rendered pages, and search data from the corrected sources.
+
+## Remove personal references from research notes
+
+Updated November 4, 2026.
+
+- Remove personal collaborator references from the closing Scale and geometry posts, internal editorial instructions, rendered articles, and search data.
+- Preserve the mathematical arguments, primary references, exercises, and chapter navigation.
+- Apply the same neutral wording to earlier repository revisions and verify the published history before replacing it.
+
+The editorial plan now maps ten follow-up questions to dossier sources and distinguishes the neighboring width-scaling and training-dynamics sequences. This is an internal backlog, with no additional public chapters.
