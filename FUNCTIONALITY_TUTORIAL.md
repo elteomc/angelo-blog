@@ -165,4 +165,4 @@ Updated November 4, 2026.
 - Preserve the mathematical arguments, primary references, exercises, and chapter navigation.
 - Apply the same neutral wording to earlier repository revisions and verify the published history before replacing it.
 
-The editorial plan now maps ten follow-up questions to dossier sources and distinguishes the neighboring width-scaling and training-dynamics sequences. This is an internal backlog, with no additional public chapters.
+The editorial plan now maps ten follow-up questions to dossier sources and distinguishes the neighboring width-scaling and training-dynamics sequences. The backlog also includes the stochastic feature-selection calculation and ordinary-network response controls. This is an internal backlog, with no additional public chapters.

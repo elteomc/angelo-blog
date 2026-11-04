@@ -85,6 +85,8 @@ This coverage review compared all twelve article outlines with the Modula readin
 
 Start with finite polar computation, averaging before the oracle, and decay as a norm budget. These directly extend the existing support-direction discussion and have worked derivations ready in the dossiers. Keep the research case study after the distinction between pointwise bounds, finite evaluation, and training evidence has been developed.
 
+The experimental material can support several case studies. The [stochastic feature-selection calculation](/home/acru/angelo/proj/tense/research/modula/stochastic_bias/ASSESSMENT.md) and [ordinary-network response controls](/home/acru/angelo/proj/tense/research/modula/network_minibatch/RESULTS.md) add a different line of evidence from the attention experiments. Keep the constructed-model averaging assumptions, finite evaluations, and limits of network validation explicit.
+
 ### Adjacent sequences
 
 Tensor Programs, kernel versus feature-learning regimes, and the full muP/depth story support a separate sequence with its own prerequisites. The [Tensor Programs IV](/home/acru/angelo/proj/tense/.paper-mastery/tensor-programs-iv/01-executive-map.md), [IVb](/home/acru/angelo/proj/tense/.paper-mastery/tensor-programs-ivb/01-executive-map.md), and [VI](/home/acru/angelo/proj/tense/.paper-mastery/tensor-programs-vi/01-executive-map.md) maps give the entry points.
