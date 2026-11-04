@@ -42,3 +42,32 @@ Workshop migration issues above are resolved and verified in the final 14-page b
 ## PUB-001: published assets enter an external preview build twice
 
 Found November 4, 2026 while preparing the current site for publication. Rendering to an external output directory lets existing docs assets enter resource discovery and creates a redundant docs/assets subtree inside the new output. Status: resolved. The committed docs tree is excluded from project resources. A fresh 14-page render passed all local-link checks and contains no nested docs tree.
+
+
+## PUB-002: series navigation and discovery assume free probability
+
+Found November 4, 2026 while preparing a second series. The article template sends every series label to free-probability.html and says All six chapters. The catalog generator also fixes the Writing index and hub to that series. Status: resolved in the local review branch. Collections now own hub metadata, ordered chapters, and planned entries. Article hub paths are explicit, and all existing chapter URLs are preserved. Regression tests cover separate collection indexes and unwritten chapter handling.
+
+
+## PUB-003: inherited asset prefix is rebased for new chapter folders
+
+Found November 4, 2026 in the first new-series render. New articles relying only on the blog folder metadata receive a three-level prefix instead of the required two-level prefix, breaking navigation and shared assets. Status: resolved. New articles explicitly set site-root to ../../. The full 17-page render passes all local links, and header and sidebar hub targets were checked for all eight articles.
+
+## PUB-004: planned chapter HTML is misparsed during inclusion
+
+Found November 4, 2026 in the first new-series hub render. The generated planned-chapter markup triggers unclosed-div warnings when included as Markdown. Status: resolved. The new hub includes its generated fragment inside a raw HTML block. The complete render has no unclosed-div warnings and the hub contains two linked drafts plus ten unlinked planned entries.
+
+
+## PUB-005: image captions do not provide rendered alternative text
+
+Found November 4, 2026 in the new draft output. The two diagram descriptions written as image captions are omitted from the rendered img alternative text by the current rendering path. Status: resolved. Both diagrams set explicit fig-alt attributes, and browser inspection confirms their full alternative text and successful loading.
+
+
+## UI-001: homepage interest text wraps prematurely on desktop
+
+Found November 4, 2026 during publication review. The inherited plain-intro interest rule caps the sentence at 500 pixels even when the homepage has enough width for one line. Status: resolved. The homepage interest sentence uses the full desktop width and stays on one line at desktop sizes. Browser checks confirm normal wrapping and no page overflow at 390 pixels.
+
+
+## UI-002: cached Workshop stylesheet hides the latest presentation
+
+Found November 4, 2026 during browser verification. Reloading the changed HTML retained the prior stylesheet, so the skull ornaments were invisible and the interest sentence still used the old width cap. The rendered CSS already contained the correct rules. Status: resolved. The shared stylesheet URL now carries a release version. Browser inspection confirms the skull mask loads and the interest line uses the corrected width.

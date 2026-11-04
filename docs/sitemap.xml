@@ -1,59 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://angelo.dev/projects/magnetic-pe/index.html</loc>
-    <lastmod>2026-10-18T17:18:48.827Z</lastmod>
+    <loc>https://angelo.dev/scale-geometry.html</loc>
+    <lastmod>2026-11-04T18:25:31.215Z</lastmod>
   </url>
   <url>
-    <loc>https://angelo.dev/notes.html</loc>
-    <lastmod>2026-04-26T09:12:29.247Z</lastmod>
-  </url>
-  <url>
-    <loc>https://angelo.dev/free-probability.html</loc>
-    <lastmod>2026-10-18T17:20:39.485Z</lastmod>
-  </url>
-  <url>
-    <loc>https://angelo.dev/blog/free-prob-6/index.html</loc>
-    <lastmod>2026-11-04T18:14:01.593Z</lastmod>
-  </url>
-  <url>
-    <loc>https://angelo.dev/blog/free-prob-4/index.html</loc>
-    <lastmod>2026-11-04T18:14:01.592Z</lastmod>
-  </url>
-  <url>
-    <loc>https://angelo.dev/blog/free-prob-2/index.html</loc>
-    <lastmod>2026-11-04T18:14:01.592Z</lastmod>
-  </url>
-  <url>
-    <loc>https://angelo.dev/blog.html</loc>
+    <loc>https://angelo.dev/projects.html</loc>
     <lastmod>2026-10-18T17:15:54.707Z</lastmod>
   </url>
   <url>
-    <loc>https://angelo.dev/about.html</loc>
-    <lastmod>2026-04-26T09:18:35.021Z</lastmod>
-  </url>
-  <url>
-    <loc>https://angelo.dev/blog/free-prob-1/index.html</loc>
-    <lastmod>2026-11-04T18:14:01.591Z</lastmod>
-  </url>
-  <url>
-    <loc>https://angelo.dev/blog/free-prob-3/index.html</loc>
-    <lastmod>2026-11-04T18:14:01.592Z</lastmod>
-  </url>
-  <url>
-    <loc>https://angelo.dev/blog/free-prob-5/index.html</loc>
-    <lastmod>2026-11-04T18:14:01.593Z</lastmod>
+    <loc>https://angelo.dev/index.html</loc>
+    <lastmod>2026-11-04T21:06:51.807Z</lastmod>
   </url>
   <url>
     <loc>https://angelo.dev/cv.html</loc>
     <lastmod>2026-04-26T09:25:16.717Z</lastmod>
   </url>
   <url>
-    <loc>https://angelo.dev/index.html</loc>
-    <lastmod>2026-10-18T17:18:48.828Z</lastmod>
+    <loc>https://angelo.dev/blog/scale-geometry-1/index.html</loc>
+    <lastmod>2026-11-04T21:06:51.807Z</lastmod>
   </url>
   <url>
-    <loc>https://angelo.dev/projects.html</loc>
+    <loc>https://angelo.dev/blog/free-prob-5/index.html</loc>
+    <lastmod>2026-11-04T18:23:33.643Z</lastmod>
+  </url>
+  <url>
+    <loc>https://angelo.dev/blog/free-prob-3/index.html</loc>
+    <lastmod>2026-11-04T18:23:33.643Z</lastmod>
+  </url>
+  <url>
+    <loc>https://angelo.dev/blog/free-prob-1/index.html</loc>
+    <lastmod>2026-11-04T18:23:33.643Z</lastmod>
+  </url>
+  <url>
+    <loc>https://angelo.dev/about.html</loc>
+    <lastmod>2026-04-26T09:18:35.021Z</lastmod>
+  </url>
+  <url>
+    <loc>https://angelo.dev/blog.html</loc>
     <lastmod>2026-10-18T17:15:54.707Z</lastmod>
+  </url>
+  <url>
+    <loc>https://angelo.dev/blog/free-prob-2/index.html</loc>
+    <lastmod>2026-11-04T18:23:33.643Z</lastmod>
+  </url>
+  <url>
+    <loc>https://angelo.dev/blog/free-prob-4/index.html</loc>
+    <lastmod>2026-11-04T18:23:33.643Z</lastmod>
+  </url>
+  <url>
+    <loc>https://angelo.dev/blog/free-prob-6/index.html</loc>
+    <lastmod>2026-11-04T18:23:33.643Z</lastmod>
+  </url>
+  <url>
+    <loc>https://angelo.dev/blog/scale-geometry-2/index.html</loc>
+    <lastmod>2026-11-04T21:06:51.808Z</lastmod>
+  </url>
+  <url>
+    <loc>https://angelo.dev/free-probability.html</loc>
+    <lastmod>2026-10-18T17:20:39.485Z</lastmod>
+  </url>
+  <url>
+    <loc>https://angelo.dev/notes.html</loc>
+    <lastmod>2026-04-26T09:12:29.247Z</lastmod>
+  </url>
+  <url>
+    <loc>https://angelo.dev/projects/magnetic-pe/index.html</loc>
+    <lastmod>2026-11-04T21:06:51.807Z</lastmod>
   </url>
 </urlset>

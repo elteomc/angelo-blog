@@ -1,0 +1,11 @@
+---
+title: Scale and geometry
+description: "Normalization, weight decay, and the route from layer geometry to Modula."
+custom-layout: true
+nav-writing: true
+toc: false
+---
+
+```{=html}
+{{< include _includes/scale-geometry.html >}}
+```

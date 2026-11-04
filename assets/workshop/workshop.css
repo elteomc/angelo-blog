@@ -608,3 +608,23 @@ figcaption { display:none; }
 .publication-note strong{display:block;font:700 16px/1.5 var(--sans)}
 .publication-note p{margin:5px 0 0;font:14px/1.6 var(--sans);color:var(--muted)}
 .publication-status{font:13px/1.6 var(--sans);color:var(--accent)}
+
+
+.reading-list > li > .planned-chapter{display:grid;grid-template-columns:30px minmax(0,1fr);gap:20px;padding:25px 0}
+.planned-chapter h3{color:var(--muted)}
+.chapter-state{display:inline-block;margin-top:10px;font:11px/1.5 var(--sans);color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:3px 10px}
+.archive-layout > .archive-header{grid-column:1;grid-row:1 / span 2}
+.archive-layout > .archive-body{grid-column:2}
+.series-summary .publication-status{font:13px/1.6 var(--sans);color:var(--accent)}
+@media(max-width:650px){.reading-list > li > .planned-chapter{grid-template-columns:24px minmax(0,1fr);gap:12px}}
+
+
+/* Shared skull ornament and homepage reading width. */
+.link-mark{display:inline-block;width:.8em;height:1em;margin-left:.4em;vertical-align:-.12em;background:currentColor;-webkit-mask:url(skull-mark.svg) center/contain no-repeat;mask:url(skull-mark.svg) center/contain no-repeat;flex:none}
+.wordmark .link-mark{font-size:20px;margin-left:12px;color:var(--accent)}
+.text-link{gap:.65em}
+.text-link .link-mark,.reading-list .link-mark{margin-left:0}
+.chapter-navigation a > .link-mark{display:inline-block;font-size:14px;margin:0 0 0 .5em}
+.editorial-home .plain-intro{max-width:none}
+.editorial-home .plain-intro .interest{max-width:none}
+@media(min-width:760px){.editorial-home .plain-intro .interest{white-space:nowrap}}

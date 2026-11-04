@@ -1,33 +1,57 @@
 # Editorial plan
 
-Updated 2026-10-17.
+Updated 2026-11-04.
+
+## Current priority
+
+Scale and geometry is the active main series. Its thread is normalization, weight decay, layer geometry, and modular optimization. Each post answers one question with a worked argument, example, or experiment. Organize the writing around the questions rather than one summary per paper.
+
+The existing website and six free-probability posts were pushed on November 4 with a bold In process of rewriting... notice. They remain available as unfinished writing. Preserve their sources and URLs while moving their revision queue behind the new series.
+
+Angelo authorized publication of the series hub and first two posts on November 4 after reviewing the local preview, with homepage and source-section presentation refinements. The remaining ten chapters are planned. No future release dates or automatic publication have been set.
 
 ## Standing commitment
 
-Publish at least two posts per week. The blog is a commitment to studying and explaining, as well as a public collection of writing. A post should answer one question with a worked argument, example, or experiment.
+Aim for at least two posts per week as the series develops. Maintain one main sequence, with smaller standalone notes available when a longer article needs more work. Do not turn the cadence into a reason to publish an unsupported claim or an unrehearsed derivation.
 
-## Free probability release queue
+## Scale and geometry queue
 
-The six articles are prepared together so notation, links, and examples are consistent. The dates below are a proposed Tuesday and Friday release sequence. They do not create scheduled publication or a deployment. Article metadata records writing or revision dates rather than pretending a future release already happened.
+| Part | Working title | Reader outcome | Current state |
+| --- | --- | --- | --- |
+| 1 | The same network, a different step | Derive gradient scaling and compute an exact two-dimensional SGD step | Approved for publication |
+| 2 | What normalization makes invariant | Distinguish input normalization, block invariance, and joint gain compensation | Approved for publication |
+| 3 | Weight decay changes the clock | Separate a direct penalty from radius dynamics and the resulting effective step | Planned |
+| 4 | Momentum, rotation, and normalized updates | Derive the radial and tangent update decomposition and keep optimizer conventions explicit | Planned |
+| 5 | What counts as a small layer change? | Relate activation perturbations to a choice of matrix norm | Planned |
+| 6 | Choosing an update with a dual norm | Solve a concrete linear support problem and connect it to matrix update directions | Planned |
+| 7 | How Modula combines layer budgets | Derive the product-ball interpretation of the weighted maximum and its alternatives | Planned |
+| 8 | Constraining weights, constraining motion | Distinguish a weight manifold, tangent directions, update budgets, and retractions | Planned |
+| 9 | Fixed norms and the schedule question | Compare fixed weight and update norms with fair angular-schedule controls | Planned |
+| 10 | Which scales should stay learnable? | Trace gains, branch multipliers, and effective maps through a module | Planned |
+| 11 | One gain, several constraints | Derive shared-gain feasibility and a scalar fitting floor under explicit frozen-feature assumptions | Planned research note |
+| 12 | From a counterexample to a research claim | Design tests that account for attention symmetries, feature adaptation, and tuned baselines | Planned research note |
 
-| Proposed release | Article | Author rehearsal before release |
-| --- | --- | --- |
-| 2026-10-20 | I: spectra and freeness | Recover the fourth moment of the free sign sum without notes |
-| 2026-10-23 | II: noncrossing partitions and cumulants | Draw the pairings and derive the cumulant scaling for a normalized sum |
-| 2026-10-27 | III: the R-transform | Derive the arcsine transform and explain the branch choice |
-| 2026-10-30 | IV: the matrix experiment | Explain the controls, exact centering, and what the plots do not establish |
-| 2026-11-03 | V: the S-transform | Derive the projection transform and the second product moment |
-| 2026-11-06 | VI: covariance products | Recover the aspect-ratio convention, zero atom, and moments 1, 3, 12, 55 |
+Parts 1 through 4 establish scale dynamics. Parts 5 through 8 build the language of layer and modular geometry. Parts 9 through 12 connect those tools to open research questions. The boundaries may change during editorial review.
+
+The first two posts were approved together. Later posts need their own complete drafts and checks. A planned chapter appears on the hub without a link until its source exists.
+
+## Evidence and attribution
+
+- Cite primary sources beside the claims they support. Verify section references rather than relying on a reading list.
+- Derive exact identities under their stated assumptions. Label an approximation or modeling assumption when it first enters.
+- Keep published results, worked examples, and proposed experiments distinct.
+- The shared-gain calculations concern frozen features and specified branch outputs. Do not present them as a full Transformer capacity theorem or a publication-priority result.
+- Include gain and bias placement, epsilon, optimizer state, and attention reparameterizations whenever they affect a claim.
 
 ## Weekly practice
 
-- First session: reconstruct the central argument before consulting sources, then resolve gaps.
-- Second session: check every equation and example, run relevant numerical work, and revise the explanation in the author's own words.
-- Release at least twice each week, with smaller standalone notes available when a longer article needs more work.
-- One week after each release, repeat the derivation or solve a changed example and record any correction needed.
+- Reconstruct the central argument before consulting the sources, then resolve gaps.
+- Check every equation and numerical example. Rebuild figures from their source when relevant.
+- Review prose in the author's own voice and inspect the rendered article on a narrow screen.
+- One week after a release, repeat the derivation or solve a changed example and record any correction needed.
 
-A complete draft is not evidence that the author has mastered its argument. Rehearsal and correction are part of the publication process.
+## Deferred queues
 
-## Next series
+The previous October and November free-probability release dates were proposals, not a completed publication schedule. They are superseded. Keep all six posts available with rewriting notices and return to their revision after the new series has a stable cadence.
 
-After free probability, return to the planned learning-theory sequence beginning with how small neuron updates can produce substantial output learning. Keep one main series active at a time while allowing independent mathematical notes.
+The learning-theory sequence beginning with small neuron updates and substantial output learning remains a later series. It does not compete with the current sequence for the first release slots.

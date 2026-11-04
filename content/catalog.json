@@ -1,28 +1,141 @@
 {
-  "series": [
+  "collections": [
     {
-      "number": 1,
-      "source": "blog/free-prob-1/index.qmd"
+      "id": "scale-geometry",
+      "title": "Scale and geometry",
+      "url": "scale-geometry.html",
+      "include": "scale-geometry",
+      "description": "Which scales can we ignore, which change learning, and which should an optimizer constrain?",
+      "chapters": [
+        {
+          "number": 1,
+          "source": "blog/scale-geometry-1/index.qmd"
+        },
+        {
+          "number": 2,
+          "source": "blog/scale-geometry-2/index.qmd"
+        },
+        {
+          "number": 3,
+          "title": "Weight decay changes the clock",
+          "description": "How does a redundant radius turn decay into a change in the learning dynamics?"
+        },
+        {
+          "number": 4,
+          "title": "Momentum, rotation, and normalized updates",
+          "description": "Which parts of an update rotate a weight, and which change its radius?"
+        },
+        {
+          "number": 5,
+          "title": "What counts as a small layer change?",
+          "description": "Measure a perturbation through its effect on activations."
+        },
+        {
+          "number": 6,
+          "title": "Choosing an update with a dual norm",
+          "description": "Derive an update direction from a linear support problem."
+        },
+        {
+          "number": 7,
+          "title": "How Modula combines layer budgets",
+          "description": "Build a network geometry from atomic modules and explain the weighted maximum."
+        },
+        {
+          "number": 8,
+          "title": "Constraining weights, constraining motion",
+          "description": "Separate a weight manifold, tangent directions, update size, and retraction."
+        },
+        {
+          "number": 9,
+          "title": "Fixed norms and the schedule question",
+          "description": "What survives a comparison that tunes angular schedules fairly?"
+        },
+        {
+          "number": 10,
+          "title": "Which scales should stay learnable?",
+          "description": "Trace normalization gains and branch multipliers through effective maps."
+        },
+        {
+          "number": 11,
+          "title": "One gain, several constraints",
+          "description": "Test simultaneous norm constraints with a frozen-feature compatibility calculation."
+        },
+        {
+          "number": 12,
+          "title": "From a counterexample to a research claim",
+          "description": "Which attention symmetries and learning experiments could overturn the toy prediction?"
+        }
+      ],
+      "groups": [
+        {
+          "title": "I. Scale and learning dynamics",
+          "start": 0,
+          "count": 4
+        },
+        {
+          "title": "II. From layer geometry to Modula",
+          "start": 4,
+          "count": 4
+        },
+        {
+          "title": "III. Which scales should we constrain?",
+          "start": 8,
+          "count": 4
+        }
+      ]
     },
     {
-      "number": 2,
-      "source": "blog/free-prob-2/index.qmd"
-    },
-    {
-      "number": 3,
-      "source": "blog/free-prob-3/index.qmd"
-    },
-    {
-      "number": 4,
-      "source": "blog/free-prob-4/index.qmd"
-    },
-    {
-      "number": 5,
-      "source": "blog/free-prob-5/index.qmd"
-    },
-    {
-      "number": 6,
-      "source": "blog/free-prob-6/index.qmd"
+      "id": "free-probability",
+      "title": "Free probability",
+      "url": "free-probability.html",
+      "include": "series",
+      "description": "Knowing the eigenvalues of two matrices does not determine the eigenvalues of their sum or product.",
+      "introduction": "This series studies what happens when their eigenvectors are randomly oriented, then develops the tools that make the limiting calculations possible.",
+      "status": "In process of rewriting...",
+      "status_description": "These are working drafts, not finished posts.",
+      "chapters": [
+        {
+          "number": 1,
+          "source": "blog/free-prob-1/index.qmd"
+        },
+        {
+          "number": 2,
+          "source": "blog/free-prob-2/index.qmd"
+        },
+        {
+          "number": 3,
+          "source": "blog/free-prob-3/index.qmd"
+        },
+        {
+          "number": 4,
+          "source": "blog/free-prob-4/index.qmd"
+        },
+        {
+          "number": 5,
+          "source": "blog/free-prob-5/index.qmd"
+        },
+        {
+          "number": 6,
+          "source": "blog/free-prob-6/index.qmd"
+        }
+      ],
+      "groups": [
+        {
+          "title": "Freeness and cumulants",
+          "start": 0,
+          "count": 2
+        },
+        {
+          "title": "Adding matrices",
+          "start": 2,
+          "count": 2
+        },
+        {
+          "title": "Multiplying matrices",
+          "start": 4,
+          "count": 2
+        }
+      ]
     }
   ],
   "projects": [
@@ -36,22 +149,5 @@
       "alt": "Three paired validation seeds and the uncertainty in the equal-width comparison."
     }
   ],
-  "articles": [],
-  "series_groups": [
-    {
-      "title": "Freeness and cumulants",
-      "start": 0,
-      "count": 2
-    },
-    {
-      "title": "Adding matrices",
-      "start": 2,
-      "count": 2
-    },
-    {
-      "title": "Multiplying matrices",
-      "start": 4,
-      "count": 2
-    }
-  ]
+  "articles": []
 }

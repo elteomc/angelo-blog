@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>$if(home-page)$Angelo Farfan$else$$if(title)$$title$ | $endif$Angelo Farfan$endif$</title>
 $if(description)$<meta name="description" content="$description$">$endif$
-<link rel="stylesheet" href="$site-root$assets/workshop/workshop.css">
+<link rel="stylesheet" href="$site-root$assets/workshop/workshop.css?v=20261104-2">
 <script src="$site-root$assets/workshop/theme.js"></script>
 $if(highlighting-css)$<style>$highlighting-css$</style>$endif$
 $for(header-includes)$$header-includes$$endfor$
@@ -13,23 +13,24 @@ $if(math)$$math$$endif$
 </head>
 <body data-direction="workshop">
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="masthead"><a class="wordmark" href="$site-root$index.html">Angelo Farfan<span class="mark">↗</span></a><nav aria-label="Main navigation"><a href="$site-root$blog.html"$if(nav-writing)$ aria-current="page"$endif$>Writing</a><a href="$site-root$projects.html"$if(nav-projects)$ aria-current="page"$endif$>Projects</a><a href="$site-root$about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<header class="masthead"><a class="wordmark" href="$site-root$index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="$site-root$blog.html"$if(nav-writing)$ aria-current="page"$endif$>Writing</a><a href="$site-root$projects.html"$if(nav-projects)$ aria-current="page"$endif$>Projects</a><a href="$site-root$about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
 <main id="main" tabindex="-1">
 $if(custom-layout)$
 $body$
 $else$
 <div class="article-layout"><article><header class="article-header quarto-title-block">
-$if(series-label)$<a class="eyebrow" href="$site-root$free-probability.html">$series-label$</a>$endif$
+$if(series-label)$<a class="eyebrow" href="$site-root$$series-url$">$series-label$</a>$endif$
 <h1>$title$</h1>
+$if(review-notice)$<aside class="publication-note" aria-label="Article status"><strong>Draft for review</strong><p>This post is part of a new series being prepared for publication.</p></aside>$endif$
 $if(rewrite-notice)$<aside class="publication-note" aria-label="Article status"><strong>In process of rewriting...</strong><p>This is a working draft, not a finished post.</p></aside>$endif$
 $if(subtitle)$<p class="dek" hidden>$subtitle$</p>$endif$
 $if(author)$<div class="article-meta">$for(author)$$author$$sep$, $endfor$</div>$endif$
 </header><div class="article-body full-draft">$body$</div>
-$if(previous-url)$<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="$previous-url$">← $previous-title$</a>$if(next-url)$<a href="$next-url$">$next-title$ →</a>$endif$</nav>$else$$if(next-url)$<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="$next-url$">$next-title$ →</a></nav>$endif$$endif$
-</article>$if(toc)$<aside class="contents"><nav aria-label="On this page">$table-of-contents$</nav>$if(series-label)$<a class="back-to-series" href="$site-root$free-probability.html">All six chapters ↗</a>$endif$</aside>$endif$</div>
+$if(previous-url)$<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="$previous-url$">Previous: $previous-title$ <span class="link-mark" aria-hidden="true"></span></a>$if(next-url)$<a href="$next-url$">Next: $next-title$ <span class="link-mark" aria-hidden="true"></span></a>$endif$</nav>$else$$if(next-url)$<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="$next-url$">Next: $next-title$ <span class="link-mark" aria-hidden="true"></span></a></nav>$endif$$endif$
+</article>$if(toc)$<aside class="contents"><nav aria-label="On this page">$table-of-contents$</nav>$if(series-label)$<a class="back-to-series" href="$site-root$$series-url$">All chapters <span class="link-mark" aria-hidden="true"></span></a>$endif$</aside>$endif$</div>
 $endif$
 </main>
-<footer><a href="$site-root$index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="$site-root$notes.html">Notes</a><a href="$site-root$cv.html">CV</a><a href="https://github.com/elteomc">GitHub ↗</a></nav></footer>
+<footer><a href="$site-root$index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="$site-root$notes.html">Notes</a><a href="$site-root$cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
 $for(include-after)$$include-after$$endfor$
 </body>
 </html>

@@ -6,6 +6,7 @@ date: 2026-10-17
 categories: [mathematics, probability, random matrices, free probability]
 toc: true
 rewrite-notice: true
+series-url: free-probability.html
 site-root: ../../
 nav-writing: true
 series-label: "Free probability / Part 2 of 6"

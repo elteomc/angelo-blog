@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What normalization makes invariant | Angelo Farfan</title>
+<meta name="description" content="Trace the scale through LayerNorm, RMSNorm, residual branches, and shared gains before deciding which weight norms can be fixed.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 2 of 12</a>
+<h1>What normalization makes invariant</h1>
+
+
+<p class="dek" hidden="">A normalized activation, an independently scalable weight, and a joint reparameterization are different things</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>The previous post started from a strong assumption: multiply one weight vector by any positive constant and the loss stays exactly the same. Under that assumption, a raw SGD step depends on the radius through <span class="math inline">\(\eta/\|w\|_2^2\)</span>.</p>
+<p>Now consider a common-looking block:</p>
+<p><span class="math display">\[
+x\longmapsto W\,\operatorname{RMSNorm}(x).
+\]</span></p>
+<p>There is normalization right beside the matrix. Does that make <span class="math inline">\(W\)</span> scale invariant?</p>
+<p>No.&nbsp;Rescaling <span class="math inline">\(W\)</span> rescales the output of this block. The normalization acts on what enters the matrix, not what leaves it. A later operation could compensate, but we would need to identify it and check the whole expression.</p>
+<p>The placement of normalization matters as much as its name.</p>
+<section id="first-ask-what-is-being-rescaled" class="level2">
+<h2>First ask what is being rescaled</h2>
+<p>For a vector <span class="math inline">\(h\in\mathbb R^d\)</span>, define its root mean square by</p>
+<p><span class="math display">\[
+s(h)=\sqrt{\frac1d\sum_{j=1}^d h_j^2}.
+\]</span></p>
+<p>Ignore the stabilizing epsilon for a moment, assume <span class="math inline">\(h\ne0\)</span>, and use the gain-free normalization <span class="math inline">\(n(h)=h/s(h)\)</span>. For <span class="math inline">\(c&gt;0\)</span>,</p>
+<p><span class="math display">\[
+n(ch)=\frac{ch}{c\,s(h)}=n(h).
+\]</span></p>
+<p>Now compare the two compositions:</p>
+<p><span class="math display">\[
+n(Wx)
+\qquad\text{and}\qquad
+Wn(x).
+\]</span></p>
+<p>In the first, replacing <span class="math inline">\(W\)</span> by <span class="math inline">\(cW\)</span> disappears inside the normalization, provided <span class="math inline">\(Wx\ne0\)</span> on the inputs under discussion. In the second, it multiplies the output by <span class="math inline">\(c\)</span>.</p>
+<p>If the rest of the computation uses <span class="math inline">\(W\)</span> only through <span class="math inline">\(n(Wx)\)</span>, the first expression gives blockwise scale invariance. If <span class="math inline">\(W\)</span> has another consumer, that consumer must be checked too. This is a statement about the computation graph, not just a property of a normalization formula.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/normalization-placement.svg" alt="Normalization after a matrix cancels a common positive matrix scale in the idealized formula. Normalization before a matrix leaves its output scale visible."></p>
+<figcaption>Normalization after a matrix cancels a common positive matrix scale in the idealized formula. Normalization before a matrix leaves its output scale visible.</figcaption>
+</figure>
+</div>
+<p>The <a href="https://arxiv.org/abs/1910.07467v1">RMSNorm paper by Zhang and Sennrich</a> studies normalization by root mean square. The cancellation above follows directly from its idealized denominator. It should not be read as permission to rescale arbitrary matrices in a model that uses RMSNorm.</p>
+</section>
+<section id="layernorm-cancels-a-particular-common-scale-too" class="level2">
+<h2>LayerNorm cancels a particular common scale too</h2>
+<p>Write the mean and variance across channels as</p>
+<p><span class="math display">\[
+\mu(h)=\frac1d\sum_j h_j,
+\qquad
+v(h)=\frac1d\sum_j(h_j-\mu(h))^2.
+\]</span></p>
+<p>The gain-free, zero-epsilon LayerNorm expression is</p>
+<p><span class="math display">\[
+\ell(h)=\frac{h-\mu(h)\mathbf1}{\sqrt{v(h)}}.
+\]</span></p>
+<p>For <span class="math inline">\(c&gt;0\)</span> and any scalar <span class="math inline">\(b\)</span>, provided <span class="math inline">\(v(h)&gt;0\)</span>,</p>
+<p><span class="math display">\[
+\ell(ch+b\mathbf1)=\ell(h).
+\]</span></p>
+<p>The common shift cancels in the numerator. The common positive scale cancels between numerator and denominator. This does not say that separately rescaling each channel leaves the result unchanged. Such a transformation usually changes both the centered direction and the relative channel magnitudes.</p>
+<p><a href="https://arxiv.org/abs/1607.06450v1">Ba, Kiros, and Hinton’s Layer Normalization paper</a> defines these per-example statistics and examines the associated invariances in Section 5. The axis used to compute the statistics determines what a common rescaling means. BatchNorm uses different statistics, and frozen inference statistics require their own check.</p>
+</section>
+<section id="epsilon-makes-the-ideal-identity-approximate" class="level2">
+<h2>Epsilon makes the ideal identity approximate</h2>
+<p>With a fixed <span class="math inline">\(\epsilon&gt;0\)</span>, the RMS expression becomes</p>
+<p><span class="math display">\[
+n_\epsilon(h)=\frac{h}{\sqrt{s(h)^2+\epsilon}}.
+\]</span></p>
+<p>For positive <span class="math inline">\(c\)</span>,</p>
+<p><span class="math display">\[
+n_\epsilon(ch)
+=\frac{h}{\sqrt{s(h)^2+\epsilon/c^2}}.
+\]</span></p>
+<p>This is generally different from <span class="math inline">\(n_\epsilon(h)\)</span>. The approximation is useful when epsilon is negligible relative to the squared activation scale, but the exact symmetry is gone. LayerNorm has the corresponding change from <span class="math inline">\(\epsilon\)</span> to <span class="math inline">\(\epsilon/c^2\)</span> after factoring out a common positive scale.</p>
+<p>For example, take <span class="math inline">\(h=(1,2)\)</span>, so <span class="math inline">\(s(h)^2=5/2\)</span>. The denominators for <span class="math inline">\(n_1(h)\)</span> and <span class="math inline">\(n_1(2h)\)</span>, expressed using the same numerator <span class="math inline">\(h\)</span>, are <span class="math inline">\(\sqrt{7/2}\)</span> and <span class="math inline">\(\sqrt{11/4}\)</span>. They are visibly unequal. The deliberately large epsilon makes the difference easy to see.</p>
+<p>An exact theorem needs the exact identity it assumes. A practical approximation needs a scale regime in which the discrepancy is small.</p>
+</section>
+<section id="a-learned-gain-creates-a-different-symmetry" class="level2">
+<h2>A learned gain creates a different symmetry</h2>
+<p>Suppose <span class="math inline">\(z(x)\)</span> already denotes normalized features and the next operation is</p>
+<p><span class="math display">\[
+f(x)=W\operatorname{diag}(\gamma)z(x).
+\]</span></p>
+<p>The effective linear map is <span class="math inline">\(A=W\operatorname{diag}(\gamma)\)</span>. Replacing only <span class="math inline">\(W\)</span> by <span class="math inline">\(cW\)</span> changes <span class="math inline">\(A\)</span>. Replacing both parameters according to</p>
+<p><span class="math display">\[
+W\mapsto cW,
+\qquad
+\gamma\mapsto\gamma/c
+\]</span></p>
+<p>preserves <span class="math inline">\(A\)</span> exactly. This cancellation does not depend on neglecting epsilon because the already-computed features <span class="math inline">\(z(x)\)</span> are unchanged.</p>
+<p>There is redundancy in the pair <span class="math inline">\((W,\gamma)\)</span>, but that is not independent scale invariance of <span class="math inline">\(W\)</span>. The elementary loss</p>
+<p><span class="math display">\[
+L(w,g)=\frac12(wg-1)^2
+\]</span></p>
+<p>makes the distinction concrete. At <span class="math inline">\((w,g)=(1,1)\)</span> the loss is zero. At <span class="math inline">\((2,1)\)</span> it is <span class="math inline">\(1/2\)</span>. At <span class="math inline">\((2,1/2)\)</span> it is zero again. The joint transformation preserves the function. Changing one coordinate alone does not.</p>
+<p>If a normalized output also includes a learned additive offset, rescaling the entire downstream matrix requires compensating that offset as well. The displayed identity assumes the bias-free form written above.</p>
+</section>
+<section id="sharing-a-gain-couples-its-consumers" class="level2">
+<h2>Sharing a gain couples its consumers</h2>
+<p>Let two branches consume the same gained features:</p>
+<p><span class="math display">\[
+f_1(x)=W_1\operatorname{diag}(\gamma)z(x),
+\qquad
+f_2(x)=W_2\operatorname{diag}(\gamma)z(x).
+\]</span></p>
+<p>One gain can compensate a common rescaling of both matrices. If we rescale only <span class="math inline">\(W_1\)</span> and divide the gain to compensate, we also change the second branch. The bookkeeping is no longer local to one matrix.</p>
+<p>The scalar version is enough to expose the issue. Take a nonzero scalar feature <span class="math inline">\(z\)</span> and require branch outputs <span class="math inline">\(z\)</span> and <span class="math inline">\(2z\)</span>:</p>
+<p><span class="math display">\[
+g w_1=1,\qquad g w_2=2.
+\]</span></p>
+<p>A shared gain allows many representations, for example <span class="math inline">\((g,w_1,w_2)=(1,1,2)\)</span> and <span class="math inline">\((2,1/2,1)\)</span>. But requiring both <span class="math inline">\(|w_1|=1\)</span> and <span class="math inline">\(|w_2|=1\)</span> makes those two target equations incompatible. Their magnitude ratio must remain two, while the constraints force it to one.</p>
+<p>That is a claim about prescribed branch outputs with fixed features and one shared scalar gain. It does not prove that a complete trainable attention network loses an entire class of functions. Other factorizations, later layers, or changing features may compensate. The later research posts will ask which of these freedoms matter.</p>
+<p>The useful lesson already holds: the existence of one function-preserving rescaling does not prove that every proposed collection of norm constraints is harmless.</p>
+</section>
+<section id="residual-paths-keep-relative-scales-visible" class="level2">
+<h2>Residual paths keep relative scales visible</h2>
+<p>For a residual expression</p>
+<p><span class="math display">\[
+y=x+Wn(x),
+\]</span></p>
+<p>scaling <span class="math inline">\(W\)</span> changes the branch relative to the skip path. Even a normalization after the addition does not generally erase that change: the sum’s direction can change rather than only its magnitude.</p>
+<p>For a direct example, take <span class="math inline">\(x=(1,0)\)</span> and a branch output <span class="math inline">\((0,1)\)</span>. The sums <span class="math inline">\((1,1)\)</span> and <span class="math inline">\((1,2)\)</span> are not positive scalar multiples of one another. RMS normalization preserves their different directions.</p>
+<p>This is why a blanket statement about all matrices in a normalized architecture is too coarse. We need to trace where the scale travels and which quantities meet at each addition, product, or shared parameter.</p>
+</section>
+<section id="three-questions-before-imposing-a-constraint" class="level2">
+<h2>Three questions before imposing a constraint</h2>
+<p>When I see a claim that a weight norm can be fixed without changing the model, I now want three things specified:</p>
+<ol type="1">
+<li>Which parameters move, and which remain fixed?</li>
+<li>Which output or final function is preserved, under what exact assumptions?</li>
+<li>Can all the proposed constraints be satisfied simultaneously by a representative of that function?</li>
+</ol>
+<p>The first post explains why a redundant radius can still affect learning. This post identifies where that redundancy actually lives. The next step is to put decay back into the dynamics and distinguish its direct penalty from the training path it induces.</p>
+</section>
+<section id="try-the-symmetries" class="level2">
+<h2>Try the symmetries</h2>
+<ol type="1">
+<li>For <span class="math inline">\(h=(1,2)\)</span>, compare zero-epsilon LayerNorm before and after multiplying only the first channel by three.</li>
+<li>In the two-branch scalar example, replace the shared gain by independent gains <span class="math inline">\(g_1,g_2\)</span>. Can both weights now have magnitude one?</li>
+<li>For nonzero channel gains, find a channelwise transformation of <span class="math inline">\(\gamma_j\)</span> and every consuming column <span class="math inline">\(W_i[:,j]\)</span> that preserves all effective maps.</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li>The normalized first vector is <span class="math inline">\((-1,1)\)</span>. The transformed vector is <span class="math inline">\((3,2)\)</span>, whose normalized form is <span class="math inline">\((1,-1)\)</span>. Both variances are nonzero, but the direction has changed.</li>
+<li>Yes. Take <span class="math inline">\(w_1=w_2=1\)</span>, <span class="math inline">\(g_1=1\)</span>, and <span class="math inline">\(g_2=2\)</span>. The missing relative scale is now a learnable parameter.</li>
+<li>For any <span class="math inline">\(d_j&gt;0\)</span>, set <span class="math inline">\(\gamma_j'=d_j\gamma_j\)</span> and <span class="math inline">\(W_i'[:,j]=W_i[:,j]/d_j\)</span> for every consumer <span class="math inline">\(i\)</span>. A shared gain requires the compensation at every consuming branch.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p><a href="https://arxiv.org/abs/1607.06450v1">Layer Normalization (Ba, Kiros, and Hinton, 2016)</a>, especially Section 5, and <a href="https://arxiv.org/abs/1910.07467v1">Root Mean Square Layer Normalization (Zhang and Sennrich, 2019)</a>, especially Sections 3 and 4, provide the normalization definitions and invariance context.</p>
+<p><a href="https://arxiv.org/abs/1706.05350v1">L2 Regularization versus Batch and Weight Normalization (van Laarhoven, 2017)</a> explains why the scope of scale invariance matters for optimization. The placement comparisons, epsilon calculation, and scalar shared-gain example above follow directly from their displayed definitions. They do not establish an empirical optimizer ranking or a full-network expressivity result.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-1/index.html">Previous: The same network, a different step <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#first-ask-what-is-being-rescaled" id="toc-first-ask-what-is-being-rescaled">First ask what is being rescaled</a></li>
+<li><a href="#layernorm-cancels-a-particular-common-scale-too" id="toc-layernorm-cancels-a-particular-common-scale-too">LayerNorm cancels a particular common scale too</a></li>
+<li><a href="#epsilon-makes-the-ideal-identity-approximate" id="toc-epsilon-makes-the-ideal-identity-approximate">Epsilon makes the ideal identity approximate</a></li>
+<li><a href="#a-learned-gain-creates-a-different-symmetry" id="toc-a-learned-gain-creates-a-different-symmetry">A learned gain creates a different symmetry</a></li>
+<li><a href="#sharing-a-gain-couples-its-consumers" id="toc-sharing-a-gain-couples-its-consumers">Sharing a gain couples its consumers</a></li>
+<li><a href="#residual-paths-keep-relative-scales-visible" id="toc-residual-paths-keep-relative-scales-visible">Residual paths keep relative scales visible</a></li>
+<li><a href="#three-questions-before-imposing-a-constraint" id="toc-three-questions-before-imposing-a-constraint">Three questions before imposing a constraint</a></li>
+<li><a href="#try-the-symmetries" id="toc-try-the-symmetries">Try the symmetries</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>

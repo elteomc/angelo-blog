@@ -120,3 +120,25 @@ Added November 4, 2026.
 - The current website is rendered afresh before publication so the committed output matches the Workshop sources.
 
 External preview builds exclude the existing docs tree from resource discovery to prevent duplicated output assets.
+
+
+## Scale and geometry review series
+
+Prepared November 4, 2026 on a local review branch after publishing the existing site.
+
+- Added the Scale and geometry hub with a twelve-question outline and two complete opening drafts.
+- Added worked derivations, primary sources, exercises, and reproducible SVG diagrams about radius-dependent SGD steps and normalization placement.
+- Prioritized this series in the editorial plan and retained free probability with its rewriting notices.
+- Replaced the single-series catalog with independent collections and per-article hub paths. Planned chapters remain visible without broken links.
+- The local homepage features the new series. The committed docs tree remains the published release until editorial approval.
+
+
+## Series publication and personal presentation
+
+Updated November 4, 2026 after publication approval.
+
+- Publish the Scale and geometry hub and first two posts, with ten later chapters clearly marked as planned.
+- Use an original compact skull ornament in place of decorative link arrows across the production layout, indexes, and project page. Text labels remain accessible and the mark inherits the theme color.
+- Rename the homepage groups Recent writing and Recent projects, remove the affiliation above the name, and let the interests sentence use the available desktop width.
+- Keep natural line wrapping on phones. The previous desktop wrap came from an inherited 500-pixel maximum width.
+- Rename the two opening source sections Yo twin, go read... while retaining their references and stable source-section anchors.

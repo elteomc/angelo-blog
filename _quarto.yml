@@ -12,6 +12,7 @@ project:
   resources:
     - "!docs/**"
     - assets/workshop/
+    - "assets/scale-geometry/*.svg"
     - "assets/free-probability/*.svg"
     - "assets/free-probability/*.png"
 website:

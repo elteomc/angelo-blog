@@ -18,16 +18,16 @@ The template marks its own title containers with quarto-title-block so Quarto do
 
 - Edit article prose and math in blog/*/index.qmd. These files are authoritative.
 - Edit project prose in projects/*/index.qmd. The magnetic-PE page demonstrates the case-study layout classes.
-- content/catalog.json defines the ordered series membership and project-index entries. Index titles and descriptions come from article front matter. Project summaries are catalog fields.
+- content/catalog.json defines ordered collections, their hub metadata, chapter membership, planned chapters, and project-index entries. Index titles and descriptions come from article front matter. Project summaries are catalog fields.
 - _includes contains generated index fragments. Keep them available in checkouts because Quarto discovers includes before running pre-render scripts. The generator refreshes them on each build.
 - The homepage introduction and selected-work arrangement are in index.qmd.
 - Studio and the comparison router remain isolated in design-preview. Production pages do not depend on them.
 
 ## Adding an article
 
-Create blog/<slug>/index.qmd with title, description, date, and ordinary Markdown content. Folder metadata provides the author, Writing navigation and relative asset prefix. For a series chapter, set series-label, previous-url/title and next-url/title, and add its source to the catalog. The series_groups entries in the catalog control group labels and chapter ranges.
+Create blog/<slug>/index.qmd with title, description, date, and ordinary Markdown content. Folder metadata provides the author, Writing navigation and relative asset prefix. For a series chapter, set series-label, previous-url/title and next-url/title, and add its source to the catalog. Each collection has groups entries controlling group labels and chapter ranges. Set series-url to the root-relative hub path so article navigation reaches the right collection.
 
-Standalone articles can use the same article template without series metadata. Add their source paths to the articles list in content/catalog.json to include them in the writing index. This release has one six-part series, not a general publishing CMS.
+Standalone articles can use the same article template without series metadata. Add their source paths to the articles list in content/catalog.json to include them in the writing index. Collections are listed separately in the Writing index. A chapter without a source uses its catalog title and description, displays Planned on the hub, and never receives a link or an archive entry. Set review-notice on a written draft to display its review status.
 
 For another project, add its source and a catalog entry with title, url, topic, date, description, image and alt text. The generator checks that its source exists. Use custom-layout only when the page supplies its own full layout and h1.
 
@@ -36,3 +36,5 @@ For another project, add its source and a catalog entry with title, url, topic, 
 The build fails for broken local links, missing assets, missing fragment targets, duplicate IDs or an incorrect h1 count. Browser checks cover actual math rendering, theme persistence, native answer expansion and responsive layout.
 
 Visible figure captions and article subtitles are hidden through presentation rules, not removed from their sources. Internal experiment reports are not linked or bundled as reader resources. No source experiment data has been deleted.
+
+For the scale and geometry figures, run python3 tools/scale_geometry_figures.py. Verify numerical examples with python3 tools/check_scale_geometry.py and collection behavior with python3 tools/test_series_catalog.py.
