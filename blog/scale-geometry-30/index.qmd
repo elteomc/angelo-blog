@@ -9,6 +9,8 @@ series-label: "Scale and geometry / Part 30"
 series-url: "scale-geometry.html"
 previous-url: "../scale-geometry-29/index.html"
 previous-title: "How oscillations push back on sharpness"
+next-url: "../scale-geometry-31/index.html"
+next-title: "When a wide network keeps its features"
 ---
 
 An oscillating trajectory can have a smooth average and still behave differently from gradient flow. Removing the alternating displacement does not remove the effect of its squared amplitude on the gradient.

@@ -4,7 +4,7 @@ Updated 2026-11-05.
 
 ## Published foundation and current drafts
 
-Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. The first thirty posts and the hub are published, including the stability, oscillation-feedback, and central-flow articles approved on November 5, 2026. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
+Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. The first thirty-three posts and the hub are published, including the fixed-kernel, feature-scaling, and tangent-operator articles approved on November 5, 2026. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
 
 Angelo reviewed Parts 1 through 6 in pairs, approved their publication, and authorized completion and publication of Parts 7 through 12 without another review gate. Mathematical checks and rendered presentation checks remain part of publication. No future release dates or automatic publications have been set.
 
@@ -44,6 +44,9 @@ The six free-probability posts remain available with the bold In process of rewr
 | 28 | What the edge of stability actually says | Derive the frozen quadratic boundary and distinguish curvature observations from mechanisms | Published |
 | 29 | How oscillations push back on sharpness | Derive cubic feedback and verify an explicit locally attracting two-cycle | Published |
 | 30 | Averaging the steps without losing their effect | Retain displacement covariance and derive a conditional central-flow closure | Published |
+| 31 | When a wide network keeps its features | Solve frozen tangent dynamics and distinguish output learning from persistent feature motion | Published |
+| 32 | Making feature learning survive width | Derive shallow output and rate scales and check their exact coordinate equivalence | Published |
+| 33 | Fixed features do not always mean a fixed kernel | Derive a nonlinear tangent response and retain damping and optimizer history | Published |
 
 ## Research follow-ups
 
@@ -192,3 +195,16 @@ Select the training-dynamics arc already named under Adjacent sequences: progres
 - Part 30 derives the averaged-gradient correction, scalar variance balance, matrix complementarity, and conditional projection interpretation. The same explicit example predicts a cycle center and fluctuation loss while revealing the onset mismatch. Displacement covariance is not gradient-noise covariance.
 - Add three reproducible figures, exercises, answer sketches, and twenty-six independent mathematical checks. Use focused primary-source checks and the existing dossiers. No neural-network experiment or general discrete-to-flow approximation theorem is claimed.
 - Parts 28 through 30 are approved for publication. Remove review notices and render the approved sources into docs before publishing. Preserve orange emphasis, skull ornaments, informal source headings, and P: and N: chapter titles.
+
+
+## Width, features, and tangent operators release
+
+Prepared and approved for publication November 5, 2026 after review.
+
+Select the Tensor Programs and kernel-versus-feature-learning material already named under Adjacent sequences. Begin with the prerequisites for its broader width and depth story. Keep the current series numbering because these articles extend the earlier aligned-action, width-transfer, and stochastic-feature distinctions. The deeper matrix-reuse, full adaptive maximal-update, and depth-scaling material remains for later selection.
+
+- Part 31 derives exact tangent-model residual dynamics, positive-mode stability, the nullspace fitting floor, and test predictions. Relate the two-layer tangent scaling to order-one output changes and vanishing feature motion, while preserving finite-horizon and initialization qualifications.
+- Part 32 contrasts initialization variance with coherent learned sums. Derive a shallow exponent balance, evaluate a complete centered tanh step, and verify raw-coordinate equivalence to the mean-field maximal-update convention. Maximal width order is not an optimal finite hyperparameter claim.
+- Part 33 derives a nonlinear output response with fixed features, its local Jacobian and potential, and a finite-step restriction. Specify gradient and damping scales before taking width limits. Two actual moment histories meet at the same prediction and then separate, demonstrating the missing temporal state.
+- Add three reproducible figures, exercises, answer sketches, and twenty-five mathematical checks. Use focused primary-source checks and the existing Tensor Programs IV and IVb dossiers. The examples are exact finite models and one-step scale checks, not benchmark reproductions or new universal limit theorems.
+- Parts 31 through 33 are approved for publication. Remove review notices and install the verified release in docs before pushing. Preserve orange emphasis, skull ornaments, informal source headings, and title-based P: and N: navigation.

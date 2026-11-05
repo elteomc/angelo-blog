@@ -126,6 +126,18 @@
         {
           "number": 30,
           "source": "blog/scale-geometry-30/index.qmd"
+        },
+        {
+          "number": 31,
+          "source": "blog/scale-geometry-31/index.qmd"
+        },
+        {
+          "number": 32,
+          "source": "blog/scale-geometry-32/index.qmd"
+        },
+        {
+          "number": 33,
+          "source": "blog/scale-geometry-33/index.qmd"
         }
       ],
       "groups": [
@@ -172,6 +184,11 @@
         {
           "title": "IX. Oscillations, sharpness, and central flows",
           "start": 27,
+          "count": 3
+        },
+        {
+          "title": "X. Width, features, and tangent operators",
+          "start": 30,
           "count": 3
         }
       ]

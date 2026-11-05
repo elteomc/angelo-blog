@@ -81,3 +81,9 @@ For Parts 28 through 30, run `PYTHONDONTWRITEBYTECODE=1 python3 tools/check_stab
 
 
 Parts 28 through 30 were reviewed and approved for publication November 5, 2026. Future batches remain in external review output until approval.
+
+
+For Parts 31 through 33, run `PYTHONDONTWRITEBYTECODE=1 python3 tools/check_width_feature_operators.py`. Rebuild the three figures with `PYTHONDONTWRITEBYTECODE=1 MPLCONFIGDIR=/tmp/angelo-blog-matplotlib python3 tools/width_feature_operator_figures.py`. The internal example record contains exact finite linear and moment calculations and one-step centered tanh evaluations. Review at http://127.0.0.1:8878/blog/scale-geometry-31/index.html and keep output outside docs until approval.
+
+
+Parts 31 through 33 were reviewed and approved for publication November 5, 2026. The approved release refreshes their pages in the verified external build before validating and installing the whole site.

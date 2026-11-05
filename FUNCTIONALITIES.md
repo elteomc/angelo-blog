@@ -338,3 +338,26 @@ Approved November 5, 2026 after review.
 - Publish Parts 28 through 30 with three figures, worked derivations, exercises, and twenty-six mathematical checks.
 - Remove review notices and preserve source qualifications, the explicit example record, orange emphasis, skull ornaments, and title-based chapter links.
 - Build the approved site separately before updating docs and pushing the release.
+
+
+## Width and feature-operator review drafts
+
+Prepared November 5, 2026 after publishing Parts 28 through 30.
+
+- Add Parts 31 through 33 on fixed-feature kernels, feature-learning width scales, and nonlinear tangent operators with memory.
+- Add three reproducible figures, exercises, answer sketches, and twenty-five checks in tools/check_width_feature_operators.py. Record explicit example values and six source-dossier hashes in specs/013-width-feature-operators/example-record.json.
+- Extend the local hub with Width, features, and tangent operators and connect Part 30 to Part 31 with title-based navigation.
+- Preserve orange italic emphasis, skull ornaments, and informal source headings. Mark the three articles Draft for review.
+- Keep the batch uncommitted and unpushed until review. Build externally and leave published docs unchanged. No benchmark training or paper experiment reproduction is part of this batch.
+
+
+Review checks for Parts 31 through 33 pass: twenty-five mathematical checks, two catalog checks, forty-eight rendered pages with valid local links, and desktop and phone inspection. Details and source qualifications are in specs/013-width-feature-operators/validation.md. Published docs remain unchanged, and the new batch awaits review.
+
+
+## Publish the width and tangent-operator posts
+
+Approved November 5, 2026 after review.
+
+- Publish Parts 31 through 33 with three figures, worked derivations, exercises, and twenty-five mathematical checks.
+- Remove review notices and preserve the source qualifications, example record, orange emphasis, skull ornaments, and title-based navigation.
+- Refresh the approved articles in the previously verified external site build and validate all forty-eight pages before installing docs and pushing the release.
