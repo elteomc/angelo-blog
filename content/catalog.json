@@ -66,6 +66,18 @@
         {
           "number": 15,
           "source": "blog/scale-geometry-15/index.qmd"
+        },
+        {
+          "number": 16,
+          "source": "blog/scale-geometry-16/index.qmd"
+        },
+        {
+          "number": 17,
+          "source": "blog/scale-geometry-17/index.qmd"
+        },
+        {
+          "number": 18,
+          "source": "blog/scale-geometry-18/index.qmd"
         }
       ],
       "groups": [
@@ -87,6 +99,11 @@
         {
           "title": "IV. Computation, noise, and norm budgets",
           "start": 12,
+          "count": 3
+        },
+        {
+          "title": "V. Networks, scaling, and feature motion",
+          "start": 15,
           "count": 3
         }
       ]

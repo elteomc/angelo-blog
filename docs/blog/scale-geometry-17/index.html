@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why a learning rate can transfer across widths | Angelo Farfan</title>
+<meta name="description" content="Derive width scalings from matrix action, distinguish upper bounds from feature learning, and specify what successful hyperparameter transfer measures.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 17</a>
+<h1>Why a learning rate can transfer across widths</h1>
+
+
+<p class="dek" hidden="">Master rates, aligned updates, and the scale hidden inside an optimizer</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>Suppose a learning rate works at width 256. You make the hidden layers four times wider. Should you copy the number?</p>
+<p>Before answering, we need to know what that number multiplies. A raw gradient, an entrywise sign, and a matrix polar factor have different width dependence. Even if their implementations call the multiplier a learning rate, equal numbers can produce very different feature changes.</p>
+<p>The useful transferable quantity is often a <em>master rate</em> whose layerwise conversion accounts for those differences. We can see the mechanism in an exact one-step calculation, then separate it from the much stronger claim that the best training hyperparameter transfers.</p>
+<section id="start-with-the-units-of-a-layer-change" class="level2">
+<h2>Start with the units of a layer change</h2>
+<p>For <span class="math inline">\(W\in\mathbb R^{m\times n}\)</span>, measure incoming and outgoing features in RMS norm. <a href="../scale-geometry-5/index.html">Part 5</a> derived</p>
+<p><span class="math display">\[
+\|\Delta Wh\|_{\rm RMS}
+\leq\sqrt{\frac nm}\|\Delta W\|_{\rm op}\|h\|_{\rm RMS}.
+\]</span></p>
+<p>A matrix budget that gives a width-independent upper bound on RMS motion is therefore</p>
+<p><span class="math display">\[
+N(\Delta W)=\sqrt{\frac nm}\|\Delta W\|_{\rm op}.
+\]</span></p>
+<p>Write the raw optimizer step as <span class="math inline">\(\Delta W=-\eta_{\rm raw}\Psi\)</span>. If the proposal has nonzero spectral norm <span class="math inline">\(q(m,n)\)</span>, then setting</p>
+<p><span class="math display">\[
+\eta_{\rm raw}
+=\bar\eta\frac{\sqrt{m/n}}{q(m,n)}
+\]</span></p>
+<p>gives <span class="math inline">\(N(\Delta W)=\bar\eta\)</span>. If we know only an asymptotic scale for <span class="math inline">\(q\)</span>, the resulting statement is an asymptotic scale too, not this exact equality.</p>
+<p>This quotient is useful because it makes the dependency visible: initialization and optimizer details determine proposal scales, while <span class="math inline">\(\bar\eta\)</span> specifies the common budget. In practical parametrizations, one normally derives fixed shape factors rather than measuring and cancelling the exact proposal norm at every step. Those are distinct algorithms.</p>
+</section>
+<section id="a-spectral-upper-bound-does-not-force-feature-motion" class="level2">
+<h2>A spectral upper bound does not force feature motion</h2>
+<p>Let <span class="math inline">\(u,v,z\)</span> be unit vectors, with <span class="math inline">\(z\perp v\)</span>, and let <span class="math inline">\(h=\sqrt n\,v\)</span>. The matrices</p>
+<p><span class="math display">\[
+D_1=uv^\top,\qquad D_2=uz^\top
+\]</span></p>
+<p>both have spectral norm one. Yet</p>
+<p><span class="math display">\[
+D_1h=\sqrt n\,u,\qquad D_2h=0.
+\]</span></p>
+<p>The budget allows a maximal change and a zero change. To get a lower bound on feature motion, we also need overlap with the actual incoming feature.</p>
+<p>A single-example gradient supplies a clear form of alignment. If the derivative with respect to the layer output is <span class="math inline">\(\delta\)</span>, then</p>
+<p><span class="math display">\[
+G=\delta h^\top,
+\qquad
+Gh=\delta\|h\|_2^2,
+\qquad
+\|Gh\|_2=\|G\|_{\rm op}\|h\|_2.
+\]</span></p>
+<p>The same example that created the update saturates the operator bound. A different example need not. A minibatch sum or a history-dependent optimizer changes the geometry again.</p>
+<p>In a moving network,</p>
+<p><span class="math display">\[
+\Delta(Wh)=\Delta Wh+W\Delta h+\Delta W\Delta h.
+\]</span></p>
+<p>Even a large first term can be cancelled by the other terms. A sufficient lower-bound condition is</p>
+<p><span class="math display">\[
+\|\Delta(Wh)\|_2\geq c\|\Delta Wh\|_2
+\]</span></p>
+<p>for a width-independent <span class="math inline">\(c&gt;0\)</span>. An upper bound alone cannot supply this condition. This distinction is central to reading <a href="https://arxiv.org/abs/2310.17813v2">A Spectral Condition for Feature Learning</a>, especially its single-example argument and extensions in Section 3.</p>
+</section>
+<section id="three-update-maps-on-the-same-exact-example" class="level2">
+<h2>Three update maps on the same exact example</h2>
+<p>Use a square width-<span class="math inline">\(d\)</span> layer. Let the incoming feature be <span class="math inline">\(h=\mathbf1_d\)</span>, and choose an output derivative <span class="math inline">\(\delta=\mathbf1_d/d\)</span>. This derivative arises, for example, from the mean readout <span class="math inline">\(\ell(z)=d^{-1}\sum_i z_i\)</span>. Then</p>
+<p><span class="math display">\[
+G=\frac1d\mathbf1_d\mathbf1_d^\top.
+\]</span></p>
+<p>This rank-one matrix has a single nonzero singular value equal to one. Its partial polar factor is itself. Its entrywise sign is the all-ones matrix.</p>
+<p>Keeping the input fixed, the resulting output RMS changes are</p>
+<p><span class="math display">\[
+\begin{array}{c|c|c}
+\text{proposal }\Psi&amp;\|\Psi\|_{\rm op}&amp;\|\Delta Wh\|_{\rm RMS}\\
+\hline
+G&amp;1&amp;\eta_{\rm raw}\\
+\operatorname{polar}(G)&amp;1&amp;\eta_{\rm raw}\\
+\operatorname{sign}(G)&amp;d&amp;d\eta_{\rm raw}
+\end{array}
+\]</span></p>
+<p>Thus gradient and polar steps use <span class="math inline">\(\eta_{\rm raw}=\bar\eta\)</span> in this example, while sign steps use <span class="math inline">\(\eta_{\rm raw}=\bar\eta/d\)</span>. For <span class="math inline">\(\bar\eta=0.01\)</span>:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Width</th>
+<th>Gradient or polar</th>
+<th>Sign with raw rate 0.01</th>
+<th>Sign with raw rate <span class="math inline">\(0.01/d\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>16</td>
+<td>0.01</td>
+<td>0.16</td>
+<td>0.01</td>
+</tr>
+<tr class="even">
+<td>64</td>
+<td>0.01</td>
+<td>0.64</td>
+<td>0.01</td>
+</tr>
+<tr class="odd">
+<td>256</td>
+<td>0.01</td>
+<td>2.56</td>
+<td>0.01</td>
+</tr>
+<tr class="even">
+<td>1024</td>
+<td>0.01</td>
+<td>10.24</td>
+<td>0.01</td>
+</tr>
+</tbody>
+</table>
+<p>Every entry is an exact one-step feature change. The example has no optimizer history, no training trajectory, and no validation loss. It isolates the shape factor that a raw rate must compensate.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/width-transfer.svg" alt="Two exact one-step calculations. The left panel compares a width-growing unscaled sign step with constant gradient, polar, and rescaled sign steps. The right panel compares fixed and width-scaled denominator stabilizers."></p>
+<figcaption>Copying a raw sign rate makes the toy feature change grow with width, while scaling the rate keeps it fixed. A second panel shows how a fixed stabilizer can undo that scaling.</figcaption>
+</figure>
+</div>
+<p>The rectangular version is also instructive. With <span class="math inline">\(h=\mathbf1_n\)</span> and <span class="math inline">\(\delta=\mathbf1_m/m\)</span>, the gradient spectral norm is <span class="math inline">\(\sqrt{n/m}\)</span>. Rates producing the same RMS change <span class="math inline">\(\bar\eta\)</span> are</p>
+<p><span class="math display">\[
+\begin{aligned}
+\eta_{\rm gradient}&amp;=\bar\eta\,m/n,\\
+\eta_{\rm polar}&amp;=\bar\eta\sqrt{m/n},\\
+\eta_{\rm sign}&amp;=\bar\eta/n.
+\end{aligned}
+\]</span></p>
+<p>These formulas follow from this particular mean-readout example. They are not a table for every layer of every optimizer. Input, hidden, and readout layers can have different dimensional roles, and an implementation may already include a shape factor inside its proposal.</p>
+</section>
+<section id="a-small-stabilizer-can-change-the-width-regime" class="level2">
+<h2>A small stabilizer can change the width regime</h2>
+<p>Replace the sign by the elementwise map</p>
+<p><span class="math display">\[
+\Psi_{ij}=\frac{G_{ij}}{|G_{ij}|+\epsilon},\qquad\epsilon\geq0.
+\]</span></p>
+<p>This is a stabilized sign map, not a complete Adam update. In our square example, each entry equals <span class="math inline">\(1/(1+d\epsilon)\)</span>. Even with the sign rate <span class="math inline">\(\bar\eta/d\)</span>, the RMS feature change becomes</p>
+<p><span class="math display">\[
+\frac{\bar\eta}{1+d\epsilon}.
+\]</span></p>
+<p>For fixed positive <span class="math inline">\(\epsilon\)</span>, it vanishes as width grows. If instead <span class="math inline">\(\epsilon=c/d\)</span>, the change is <span class="math inline">\(\bar\eta/(1+c)\)</span>, independent of width.</p>
+<p>The figure uses <span class="math inline">\(\epsilon=0.01\)</span> and the matched scaled choice <span class="math inline">\(0.16/d\)</span>, which agree at width 16. The large stabilizer makes the effect visible. These values are illustrative, not recommended Adam settings. Actual moment estimates, bias corrections, and placement before or after a square root require their own formula.</p>
+<p><a href="https://arxiv.org/abs/2203.03466v2">Tensor Programs V</a>, Appendix B.3, explicitly discusses when a non-negligible Adam epsilon needs width scaling. The broader lesson is that the asymptotic regime belongs to the entire denominator. A constant called tiny can become dominant relative to a shrinking gradient.</p>
+</section>
+<section id="initialization-is-a-separate-calculation" class="level2">
+<h2>Initialization is a separate calculation</h2>
+<p>The update quotient assumes features and proposals have the scales used in its derivation. Initialization helps establish those conditions, but it does not determine the learning-rate rule by itself.</p>
+<p>For a square Gaussian hidden matrix, entry standard deviation proportional to <span class="math inline">\(d^{-1/2}\)</span> gives spectral scale of order one. A rectangular matrix needs its aspect ratio considered. A readout with a fixed output dimension is different again. Even at the same initial weight scale, changing the loss reduction from a mean to a sum changes the gradient in our example by a factor <span class="math inline">\(d\)</span>.</p>
+<p>This is why a width-transfer recipe needs to declare parameter multipliers, initialization, forward scaling, loss reduction, and optimizer equations together. <a href="https://arxiv.org/abs/2602.20937v1">Extending <span class="math inline">\(\mu\)</span>P</a>, Section 4.1, uses the proposal-norm quotient as a generic organizing calculation. Applying it to a new optimizer still requires its proposal norm and the assumptions behind any claimed lower bounds. A history buffer can change rank and alignment. Damping can change the active scale.</p>
+<p>Width and depth are also different questions. <a href="../scale-geometry-16/index.html">Part 16</a> used a specific <span class="math inline">\(1/L\)</span> averaged residual construction with sensitivity assumptions. It did not derive a general depth-transfer rule for ordinary Transformers. Changing depth, batch size, or training duration alongside width introduces more variables than a width-only argument controls.</p>
+</section>
+<section id="what-would-successful-transfer-actually-measure" class="level2">
+<h2>What would successful transfer actually measure?</h2>
+<p>Let <span class="math inline">\(V_d(\bar\eta)\)</span> be validation loss at width <span class="math inline">\(d\)</span>, after a declared training budget, using all layerwise conversions of the master rate. Tune <span class="math inline">\(\bar\eta_0\)</span> at a source width. For a target width, define grid transfer regret</p>
+<p><span class="math display">\[
+R(d)=V_d(\bar\eta_0)-\min_{\bar\eta\in\mathcal G}V_d(\bar\eta),
+\]</span></p>
+<p>where the comparison grid <span class="math inline">\(\mathcal G\)</span> includes <span class="math inline">\(\bar\eta_0\)</span>. This quantity is nonnegative. A small value means the transferred rate performs near the best rate <em>on that tested grid and budget</em>.</p>
+<p>A convincing study reports the whole target curve, repeated seeds, uncertainty, and whether the optimum hits a grid boundary. It holds data, schedule conventions, token budgets, and tuning opportunities to a declared comparison. If a boundary wins, expand the grid before treating it as an optimum. A grid minimum is not the unknown optimum over all positive rates.</p>
+<p>Stable activation RMS and width-independent one-step motion are useful diagnostics. Neither guarantees low transfer regret or useful learned representations. Tensor Programs V studies actual hyperparameter transfer, beyond the algebraic example here. We have not run a new training sweep for this post.</p>
+</section>
+<section id="try-changing-width-without-changing-the-budget" class="level2">
+<h2>Try changing width without changing the budget</h2>
+<ol type="1">
+<li>At square width 512, what raw sign rate gives RMS change <span class="math inline">\(0.02\)</span> in our example?</li>
+<li>For <span class="math inline">\(m=64\)</span>, <span class="math inline">\(n=256\)</span>, and <span class="math inline">\(\bar\eta=0.01\)</span>, compute the three rectangular rates.</li>
+<li>With <span class="math inline">\(d=1000\)</span>, <span class="math inline">\(\epsilon=0.001\)</span>, and <span class="math inline">\(\bar\eta=0.01\)</span>, what change does the stabilized sign map produce?</li>
+<li>If transferred validation loss is 2.31 and the best tested target loss is 2.29, what is grid transfer regret? Does a feature RMS plot determine it?</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li><span class="math inline">\(0.02/512=0.0000390625\)</span>.</li>
+<li>Gradient: <span class="math inline">\(0.0025\)</span>. Polar: <span class="math inline">\(0.005\)</span>. Sign: <span class="math inline">\(0.0000390625\)</span>.</li>
+<li><span class="math inline">\(0.01/(1+1)=0.005\)</span>.</li>
+<li><span class="math inline">\(0.02\)</span>. It requires validation losses, so a feature RMS plot alone does not determine it.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p><a href="https://arxiv.org/abs/2310.17813v2">A Spectral Condition for Feature Learning</a>, Sections 3 and 4, connects spectral scaling to feature motion under its alignment, non-cancellation, and network assumptions. Its star notation denotes spectral norm. Here <span class="math inline">\(\|\cdot\|_{\rm op}\)</span> keeps that convention explicit.</p>
+<p><a href="https://arxiv.org/abs/2602.20937v1">Extending <span class="math inline">\(\mu\)</span>P: Spectral Conditions for Feature Learning Across Optimizers</a>, Sections 3.3 and 4.1, organizes optimizer-dependent rate scalings. The conditional quotient does not remove the need to check each optimizer’s history and regularization regime.</p>
+<p><a href="https://arxiv.org/abs/2203.03466v2">Tensor Programs V: Tuning Large Neural Networks via Zero-Shot Hyperparameter Transfer</a>, Sections 4 and 6 and Appendix B, treats parametrization, transfer, limitations, and optimizer conventions. Our mean-readout matrices and stabilized-sign curves are direct calculations, not reproductions of its experiments or full infinite-width results.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-16/index.html" aria-label="Previous post: From layer budgets to a residual block">P: From layer budgets to a residual block <span class="link-mark" aria-hidden="true"></span></a><a href="../scale-geometry-18/index.html" aria-label="Next post: Small matrix steps, large normalized rotations">N: Small matrix steps, large normalized rotations <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#start-with-the-units-of-a-layer-change" id="toc-start-with-the-units-of-a-layer-change">Start with the units of a layer change</a></li>
+<li><a href="#a-spectral-upper-bound-does-not-force-feature-motion" id="toc-a-spectral-upper-bound-does-not-force-feature-motion">A spectral upper bound does not force feature motion</a></li>
+<li><a href="#three-update-maps-on-the-same-exact-example" id="toc-three-update-maps-on-the-same-exact-example">Three update maps on the same exact example</a></li>
+<li><a href="#a-small-stabilizer-can-change-the-width-regime" id="toc-a-small-stabilizer-can-change-the-width-regime">A small stabilizer can change the width regime</a></li>
+<li><a href="#initialization-is-a-separate-calculation" id="toc-initialization-is-a-separate-calculation">Initialization is a separate calculation</a></li>
+<li><a href="#what-would-successful-transfer-actually-measure" id="toc-what-would-successful-transfer-actually-measure">What would successful transfer actually measure?</a></li>
+<li><a href="#try-changing-width-without-changing-the-budget" id="toc-try-changing-width-without-changing-the-budget">Try changing width without changing the budget</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>

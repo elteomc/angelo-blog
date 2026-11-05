@@ -9,6 +9,8 @@ series-label: "Scale and geometry / Part 15"
 series-url: "scale-geometry.html"
 previous-url: "../scale-geometry-14/index.html"
 previous-title: "Why average before choosing an update?"
+next-url: "../scale-geometry-16/index.html"
+next-title: "From layer budgets to a residual block"
 ---
 
 A bound on each update does not bound the weight forever. Repeated bounded steps can all point in the same direction.

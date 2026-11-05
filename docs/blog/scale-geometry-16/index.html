@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From layer budgets to a residual block | Angelo Farfan</title>
+<meta name="description" content="Carry local parameter budgets through a residual network and derive a finite-step loss bound under explicit pathwise assumptions.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 16</a>
+<h1>From layer budgets to a residual block</h1>
+
+
+<p class="dek" hidden="">The chain rule, mixed curvature, and a depth-independent remainder</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>A layer budget is a local promise. It controls what one parameter change can do to that layer’s output, for features in a specified region. A network contains many such changes, and the output of one layer becomes the input of another.</p>
+<p>In <a href="../scale-geometry-7/index.html">Part 7</a>, we allocated budgets once a first-order network bound was available. Now we will build that bound through a complete residual stack, keep the second derivatives, and turn the result into a finite-step statement. The central question is whether adding more blocks forces the remainder to grow with depth.</p>
+<p>There is a useful construction where it does not. Its residual multiplier, activation bounds, and parameter norm all belong in the statement.</p>
+<section id="first-follow-both-routes-through-a-composition" class="level2">
+<h2>First follow both routes through a composition</h2>
+<p>Write a two-module network as</p>
+<p><span class="math display">\[
+h=F(w_1,x),\qquad y=G(w_2,h).
+\]</span></p>
+<p>Hold <span class="math inline">\(x\)</span> fixed and perturb both parameter groups. The differential is</p>
+<p><span class="math display">\[
+\delta y
+=D_hG[D_{w_1}F[\delta w_1]]
++D_{w_2}G[\delta w_2].
+\]</span></p>
+<p>The first change travels through the downstream module. The second is created there directly. If the local parameter bounds are <span class="math inline">\(N_1,N_2\)</span>, and <span class="math inline">\(\|D_hG\|\leq s_2\)</span> for <span class="math inline">\(s_2&gt;0\)</span>, then</p>
+<p><span class="math display">\[
+\|\delta y\|\leq s_2N_1(\delta w_1)+N_2(\delta w_2).
+\]</span></p>
+<p>For positive shares <span class="math inline">\(p_1+p_2=1\)</span>, define</p>
+<p><span class="math display">\[
+N(\delta w)=\max\left\{
+\frac{s_2N_1(\delta w_1)}{p_1},
+\frac{N_2(\delta w_2)}{p_2}\right\}.
+\]</span></p>
+<p>Then <span class="math inline">\(\|\delta y\|\leq N(\delta w)\)</span>. This is the budget allocation from Part 7 with the downstream coefficient derived from the chain rule. For more modules, repeat the calculation up the tree. A parallel branch combined by a sum needs a sum bound. A concatenation needs its declared output norm. Architecture alone does not specify that geometry.</p>
+<p>Even two scalar multiplications already produce curvature. With <span class="math inline">\(F(w_1,x)=w_1x\)</span> and <span class="math inline">\(G(w_2,h)=w_2h\)</span>, take <span class="math inline">\(w_i(t)=w_i+t\Delta w_i\)</span>. Although each map is linear in its own weight,</p>
+<p><span class="math display">\[
+\frac{d^2y(t)}{dt^2}=2\Delta w_1\Delta w_2x.
+\]</span></p>
+<p>One weight change alters the feature multiplying the other. Dropping these <em>mixed derivatives</em> would incorrectly predict zero network curvature.</p>
+</section>
+<section id="state-the-local-promises-along-the-whole-path" class="level2">
+<h2>State the local promises along the whole path</h2>
+<p>Consider independent blocks <span class="math inline">\(f_l(w_l,h)\)</span>, all using the same activation norm <span class="math inline">\(\|\cdot\|\)</span>. Let <span class="math inline">\(N_l\)</span> be a fixed norm for the parameters of block <span class="math inline">\(l\)</span>. Assume the maps are twice continuously differentiable on a neighborhood of the states we visit, with</p>
+<p><span class="math display">\[
+\begin{aligned}
+\|D_hf_l[z]\|&amp;\leq\|z\|,\\
+\|D_wf_l[v]\|&amp;\leq N_l(v),\\
+\|D^2_{ww}f_l[v,v']\|&amp;\leq A N_l(v)N_l(v'),\\
+\|D^2_{wh}f_l[v,z]\|&amp;\leq B N_l(v)\|z\|,\\
+\|D^2_{hh}f_l[z,z']\|&amp;\leq C\|z\|\|z'\|.
+\end{aligned}
+\]</span></p>
+<p>Here <span class="math inline">\(A,B,C\geq0\)</span> are common upper bounds. Every line must hold along the interpolation <span class="math inline">\(w_l(t)=w_l+t\Delta w_l\)</span>, for <span class="math inline">\(0\leq t\leq1\)</span>, at the resulting moving features. Checking these inequalities only at initialization would not justify the argument.</p>
+<p>The three curvature bounds record weight-weight, weight-feature, and feature-feature interactions. Compatible activation spaces matter. So do restrictions such as a bounded incoming feature or a normalization denominator separated from zero.</p>
+</section>
+<section id="a-residual-stack-whose-sensitivity-stays-controlled" class="level2">
+<h2>A residual stack whose sensitivity stays controlled</h2>
+<p>Use <span class="math inline">\(L\)</span> blocks of the form</p>
+<p><span class="math display">\[
+h_l(t)=\left(1-\frac1L\right)h_{l-1}(t)
++\frac1L f_l(w_l(t),h_{l-1}(t)),
+\qquad h_0(t)=x.
+\]</span></p>
+<p>The skip and branch coefficients sum to one. Under our input-derivative assumption, each complete block has sensitivity at most one.</p>
+<p>Give the joint parameter change the norm</p>
+<p><span class="math display">\[
+N(\Delta w)=\max_{1\leq l\leq L}N_l(\Delta w_l),
+\qquad N(\Delta w)\leq\varepsilon.
+\]</span></p>
+<p>For this averaged residual stack, equal allocation of the budget gives precisely this maximum norm: each branch contributes its local change divided by <span class="math inline">\(L\)</span>, and there are <span class="math inline">\(L\)</span> branches.</p>
+<p>Let <span class="math inline">\(s_l(t)=\|\dot h_l(t)\|\)</span>. Differentiating once yields</p>
+<p><span class="math display">\[
+\dot h_l=
+\left[\left(1-\frac1L\right)I+\frac1L D_hf_l\right]\dot h_{l-1}
++\frac1L D_wf_l[\Delta w_l].
+\]</span></p>
+<p>Consequently,</p>
+<p><span class="math display">\[
+s_l\leq s_{l-1}+\frac\varepsilon L,
+\qquad s_0=0,
+\qquad s_l\leq\frac lL\varepsilon.
+\]</span></p>
+<p>In particular, <span class="math inline">\(\|\dot h_L\|\leq\varepsilon\)</span>. Integration gives the finite bound <span class="math inline">\(\|h_L(1)-h_L(0)\|\leq\varepsilon\)</span> too. This does not yet describe the error of the linear prediction.</p>
+</section>
+<section id="keep-the-second-derivative" class="level2">
+<h2>Keep the second derivative</h2>
+<p>Set <span class="math inline">\(q_l(t)=\|\ddot h_l(t)\|\)</span>. The full chain rule gives</p>
+<p><span class="math display">\[
+\begin{aligned}
+\ddot h_l={}&amp;
+\left[\left(1-\frac1L\right)I+\frac1L D_hf_l\right]\ddot h_{l-1}\\
+&amp;+\frac1L\left(
+D^2_{ww}f_l[\Delta w_l,\Delta w_l]
++2D^2_{wh}f_l[\Delta w_l,\dot h_{l-1}]
++D^2_{hh}f_l[\dot h_{l-1},\dot h_{l-1}]
+\right).
+\end{aligned}
+\]</span></p>
+<p>The factor two is the mixed interaction seen in the scalar example. Applying the local bounds,</p>
+<p><span class="math display">\[
+q_l\leq q_{l-1}+\frac1L\left(
+A\varepsilon^2+2B\varepsilon s_{l-1}+Cs_{l-1}^2\right).
+\]</span></p>
+<p>Insert <span class="math inline">\(s_{l-1}\leq(l-1)\varepsilon/L\)</span> and sum. Since <span class="math inline">\(q_0=0\)</span>,</p>
+<p><span class="math display">\[
+q_L\leq H_L\varepsilon^2,
+\quad
+H_L=A+B\frac{L-1}{L}
++C\frac{(L-1)(2L-1)}{6L^2}.
+\]</span></p>
+<p>The coefficients come from <span class="math inline">\(\sum_{j=0}^{L-1}j\)</span> and <span class="math inline">\(\sum_{j=0}^{L-1}j^2\)</span>. In particular,</p>
+<p><span class="math display">\[
+H_L\leq A+B+\frac C3.
+\]</span></p>
+<p>Taylor’s integral remainder now gives</p>
+<p><span class="math display">\[
+\left\|h_L(1)-h_L(0)-\dot h_L(0)\right\|
+\leq\frac12H_L\varepsilon^2.
+\]</span></p>
+<p>This is a <em>depth-independent upper bound</em> under the stated assumptions. It is not an exact curvature value. Replacing the averaged residual block by <span class="math inline">\(h+f_l(w,h)\)</span> changes the sensitivity calculation. Tying parameters across blocks changes the parameter space. Neither alteration inherits this proof automatically.</p>
+</section>
+<section id="a-scalar-stack-we-can-calculate-exactly" class="level2">
+<h2>A scalar stack we can calculate exactly</h2>
+<p>Take <span class="math inline">\(f_l(w,h)=wh\)</span>, <span class="math inline">\(h_0=1\)</span>, and keep <span class="math inline">\(w,h\in[0,1]\)</span>. With absolute-value norms, <span class="math inline">\(A=C=0\)</span> and <span class="math inline">\(B=1\)</span>. Choose every initial weight as <span class="math inline">\(1/2\)</span> and every change as <span class="math inline">\(\varepsilon=0.2\)</span>. The path stays in the required region, and</p>
+<p><span class="math display">\[
+y(t)=\left(1-\frac{0.5}{L}+\frac{0.2t}{L}\right)^L,
+\qquad
+y'(0)=0.2\left(1-\frac{0.5}{L}\right)^{L-1}.
+\]</span></p>
+<p>Compute the actual remainder <span class="math inline">\(y(1)-y(0)-y'(0)\)</span> and compare it with <span class="math inline">\(0.02(1-1/L)\)</span>. At depth two both equal <span class="math inline">\(0.01\)</span>. As depth grows, the actual remainder approaches</p>
+<p><span class="math display">\[
+e^{-0.3}-1.2e^{-0.5}\approx0.0129814,
+\]</span></p>
+<p>while the bound approaches <span class="math inline">\(0.02\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/residual-remainder.svg" alt="Exact remainder and theoretical upper bound for the scalar averaged residual stack, from depth one to 128. Both remain bounded, with the actual remainder approaching about 0.013."></p>
+<figcaption>The exact scalar residual remainder stays below its finite-depth bound as depth increases.</figcaption>
+</figure>
+</div>
+<p>These are evaluations of a scalar polynomial, not training measurements. Increasing <span class="math inline">\(L\)</span> also changes the branch multiplier. A comparison with an unscaled network must account for that change and its chosen joint norm.</p>
+</section>
+<section id="from-output-motion-to-a-loss-bound" class="level2">
+<h2>From output motion to a loss bound</h2>
+<p>Suppose the scalar loss <span class="math inline">\(\ell(y)\)</span> has output derivative norm at most <span class="math inline">\(b\)</span> and Hessian bilinear norm at most <span class="math inline">\(c\)</span> throughout the output path. Then</p>
+<p><span class="math display">\[
+\frac{d^2}{dt^2}\ell(h_L(t))
+=D^2\ell[\dot h_L,\dot h_L]+D\ell[\ddot h_L],
+\]</span></p>
+<p>so its absolute value is at most <span class="math inline">\((c+bH_L)\varepsilon^2\)</span>. Thus, for <span class="math inline">\(\mathcal L(w)=\ell(h_L(w))\)</span>,</p>
+<p><span class="math display">\[
+\mathcal L(w+\Delta w)
+\leq\mathcal L(w)+D\mathcal L[\Delta w]
++\frac12(c+bH_L)N(\Delta w)^2.
+\]</span></p>
+<p>A finite empirical average obeys the same bound if its examples share these constants. A population expectation additionally needs justification for exchanging differentiation and expectation.</p>
+<p>For a unit support direction <span class="math inline">\(D(g)\)</span> of the joint norm, a step <span class="math inline">\(\Delta w=-\varepsilon D(g)\)</span> has linear term <span class="math inline">\(-\varepsilon N^*(g)\)</span>. The quadratic term tells us when that local prediction guarantees descent. Approximate or stochastic directions also carry the alignment errors from <a href="../scale-geometry-14/index.html">Part 14</a>. A budget by itself does not establish descent.</p>
+</section>
+<section id="where-the-local-promises-come-from" class="level2">
+<h2>Where the local promises come from</h2>
+<p>For a dense map <span class="math inline">\(Wh\)</span>, the mixed derivative is <span class="math inline">\(\Delta W\Delta h\)</span>. The RMS operator norm from Part 5 controls it. For a periodic convolution <span class="math inline">\(f(C,x)=K^{-1}\sum_{s=1}^K C_sS_sx\)</span>, using Euclidean feature norms and norm-preserving spatial shifts, the triangle inequality gives</p>
+<p><span class="math display">\[
+\|D_Cf[H]\|\leq\max_s\|H_s\|_{\rm op}\|x\|.
+\]</span></p>
+<p>Thus a maximum over channel-matrix slices is a natural parameter norm for that explicitly averaged convolution. Input sensitivity at most one additionally needs <span class="math inline">\(\max_s\|C_s\|_{\rm op}\leq1\)</span>. Stride, padding, and different normalization factors need their own estimates.</p>
+<p>For attention, split the module into projections, the bilinear score map, softmax, and value aggregation. For scores <span class="math inline">\(QK^\top\)</span>, the differential is <span class="math inline">\(\Delta QK^\top+Q\Delta K^\top\)</span>, and the mixed second derivative contains <span class="math inline">\(\Delta Q\Delta K^\top\)</span>. Bounds therefore need limits on the relevant query and key norms, as well as the chosen sequence norms. A normalized projection introduces an additional denominator. <a href="../scale-geometry-18/index.html">Part 18</a> will calculate why this can be the fragile part.</p>
+<p>The recursive bookkeeping works once those local promises hold. Establishing their region of validity is part of the network argument.</p>
+</section>
+<section id="try-carrying-the-budget-through" class="level2">
+<h2>Try carrying the budget through</h2>
+<ol type="1">
+<li>In the two-module bound, take <span class="math inline">\(s_2=3\)</span>, <span class="math inline">\(p_1=p_2=1/2\)</span>, and <span class="math inline">\(N(\Delta w)\leq0.1\)</span>. What local budgets follow?</li>
+<li>For <span class="math inline">\(A=0\)</span>, <span class="math inline">\(B=1\)</span>, <span class="math inline">\(C=0\)</span>, <span class="math inline">\(L=4\)</span>, and <span class="math inline">\(\varepsilon=0.2\)</span>, what is the output remainder bound?</li>
+<li>Why would retaining only weight-weight curvature miss the scalar residual example?</li>
+<li>If <span class="math inline">\(b=2\)</span>, <span class="math inline">\(c=3\)</span>, and <span class="math inline">\(H_L\leq1\)</span>, what quadratic coefficient appears in the loss remainder?</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li><span class="math inline">\(N_1(\Delta w_1)\leq0.1/6\)</span> and <span class="math inline">\(N_2(\Delta w_2)\leq0.05\)</span>. Their transported contributions sum to at most <span class="math inline">\(0.1\)</span>.</li>
+<li><span class="math inline">\(\tfrac12(3/4)(0.2)^2=0.015\)</span>.</li>
+<li>Each scalar block has zero weight-weight curvature, but its mixed derivative equals one. Simultaneously moving weights creates a nonzero second-order product.</li>
+<li><span class="math inline">\(c+bH_L\leq5\)</span>, so the remainder is at most <span class="math inline">\(\tfrac52N(\Delta w)^2\)</span>.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p><a href="https://arxiv.org/abs/2405.14813v1">Scalable Optimization in the Modular Norm</a>, Sections 3.2 to 3.4, Proposition 4, and Appendices B, C, and E, develops composition, sharpness triples, and the averaged residual construction. Its Proposition 5 connects output error bounds to loss smoothness. The pathwise calculation above spells out the first and second directional derivatives for independent blocks. The scalar example and figure evaluate the displayed polynomial directly.</p>
+<p>The result concerns this declared norm, residual multiplier, and region of differentiability. It does not show that an arbitrary trained attention network satisfies the local constants, or that a depth-independent upper bound makes its best learning rate depth independent.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-15/index.html" aria-label="Previous post: Weight decay as a norm budget">P: Weight decay as a norm budget <span class="link-mark" aria-hidden="true"></span></a><a href="../scale-geometry-17/index.html" aria-label="Next post: Why a learning rate can transfer across widths">N: Why a learning rate can transfer across widths <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#first-follow-both-routes-through-a-composition" id="toc-first-follow-both-routes-through-a-composition">First follow both routes through a composition</a></li>
+<li><a href="#state-the-local-promises-along-the-whole-path" id="toc-state-the-local-promises-along-the-whole-path">State the local promises along the whole path</a></li>
+<li><a href="#a-residual-stack-whose-sensitivity-stays-controlled" id="toc-a-residual-stack-whose-sensitivity-stays-controlled">A residual stack whose sensitivity stays controlled</a></li>
+<li><a href="#keep-the-second-derivative" id="toc-keep-the-second-derivative">Keep the second derivative</a></li>
+<li><a href="#a-scalar-stack-we-can-calculate-exactly" id="toc-a-scalar-stack-we-can-calculate-exactly">A scalar stack we can calculate exactly</a></li>
+<li><a href="#from-output-motion-to-a-loss-bound" id="toc-from-output-motion-to-a-loss-bound">From output motion to a loss bound</a></li>
+<li><a href="#where-the-local-promises-come-from" id="toc-where-the-local-promises-come-from">Where the local promises come from</a></li>
+<li><a href="#try-carrying-the-budget-through" id="toc-try-carrying-the-budget-through">Try carrying the budget through</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>

@@ -4,7 +4,7 @@ Updated 2026-11-05.
 
 ## Published foundation and current drafts
 
-Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. The first fifteen posts and the hub are published, including the practical polar, stochastic averaging, and norm-budget articles approved on November 5, 2026. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
+Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. The first eighteen posts and the hub are published, including the residual, width-transfer, and normalized-head articles approved on November 5, 2026. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
 
 Angelo reviewed Parts 1 through 6 in pairs, approved their publication, and authorized completion and publication of Parts 7 through 12 without another review gate. Mathematical checks and rendered presentation checks remain part of publication. No future release dates or automatic publications have been set.
 
@@ -29,6 +29,9 @@ The six free-probability posts remain available with the bold In process of rewr
 | 13 | What a finite polar iteration actually does | Follow finite singular-mode computation and distinguish approximation from training quality | Published |
 | 14 | Why average before choosing an update? | Derive stochastic normalization bias, variance, tracking lag, and support-error bounds | Published |
 | 15 | Weight decay as a norm budget | Derive the invariant ball and initialization envelope under bounded proposals | Published |
+| 16 | From layer budgets to a residual block | Propagate first and second derivatives and bound a finite-step residual remainder | Published |
+| 17 | Why a learning rate can transfer across widths | Derive proposal-dependent shape factors and distinguish feature scale from validation transfer | Published |
+| 18 | Small matrix steps, large normalized rotations | Derive projection-margin sensitivity and a finite moving-feature angle bound | Published |
 
 ## Research follow-ups
 
@@ -62,7 +65,7 @@ The earlier free-probability dates were proposals and are superseded. The learni
 
 Keep occasional italic emphasis in the established orange accent. Use it for a phrase carrying a distinction. Preserve skull link ornaments and the Yo twin, go read... source headings.
 
-Bottom chapter navigation displays P: and N: followed by the respective post title, with descriptive assistive labels. New scale and geometry chapters carry no review-draft notices. The free-probability rewriting notices remain visible.
+Bottom chapter navigation displays P: and N: followed by the respective post title, with descriptive assistive labels. Published scale and geometry chapters carry no review notices. Local drafts display Draft for review until approved. The free-probability rewriting notices remain visible.
 
 
 ## Dossier coverage and the next writing arc
@@ -96,7 +99,7 @@ Tensor Programs, kernel versus feature-learning regimes, and the full muP/depth 
 
 Progressive sharpening, edge of stability, self-stabilization, and central flows form another coherent dynamics sequence. Their finite-step, averaged-flow, and empirical claims need separate treatment. The [research index](/home/acru/angelo/proj/tense/.paper-mastery/RESEARCH_INDEX.md) and [central-flows map](/home/acru/angelo/proj/tense/.paper-mastery/central-flows/01-executive-map.md) locate that material.
 
-These are editorial candidates. The public hub keeps its existing chapter list, and no additional article or experiment is created by this review.
+The first six follow-up topics now have published articles through Part 18. Remaining topics are editorial candidates. The published hub keeps its approved chapter list until the next release.
 
 
 ## Practical follow-up release
@@ -110,3 +113,16 @@ Prepared November 4 and approved for publication November 5, 2026.
 | 15 | Weight decay as a norm budget | Published November 5 after review |
 
 All three were reviewed and approved for publication. Their sources, figures, hub entries, and title-based chapter links are included in the release. The series uses open-ended part labels.
+
+
+## Network geometry release
+
+Prepared and approved for publication November 5, 2026 after review.
+
+- Part 16 derives a complete averaged residual stack, including mixed curvature, a finite-depth remainder, and a conditional loss bound. Convolution and attention examples explain how local estimates depend on map conventions.
+- Part 17 derives aligned and orthogonal matrix action, master versus raw rate factors, a stabilized-sign counterexample, and a grid transfer-regret protocol. It contains exact one-step examples rather than a new training sweep.
+- Part 18 derives projection-margin sensitivity, an exact packed orthogonal construction, and finite moving-input and epsilon-aware bounds. An attainable direction is kept distinct from an ordinary task gradient.
+- Each draft includes an original reproducible figure, exercises, answer sketches, and checked primary source links. The local hub uses a fifth group and the established P: and N: chapter titles.
+- Parts 16 through 18 are approved for publication. Remove their review notices and render the approved source into docs before publishing.
+
+The next unprepared topics are the exact tangent spectral oracle, attention versus MLP constraints, and the matched-step experimental case study. The broad stochastic selection and sharpness material remains available for later arcs.

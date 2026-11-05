@@ -183,3 +183,23 @@ Approved November 5, 2026 after review.
 - Publish Parts 13 through 15 and their four figures, worked examples, exercises, and eighteen numerical checks.
 - Remove review notices and retain the open-ended part labels and title-based P: and N: links.
 - Render the complete site afresh so the published output matches the approved sources.
+
+
+## Residual, width, and normalized-head review drafts
+
+Prepared November 5, 2026 for review after publishing Parts 13 through 15.
+
+- Add Parts 16 through 18 with full derivations, three reproducible figures, numerical examples, exercises, and primary source links.
+- Verify the examples with twenty-three checks in tools/check_network_scaling.py. Rebuild their figures with tools/network_scaling_figures.py.
+- Extend the local catalog with the Networks, scaling, and feature motion group. Connect Part 15 to Part 16 using title-based P: and N: navigation.
+- Keep Draft for review notices on the three new articles. Keep their work uncommitted and unpushed until review, and preserve the published docs tree.
+- Review at http://127.0.0.1:8878/blog/scale-geometry-16/index.html and follow the chapter links through Part 18.
+
+
+## Publish the network geometry posts
+
+Approved November 5, 2026 after review.
+
+- Publish Parts 16 through 18 with their three figures, worked derivations, exercises, and twenty-three numerical checks.
+- Remove review notices and preserve the open-ended part labels, orange emphasis, and title-based P: and N: chapter links.
+- Render the approved sources into a separate release directory before updating the published docs output.

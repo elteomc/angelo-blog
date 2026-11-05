@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Small matrix steps, large normalized rotations | Angelo Farfan</title>
+<meta name="description" content="Derive the sensitivity of a normalized projection, construct a large head rotation on an exact orthogonal manifold, and include moving features in a finite-step bound.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 18</a>
+<h1>Small matrix steps, large normalized rotations</h1>
+
+
+<p class="dek" hidden="">Projection margins, packed heads, and what a spectral budget leaves open</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>A spectral budget controls the largest raw output change of a linear map. After normalization, the relevant output is a direction. A small raw vector can change direction substantially under a perturbation that is small on the scale of the whole matrix.</p>
+<p>This gives us a concrete way to examine the regional assumptions in Part 16 and the upper bounds in Part 17. The missing quantity is a <em>projection margin</em>: how much of the incoming feature survives the particular projection we normalize.</p>
+<p>We will derive the exact local sensitivity, then make the effect happen while a packed matrix stays exactly orthogonal. No singular value needs to deteriorate.</p>
+<section id="differentiate-the-normalized-projection" class="level2">
+<h2>Differentiate the normalized projection</h2>
+<p>Let <span class="math inline">\(A\in\mathbb R^{p\times d}\)</span>, <span class="math inline">\(h\ne0\)</span>, and</p>
+<p><span class="math display">\[
+z=Ah\ne0,\qquad r=\|z\|_2,\qquad u=\frac zr.
+\]</span></p>
+<p>Assume <span class="math inline">\(p\geq2\)</span>. Differentiating <span class="math inline">\(r\)</span> gives <span class="math inline">\(dr=u^\top dz\)</span>. Therefore</p>
+<p><span class="math display">\[
+du=\frac{dz}{r}-\frac{z\,dr}{r^2}
+=\frac{(I-uu^\top)dz}{r}.
+\]</span></p>
+<p>Normalization discards the radial component and divides the transverse component by the current output radius. For a frozen input and a weight change,</p>
+<p><span class="math display">\[
+D_Au[\Delta A]
+=\frac{(I-uu^\top)\Delta Ah}{\|Ah\|_2}.
+\]</span></p>
+<p>Give the matrix a relative spectral budget</p>
+<p><span class="math display">\[
+\|\Delta A\|_{\rm op}\leq\eta\|A\|_{\rm op},
+\qquad
+\kappa(A,h)=\frac{\|A\|_{\rm op}\|h\|_2}{\|Ah\|_2}.
+\]</span></p>
+<p>The spectral inequality implies <span class="math inline">\(\kappa\geq1\)</span> and</p>
+<p><span class="math display">\[
+\|D_Au[\Delta A]\|_2\leq\eta\kappa(A,h).
+\]</span></p>
+<p>This upper bound is attained. Choose a unit vector <span class="math inline">\(e\perp u\)</span> and set</p>
+<p><span class="math display">\[
+\Delta A=\eta\|A\|_{\rm op}\,e\frac{h^\top}{\|h\|_2}.
+\]</span></p>
+<p>It has exactly the permitted spectral norm, and its action on <span class="math inline">\(h\)</span> is entirely transverse. Thus</p>
+<p><span class="math display">\[
+\sup_{\|\Delta A\|_{\rm op}\leq\eta\|A\|_{\rm op}}
+\|D_Au[\Delta A]\|_2=\eta\kappa(A,h).
+\]</span></p>
+<p>This is a differential statement over the ambient spectral ball. It is not yet a finite angle bound or an oracle restricted to a weight manifold. For <span class="math inline">\(p=1\)</span>, there is no transverse direction: the ideal normalized scalar is locally constant away from zero, so the displayed supremum equality requires <span class="math inline">\(p\geq2\)</span>.</p>
+</section>
+<section id="perfect-nonzero-singular-values-do-not-protect-a-projection" class="level2">
+<h2>Perfect nonzero singular values do not protect a projection</h2>
+<p>Consider</p>
+<p><span class="math display">\[
+A=\begin{pmatrix}1&amp;0&amp;0\\0&amp;1&amp;0\end{pmatrix},
+\qquad
+h=\begin{pmatrix}\varepsilon\\0\\\sqrt{1-\varepsilon^2}\end{pmatrix},
+\qquad0&lt;\varepsilon\leq1.
+\]</span></p>
+<p>The rows of <span class="math inline">\(A\)</span> are orthonormal. Its two nonzero singular values are both one, and <span class="math inline">\(\|h\|_2=1\)</span>. Nevertheless,</p>
+<p><span class="math display">\[
+Ah=(\varepsilon,0)^\top,
+\qquad\kappa(A,h)=1/\varepsilon.
+\]</span></p>
+<p>Most of the feature lies in the projection’s kernel. Perfect row geometry does not give a positive lower bound on <span class="math inline">\(\|Ah\|\)</span> for all unit inputs of a wide projection.</p>
+<p>Nor does changing the global radius fix the relative margin. For any nonzero scalar <span class="math inline">\(a\)</span>,</p>
+<p><span class="math display">\[
+\kappa(aA,h)=\kappa(A,h).
+\]</span></p>
+<p>Positive rescaling also leaves the ideal normalized output unchanged. <a href="../scale-geometry-15/index.html">Part 15</a> showed how decay can bound a parameter radius. That bound alone does not improve this data-dependent ratio instantly. Decay can still affect future directions, optimizer history, and features.</p>
+</section>
+<section id="keep-the-packed-matrix-exactly-orthogonal" class="level2">
+<h2>Keep the packed matrix exactly orthogonal</h2>
+<p>Now use a four-dimensional packed projection <span class="math inline">\(Q\)</span>, and call its first two output coordinates one head. Start from <span class="math inline">\(Q_0=I_4\)</span> and take</p>
+<p><span class="math display">\[
+h=(\varepsilon,0,\sqrt{1-\varepsilon^2},0)^\top.
+\]</span></p>
+<p>Rotate output coordinates two and three:</p>
+<p><span class="math display">\[
+Q_\alpha=
+\begin{pmatrix}
+1&amp;0&amp;0&amp;0\\
+0&amp;\cos\alpha&amp;\sin\alpha&amp;0\\
+0&amp;-\sin\alpha&amp;\cos\alpha&amp;0\\
+0&amp;0&amp;0&amp;1
+\end{pmatrix}.
+\]</span></p>
+<p>This matrix is exactly orthogonal. Its selected head sees</p>
+<p><span class="math display">\[
+(Q_\alpha h)_{1:2}
+=(\varepsilon,\sin\alpha\sqrt{1-\varepsilon^2})^\top.
+\]</span></p>
+<p>The normalized head starts along the first coordinate. Its new angle is exactly</p>
+<p><span class="math display">\[
+\theta_{\rm head}
+=\arctan\left(|\sin\alpha|\sqrt{\kappa^2-1}\right),
+\qquad\kappa=1/\varepsilon.
+\]</span></p>
+<p>The full matrix’s spectral displacement and Frobenius angle are</p>
+<p><span class="math display">\[
+\|Q_\alpha-I\|_{\rm op}=2|\sin(\alpha/2)|,
+\qquad
+\cos\theta_{\rm matrix}
+=\frac{\langle I,Q_\alpha\rangle_F}{\|I\|_F\|Q_\alpha\|_F}
+=\frac{2+2\cos\alpha}{4}.
+\]</span></p>
+<p>At <span class="math inline">\(\alpha=0.01\)</span> radians, the spectral displacement is about <span class="math inline">\(0.01\)</span> and the whole-matrix angle is about <span class="math inline">\(0.405\)</span> degrees. A feature with <span class="math inline">\(\kappa=100\)</span> has a head angle of about <span class="math inline">\(45.0\)</span> degrees. With <span class="math inline">\(\kappa=1000\)</span>, the angle is about <span class="math inline">\(84.3\)</span> degrees.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/normalized-head-rotation.svg" alt="For a plane rotation of 0.01 radians, the selected normalized head angle increases from zero at kappa one toward 90 degrees as kappa grows. The whole-matrix Frobenius angle stays near 0.405 degrees."></p>
+<figcaption>A fixed small orthogonal matrix rotation can produce a large selected-head angle when the projection margin is small.</figcaption>
+</figure>
+</div>
+<p>This example is not an artifact of leaving the manifold. It is also compatible with a spectral support direction. The initial velocity <span class="math inline">\(J=\left.\frac{d}{d\alpha}Q_\alpha\right|_0\)</span> is skew-symmetric, tangent at the identity, and has spectral norm one. For the cost covector <span class="math inline">\(G=-J\)</span>,</p>
+<p><span class="math display">\[
+\langle G,J\rangle_F=-2=-\|G\|_*.
+\]</span></p>
+<p>Here <span class="math inline">\(\|\cdot\|_*\)</span> denotes nuclear norm. The tangent direction attains the ambient spectral-ball lower bound, so it also solves the tangent-constrained linear problem for this cost. A polar retraction of <span class="math inline">\(I+tJ\)</span> yields the same plane rotation with angle <span class="math inline">\(\arctan t\)</span>.</p>
+<p>We chose this cost to demonstrate attainability. We have not shown that an ordinary task gradient selects it frequently. The construction establishes a limitation of weight-only control, not a probability of training failure or a prediction of worse loss.</p>
+</section>
+<section id="turn-the-derivative-into-a-finite-step-statement" class="level2">
+<h2>Turn the derivative into a finite-step statement</h2>
+<p>Write the new projected feature as <span class="math inline">\(z^+=z+e\)</span>. If</p>
+<p><span class="math display">\[
+\frac{\|e\|_2}{\|z\|_2}\leq q&lt;1,
+\]</span></p>
+<p>then</p>
+<p><span class="math display">\[
+\angle(z,z^+)\leq\arcsin q.
+\]</span></p>
+<p>To see the geometry, place a radius-<span class="math inline">\(q\|z\|\)</span> ball around <span class="math inline">\(z\)</span>. It excludes the origin. The ray from the origin tangent to that ball makes angle <span class="math inline">\(\arcsin q\)</span> with <span class="math inline">\(z\)</span>, and every possible <span class="math inline">\(z^+\)</span> is inside that angular cone. The bound is sharp. The corresponding normalized Euclidean displacement is at most <span class="math inline">\(2\sin(\tfrac12\arcsin q)\)</span>.</p>
+<p>For frozen <span class="math inline">\(h\)</span>, the relative spectral budget gives <span class="math inline">\(q\leq\eta\kappa\)</span>. If <span class="math inline">\(\eta\kappa\geq1\)</span>, that upper bound provides no useful angular certificate. It does not imply the actual update has a large angle.</p>
+<p>The whole-matrix and head angles above are different observables. Controlling the angle between packed matrices does not directly control the angle between every normalized head feature. A head that uses the entire orthogonal output has no projection kernel, so this particular amplification mechanism needs a proper subspace.</p>
+</section>
+<section id="the-incoming-feature-moves-too" class="level2">
+<h2>The incoming feature moves too</h2>
+<p>In a complete network, let</p>
+<p><span class="math display">\[
+\|\Delta A\|_{\rm op}\leq\eta\|A\|_{\rm op},
+\qquad
+\|\Delta h\|_2\leq\tau\|h\|_2.
+\]</span></p>
+<p>The exact raw change is</p>
+<p><span class="math display">\[
+e=(A+\Delta A)(h+\Delta h)-Ah
+=\Delta Ah+A\Delta h+\Delta A\Delta h.
+\]</span></p>
+<p>The last term matters for a finite step. Applying the triangle inequality gives</p>
+<p><span class="math display">\[
+\frac{\|e\|_2}{\|Ah\|_2}
+\leq\kappa(A,h)(\eta+\tau+\eta\tau).
+\]</span></p>
+<p>Whenever the right side is below one, insert it into the arcsine bound. For example, <span class="math inline">\(\kappa=5\)</span>, <span class="math inline">\(\eta=0.01\)</span>, and <span class="math inline">\(\tau=0.02\)</span> give <span class="math inline">\(q=0.151\)</span> and an angle bound of about <span class="math inline">\(8.69\)</span> degrees.</p>
+<p>A bound using the observed post-update <span class="math inline">\(\tau\)</span> checks an inequality after the event. A pre-update certificate needs an independently valid upstream bound on <span class="math inline">\(\tau\)</span>. Part 16 illustrates what such recursive reasoning can look like under strong local assumptions. It does not establish a cheap, tight certificate for an arbitrary Transformer.</p>
+<p>Similarly, if the effective head map is a selector applied to <span class="math inline">\(QE\)</span> with a learned upstream matrix <span class="math inline">\(E\)</span>, an orthogonality constraint on <span class="math inline">\(Q\)</span> does not alone constrain that complete map. The module boundary needs to match the actual forward computation.</p>
+</section>
+<section id="epsilon-changes-the-euclidean-derivative" class="level2">
+<h2>Epsilon changes the Euclidean derivative</h2>
+<p>Real normalization often uses a positive stabilizer. For the explicitly defined map</p>
+<p><span class="math display">\[
+n_\epsilon(z)=\frac{z}{\sqrt{\|z\|_2^2+\epsilon}},
+\qquad\epsilon&gt;0,
+\]</span></p>
+<p>write <span class="math inline">\(s=\sqrt{\|z\|_2^2+\epsilon}\)</span>. Its Jacobian is</p>
+<p><span class="math display">\[
+Dn_\epsilon(z)=\frac Is-\frac{zz^\top}{s^3}.
+\]</span></p>
+<p>Transverse eigenvalues are <span class="math inline">\(1/s\)</span>, while the radial eigenvalue is <span class="math inline">\(\epsilon/s^3\)</span>. At zero all directions have derivative <span class="math inline">\(1/\sqrt\epsilon\)</span>. The derivative is globally bounded by that value, but the bound can be large. The radial derivative no longer vanishes, and exact scale invariance is lost.</p>
+<p>For nonzero <span class="math inline">\(z\)</span>, this stabilized output points in the same direction as <span class="math inline">\(z\)</span>, so our angular argument still concerns its orientation. Its Euclidean displacement uses the new Jacobian. RMS conventions, epsilon placement, and learned gains change the actual formula and must be included when applying it.</p>
+</section>
+<section id="what-to-measure-before-drawing-a-training-conclusion" class="level2">
+<h2>What to measure before drawing a training conclusion</h2>
+<p>The same weights can have small <span class="math inline">\(\kappa\)</span> on one context and large <span class="math inline">\(\kappa\)</span> on another. A matrix singular-value plot alone will miss that difference. Inspect the distribution and tails of projection margins on actual features, raw and normalized feature changes, incoming-feature motion, and the task’s actual update directions.</p>
+<p>Large internal motion can be useful. Small internal motion can still be badly aligned. To argue for a different geometry, we would need comparisons against tuned scalar step corrections, matched schedules, and completed training budgets, with downstream loss measured. The exact example above supplies a diagnostic question for that study. It does not supply its outcome.</p>
+</section>
+<section id="try-checking-the-margin" class="level2">
+<h2>Try checking the margin</h2>
+<ol type="1">
+<li>In the row-orthogonal example, take <span class="math inline">\(\varepsilon=0.01\)</span>. What is <span class="math inline">\(\kappa\)</span>? What happens to it if we multiply <span class="math inline">\(A\)</span> by ten?</li>
+<li>With frozen features, <span class="math inline">\(\kappa\leq20\)</span>, and a target angle of at most five degrees, what relative spectral budget is sufficient?</li>
+<li>Why is <span class="math inline">\(\kappa(\eta+\tau)\)</span> insufficient for the general finite moving-feature bound?</li>
+<li>What changes in the ideal differential formula when the normalized output dimension is one?</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li><span class="math inline">\(\kappa=100\)</span>, and positive rescaling leaves it at 100.</li>
+<li><span class="math inline">\(\eta\leq\sin(5\pi/180)/20\approx0.00435779\)</span>.</li>
+<li>It omits <span class="math inline">\(\Delta A\Delta h\)</span>. Aligned scalar changes already require the additional <span class="math inline">\(\eta\tau\)</span> term.</li>
+<li>Away from zero, <span class="math inline">\(u=\pm1\)</span> and <span class="math inline">\(I-uu^\top=0\)</span>. There is no nonzero transverse direction, although a finite sign crossing can still occur through zero.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p>Return to <a href="../scale-geometry-2/index.html">Part 2</a> for exact normalization symmetries, <a href="../scale-geometry-8/index.html">Part 8</a> for tangent constraints and retractions, and <a href="../scale-geometry-16/index.html">Part 16</a> for pathwise module bounds. The Jacobian, witness, orthogonal construction, and moving-input estimate here follow directly from the displayed maps. They express possible behavior under explicit budgets, with no new benchmark claim.</p>
+<p><a href="https://arxiv.org/abs/2405.14813v1">Scalable Optimization in the Modular Norm</a>, Appendix A.3 and the module-design discussion in Appendix B, gives the surrounding normalization and module perspective. A norm’s sensitivity promise belongs to its declared map and admissible region. The packed, headwise normalized construction above should not be read as a description of every attention module using that framework.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-17/index.html" aria-label="Previous post: Why a learning rate can transfer across widths">P: Why a learning rate can transfer across widths <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#differentiate-the-normalized-projection" id="toc-differentiate-the-normalized-projection">Differentiate the normalized projection</a></li>
+<li><a href="#perfect-nonzero-singular-values-do-not-protect-a-projection" id="toc-perfect-nonzero-singular-values-do-not-protect-a-projection">Perfect nonzero singular values do not protect a projection</a></li>
+<li><a href="#keep-the-packed-matrix-exactly-orthogonal" id="toc-keep-the-packed-matrix-exactly-orthogonal">Keep the packed matrix exactly orthogonal</a></li>
+<li><a href="#turn-the-derivative-into-a-finite-step-statement" id="toc-turn-the-derivative-into-a-finite-step-statement">Turn the derivative into a finite-step statement</a></li>
+<li><a href="#the-incoming-feature-moves-too" id="toc-the-incoming-feature-moves-too">The incoming feature moves too</a></li>
+<li><a href="#epsilon-changes-the-euclidean-derivative" id="toc-epsilon-changes-the-euclidean-derivative">Epsilon changes the Euclidean derivative</a></li>
+<li><a href="#what-to-measure-before-drawing-a-training-conclusion" id="toc-what-to-measure-before-drawing-a-training-conclusion">What to measure before drawing a training conclusion</a></li>
+<li><a href="#try-checking-the-margin" id="toc-try-checking-the-margin">Try checking the margin</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>

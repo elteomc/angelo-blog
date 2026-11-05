@@ -54,3 +54,6 @@ Scale and geometry chapters have ordered source entries in the catalog. Chapter 
 For the practical follow-up drafts, run `PYTHONDONTWRITEBYTECODE=1 python3 tools/check_practical_followups.py`. Use `--tables` to inspect the numerical values printed in the polar and averaging articles. Rebuild all four figures with `PYTHONDONTWRITEBYTECODE=1 MPLCONFIGDIR=/tmp/angelo-blog-matplotlib python3 tools/practical_followup_figures.py`.
 
 Parts 13 through 15 were approved for publication November 5, 2026. Future review builds should stay outside docs until approval. Article review notices identify local drafts. The series hub keeps its simple presentation and uses a fourth chapter group. Part labels have no fixed total, and the established title-based P: and N: links connect the sequence.
+
+
+For Parts 16 through 18, run python3 tools/check_network_scaling.py. Rebuild the residual, width-transfer, and normalized-head figures with python3 tools/network_scaling_figures.py. Render the local review outside docs. Parts 16 through 18 were reviewed and approved for publication November 5, 2026. Future review batches stay outside docs until approval.
