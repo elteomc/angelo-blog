@@ -4,7 +4,7 @@ Updated 2026-11-05.
 
 ## Published foundation and current drafts
 
-Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. The first eighteen posts and the hub are published, including the residual, width-transfer, and normalized-head articles approved on November 5, 2026. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
+Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. The first twenty-one posts and the hub are published, including the tangent-oracle, module-constraint, and experiment case-study articles approved on November 5, 2026. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
 
 Angelo reviewed Parts 1 through 6 in pairs, approved their publication, and authorized completion and publication of Parts 7 through 12 without another review gate. Mathematical checks and rendered presentation checks remain part of publication. No future release dates or automatic publications have been set.
 
@@ -32,6 +32,9 @@ The six free-probability posts remain available with the bold In process of rewr
 | 16 | From layer budgets to a residual block | Propagate first and second derivatives and bound a finite-step residual remainder | Published |
 | 17 | Why a learning rate can transfer across widths | Derive proposal-dependent shape factors and distinguish feature scale from validation transfer | Published |
 | 18 | Small matrix steps, large normalized rotations | Derive projection-margin sensitivity and a finite moving-feature angle bound | Published |
+| 19 | The exact spectral update on a tangent space | Solve the tangent oracle with a norm-preserving skew lift and compressed evaluation | Published |
+| 20 | Should attention and MLPs use the same constraints? | Separate feasible spectra, softmax gaps, restoration details, and causal evidence | Published |
+| 21 | What our matched-step experiments actually tested | Read initialization, predictive-clock, capacity, and forecast controls with their limitations | Published |
 
 ## Research follow-ups
 
@@ -99,7 +102,7 @@ Tensor Programs, kernel versus feature-learning regimes, and the full muP/depth 
 
 Progressive sharpening, edge of stability, self-stabilization, and central flows form another coherent dynamics sequence. Their finite-step, averaged-flow, and empirical claims need separate treatment. The [research index](/home/acru/angelo/proj/tense/.paper-mastery/RESEARCH_INDEX.md) and [central-flows map](/home/acru/angelo/proj/tense/.paper-mastery/central-flows/01-executive-map.md) locate that material.
 
-The first six follow-up topics now have published articles through Part 18. Remaining topics are editorial candidates. The published hub keeps its approved chapter list until the next release.
+The first nine follow-up topics now have published articles through Part 21. Remaining topics are editorial candidates. The published hub keeps its approved chapter list until the next release.
 
 
 ## Practical follow-up release
@@ -125,4 +128,17 @@ Prepared and approved for publication November 5, 2026 after review.
 - Each draft includes an original reproducible figure, exercises, answer sketches, and checked primary source links. The local hub uses a fifth group and the established P: and N: chapter titles.
 - Parts 16 through 18 are approved for publication. Remove their review notices and render the approved source into docs before publishing.
 
-The next unprepared topics are the exact tangent spectral oracle, attention versus MLP constraints, and the matched-step experimental case study. The broad stochastic selection and sharpness material remains available for later arcs.
+The tangent spectral oracle, attention versus MLP constraints, and matched-step case study are now published as Parts 19 through 21 after review. The broad stochastic selection and sharpness material remains available for later arcs.
+
+
+## Constraint and evidence release
+
+Prepared and approved for publication November 5, 2026 after review.
+
+- Part 19 develops skew lifting, the imported norm-preserving completion result, the exact spectral certificate, zero-rank conventions, QR compression, and separate finite retraction.
+- Part 20 derives Gram spectra and attention gap bounds, distinguishes MLP nonlinearities, and audits packing, restoration, and the exact finite-horizon norm budget before drawing a mechanism claim.
+- Part 21 reports the archived November 4 experiments. It distinguishes initialization replays, prescribed predictive clocks, conservative independent forecasts, and the later scale audit. Numerical aggregates are recomputed from saved records, with no new training.
+- Each article includes a reproducible figure, worked mathematics, exercises, answer sketches, and source scope. Preserve orange italics, skull ornaments, and P: and N: chapter titles.
+- Parts 19 through 21 are approved for publication. Remove their review notices and render the approved source into docs before publishing.
+
+The next unprepared follow-up is redundant scales, stochastic dynamics, and sharpness bias. It still needs the focused primary-source pass identified in the original backlog. The adjacent Tensor Programs and training-dynamics arcs remain candidates rather than approved releases.

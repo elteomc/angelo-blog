@@ -9,6 +9,8 @@ series-label: "Scale and geometry / Part 18"
 series-url: "scale-geometry.html"
 previous-url: "../scale-geometry-17/index.html"
 previous-title: "Why a learning rate can transfer across widths"
+next-url: "../scale-geometry-19/index.html"
+next-title: "The exact spectral update on a tangent space"
 ---
 
 A spectral budget controls the largest raw output change of a linear map. After normalization, the relevant output is a direction. A small raw vector can change direction substantially under a perturbation that is small on the scale of the whole matrix.

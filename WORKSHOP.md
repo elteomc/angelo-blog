@@ -57,3 +57,9 @@ Parts 13 through 15 were approved for publication November 5, 2026. Future revie
 
 
 For Parts 16 through 18, run python3 tools/check_network_scaling.py. Rebuild the residual, width-transfer, and normalized-head figures with python3 tools/network_scaling_figures.py. Render the local review outside docs. Parts 16 through 18 were reviewed and approved for publication November 5, 2026. Future review batches stay outside docs until approval.
+
+
+For Parts 19 through 21, run python3 tools/check_geometry_evidence.py. Rebuild their three figures with python3 tools/geometry_evidence_figures.py. The internal experiment-record.json contains selected source-hashed aggregates from the existing study, rather than a new training result. Keep review output outside docs and review at http://127.0.0.1:8878/blog/scale-geometry-19/index.html.
+
+
+Parts 19 through 21 were reviewed and approved for publication November 5, 2026. Future batches stay in external review output until approval.

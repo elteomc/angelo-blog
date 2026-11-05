@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What our matched-step experiments actually tested | Angelo Farfan</title>
+<meta name="description" content="Read the archived normalized-attention experiments through their initialization, predictive-KL, capacity, and forecast controls without turning a small benchmark into a universal claim.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 21</a>
+<h1>What our matched-step experiments actually tested</h1>
+
+
+<p class="dek" hidden="">Functional clocks, signed predictions, and an explanation that did not survive its controls</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>A mathematical construction can show that a normalized feature may rotate substantially under a small matrix step. A training experiment asks which directions the optimizer actually chooses, which functions it reaches, and whether those choices improve the task loss.</p>
+<p>Our archived experiments offer a useful case study in moving between those questions. An early comparison suggested that a hard query-key constraint hurt a single-head model but helped a four-head model. Later controls changed that interpretation. The measurements remain useful precisely because the first explanation did not survive intact.</p>
+<p>This post reports the existing November 4 experiment records. It adds algebra and aggregation checks, not a new training run.</p>
+<section id="first-declare-the-experimental-world" class="level2">
+<h2>First declare the experimental world</h2>
+<p>The core comparison used two complete Transformer blocks, width 32, and either one or four heads. The task predicted independently masked WikiText-2 bytes in 64-byte bidirectional contexts, with minibatches of 16 sequences. Features, values, output paths, learned temperatures, embeddings, and readout remained trainable.</p>
+<p>The two treatments differed in their query-key matrix geometry. One restored the packed matrices to a fixed Frobenius radius, allowing their shape to vary. The other restored them to a Stiefel constraint. The matrix proposals used a custom angular Adam-based rule with its recorded moment and normalization conventions. This was not a reproduction of Modula, ordinary Euclidean Adam, or the exact spectral oracle in Part 19.</p>
+<p>Later comparisons added an expanded one-head parametrization with shared width 48. The primary paired seeds were 0, 1, and 2, with 4000 updates as one endpoint. An additional endpoint used 60 seconds of process CPU time spent on training and functional calibration. That clock excluded evaluation and checkpoint serialization. It was neither total wall time nor a GPU throughput measurement.</p>
+<p>These details define what the evidence can address. A masked-byte network at fixed width does not directly test learning-rate transfer across model widths or large causal language-model pretraining.</p>
+</section>
+<section id="a-tiny-initialization-operation-was-not-innocuous" class="level2">
+<h2>A tiny initialization operation was not innocuous</h2>
+<p>The archived hard-constraint branch applied an additional polar restoration to an already orthogonal saved initialization. The norm-only branch did not. This changed entries by at most about <span class="math inline">\(3\times10^{-8}\)</span>, while initial probe logits differed by less than <span class="math inline">\(2.1\times10^{-7}\)</span>.</p>
+<p>Faithful replays recovered the archived terminal losses. Replays that instead started the two methods from exactly identical arrays produced a different comparison:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Angular-clock comparison</th>
+<th>One head</th>
+<th>Four heads</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Archived mean hard minus norm-only test loss</td>
+<td>+0.035325</td>
+<td>-0.092984</td>
+</tr>
+<tr class="even">
+<td>Identical-array replay mean</td>
+<td>+0.016543</td>
+<td>-0.072930</td>
+</tr>
+</tbody>
+</table>
+<p>Units are nats per masked byte. Positive means the hard constraint has higher loss. Every mean uses three paired seeds.</p>
+<p>For the identical-array one-head replay, the individual differences were <span class="math inline">\(-0.022846\)</span>, <span class="math inline">\(+0.056520\)</span>, and <span class="math inline">\(+0.015955\)</span>. The original single-head penalty became a mixed sign pattern. The four-head replay retained negative differences in all three seeds.</p>
+<p>The representational class did not change when we removed a rounding-sized initialization operation. Its effect on a long trajectory therefore cannot, by itself, be evidence of a capacity difference. It also does not identify which later optimizer component amplified the perturbation.</p>
+</section>
+<section id="match-predictive-motion-rather-than-matrix-angle" class="level2">
+<h2>Match predictive motion, rather than matrix angle</h2>
+<p>Equal matrix angles need not mean equal function changes. Parts 9 and 18 explain two reasons: numerical schedules can change the actual angular step, and a normalized head’s sensitivity depends on its feature margin.</p>
+<p>The next intervention matched <em>complete-network forward predictive KL</em>:</p>
+<p><span class="math display">\[
+K(\theta,\theta^+)
+=\mathbb E_x D_{\rm KL}\bigl(p_\theta(\cdot\mid x)\|p_{\theta^+}(\cdot\mid x)\bigr).
+\]</span></p>
+<p>Each setting received a target sequence frozen from a separate development seed before the main paired runs. At each update, a scalar controller rescaled the entire proposed parameter path. Calibration used eight fresh unlabeled training contexts, independently of the gradient minibatch. Optimizer moments advanced once per minibatch, rather than during controller trials.</p>
+<p>At 4000 updates, the recorded test differences were:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Mean hard minus norm-only loss</th>
+<th>Individual paired differences</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>One head, width 32</td>
+<td>-0.518126</td>
+<td>-0.634254, -0.061582, -0.858540</td>
+</tr>
+<tr class="even">
+<td>Four heads, width 32</td>
+<td>+0.040624</td>
+<td>-0.107966, +0.097471, +0.132368</td>
+</tr>
+<tr class="odd">
+<td>Expanded one head, width 48</td>
+<td>+0.278463</td>
+<td>+0.000372, +0.009585, +0.825431</td>
+</tr>
+</tbody>
+</table>
+<p>The simple head-dependent ordering did not persist. The expanded mean is dominated by one seed. These are heterogeneous paired observations, not a clean winner ranking.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/matched-step-seeds.svg" alt="Each dot is one paired seed's hard-minus-norm-only test loss at 4000 updates. Identical-array angular replays and predictive-KL-controlled runs have different signs and dispersions. A zero line separates which geometry has lower loss."></p>
+<figcaption>Paired seed loss differences change when the intervention changes from a matrix angular clock to a prescribed predictive-KL clock.</figcaption>
+</figure>
+</div>
+<p>The controller also created new limitations. Some accepted path multipliers exceeded 100, making these steps large extrapolations of the native proposal. Although calibration error was below 0.5 percent, independent contexts did not match the target equally well. One expanded checkpoint had a mean validation KL ratio of about 2.09 for the norm-only method.</p>
+<p>Thus the intervention tests a specified predictive clock with an empirical controller. It does not perfectly remove functional speed while leaving all other aspects of training unchanged.</p>
+</section>
+<section id="why-matching-can-remove-a-real-source-of-benefit" class="level2">
+<h2>Why matching can remove a real source of benefit</h2>
+<p>Locally, for direction <span class="math inline">\(d\)</span> and predictive Fisher matrix <span class="math inline">\(F\)</span>,</p>
+<p><span class="math display">\[
+K(\theta,\theta+\eta d)
+=\tfrac12\eta^2d^\top Fd+O(\eta^3).
+\]</span></p>
+<p>For positive target <span class="math inline">\(k\)</span> and <span class="math inline">\(d^\top Fd&gt;0\)</span>, the quadratic matching rule is</p>
+<p><span class="math display">\[
+\eta(d)=\sqrt{\frac{2k}{d^\top Fd}}.
+\]</span></p>
+<p>If the total direction is multiplied by <span class="math inline">\(a&gt;0\)</span>, then <span class="math inline">\(\eta(ad)ad=\eta(d)d\)</span>. To leading order, this control removes any benefit that operates only through a positive global rescaling of that direction.</p>
+<p>It does not remove arbitrary reallocations across layers or heads. Nor does it imply that functional matching is a bad experiment. It tells us which question it asks: does the proposal help beyond an online scalar predictive-step controller? Ordinary training with a practical schedule asks another question. Both comparisons can be informative.</p>
+</section>
+<section id="separate-a-smaller-class-from-a-particular-optimizer" class="level2">
+<h2>Separate a smaller class from a particular optimizer</h2>
+<p>At a common row-isometric checkpoint, the Stiefel tangent lies inside the fixed-radius sphere tangent. After applying the complete-network Jacobian <span class="math inline">\(J\)</span>,</p>
+<p><span class="math display">\[
+\operatorname{range}(JT_{\rm hard})
+\subseteq\operatorname{range}(JT_{\rm sphere}).
+\]</span></p>
+<p>In predictive-Fisher-whitened coordinates, let these accessible linear subspaces be <span class="math inline">\(\mathcal R\)</span>, and let <span class="math inline">\(r\)</span> be the task’s linear descent covector represented in those coordinates. At radius <span class="math inline">\(\rho\)</span>, the best possible linearized decrease in a subspace is</p>
+<p><span class="math display">\[
+\max_{u\in\mathcal R,\ \|u\|_2\leq\rho}\langle r,u\rangle
+=\rho\|P_{\mathcal R}r\|_2.
+\]</span></p>
+<p>Inclusion means the hard model cannot have a better ideal local oracle at the same radius. A particular hard optimizer can still beat a particular sphere optimizer through direction selection, noise, conditioning, or implicit regularization. Neither method necessarily implements this ideal output-space oracle.</p>
+<p>The expanded parametrization added a separate control for generic representability under ideal normalization. Its conversion checks preserve complete-network probe logits approximately at finite epsilon and precision. That control weakens global class exclusion as a sufficient explanation there. It does not equate local conditioning, optimizer access, singular boundary cases, or implicit bias.</p>
+</section>
+<section id="an-exact-identity-is-not-a-successful-forecast" class="level2">
+<h2>An exact identity is not a successful forecast</h2>
+<p>Let old logits be <span class="math inline">\(z\)</span>, a finite logit change be <span class="math inline">\(\Delta z\)</span>, old probabilities be <span class="math inline">\(p=\operatorname{softmax}(z)\)</span>, and label distribution be <span class="math inline">\(q\)</span>. Expanding log-sum-exp gives the exact identity</p>
+<p><span class="math display">\[
+\operatorname{CE}(q,z+\Delta z)-\operatorname{CE}(q,z)
+=D_{\rm KL}(p\|p^+)-(q-p)^\top\Delta z.
+\]</span></p>
+<p>At equal KL on the scoring examples, immediate loss ordering is determined by signed task alignment. But substituting the observed finite change after updating is an <em>accounting check</em>.</p>
+<p>To forecast before updating, use the full-network velocity <span class="math inline">\(v=J\Delta\theta\)</span> and the quadratic approximation</p>
+<p><span class="math display">\[
+\widehat{\Delta L}
+=\tfrac12\mathbb E[v^\top C_pv]
+-\mathbb E[(q-p)^\top v],
+\qquad C_p=\operatorname{Diag}(p)-pp^\top.
+\]</span></p>
+<p>Estimate this on one set of contexts and score actual finite changes on another. Comparing prediction with observation then tests transfer across samples as well as linearization.</p>
+</section>
+<section id="the-conservative-prediction-test-exposed-that-distinction" class="level2">
+<h2>The conservative prediction test exposed that distinction</h2>
+<p>A follow-up used 64 calibration contexts and chose a target no larger than either raw proposal’s KL. Accepted path multipliers stayed at most one. A diagnostic split drew 1024 nonoverlapping validation contexts from across the stream, assigning 512 to prediction and 512 to scoring.</p>
+<p>At step 4000, each setting used three checkpoints, one per seed, with eight fresh gradient minibatches per checkpoint:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Correct independent update signs</th>
+<th>Correct same-example Taylor signs</th>
+<th>Correct checkpoint-mean signs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>One head</td>
+<td>20/24</td>
+<td>24/24</td>
+<td>2/3</td>
+</tr>
+<tr class="even">
+<td>Four heads</td>
+<td>12/24</td>
+<td>23/24</td>
+<td>1/3</td>
+</tr>
+<tr class="odd">
+<td>Expanded one head</td>
+<td>18/24</td>
+<td>22/24</td>
+<td>3/3</td>
+</tr>
+</tbody>
+</table>
+<p>The four-head prediction failed at two of three checkpoint means, despite a mean absolute paired scoring-KL mismatch of about 0.51 percent. Opposite errors partly cancelled in the pooled mean. The 24 updates are not 24 independent trained networks.</p>
+<p>Accurate same-example Taylor scores show that local calculus can describe a small step. They do not establish reliable prediction across contexts. Nor does an accurate one-step forecast establish the ordering of losses thousands of steps later.</p>
+</section>
+<section id="a-broader-benchmark-is-still-an-open-experiment" class="level2">
+<h2>A broader benchmark is still an open experiment</h2>
+<p>The later scale audit qualified the negative result. This small, short-horizon, CPU harness with online calibration does not settle whether modular geometry helps ordinary training or width transfer. A changed task, scale, or horizon could matter, but none has been identified as the cause of the observed failures.</p>
+<p>A frozen-checkpoint diagnostic also rejected the simplest claim that the small task did not use attention routing. Across five saved checkpoints, mean validation loss was 2.22732 with learned routing, 3.65161 after making block 0’s routing uniform, and 2.30671 after doing so in block 1. Values and output paths remained. This intervention measures reliance at those checkpoints. It does not tell us how a retrained uniform-routing model would perform.</p>
+<p>The next useful benchmark should first recover a relevant known behavior, then compare native schedules and matched functional steps as separate treatments. Tune rates and decay at the intended training horizon with comparable search budgets. Vary width and depth separately, report paired seeds and learning curves, and measure actual end-to-end compute on the chosen hardware.</p>
+<p>More scale can test external validity. It cannot repair an unsupported mathematical implication or turn an unsuccessful prediction into a demonstrated mechanism. Our current record supports a narrower conclusion: the tested explanations and allocations have not established an advantage beyond their stated controls in this regime. The broader training question remains open.</p>
+</section>
+<section id="try-identifying-the-claim-being-tested" class="level2">
+<h2>Try identifying the claim being tested</h2>
+<ol type="1">
+<li>Does a lower terminal loss from one custom constrained optimizer prove greater representational capacity?</li>
+<li>Which part of the direction does quadratic KL matching cancel under positive rescaling?</li>
+<li>What is missing if we verify the exact cross-entropy identity only after the update?</li>
+<li>Why should the three checkpoints remain visible when a table reports 24 minibatch probes?</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li>No.&nbsp;Finite-time optimization and statistical effects can differ even within the same generic class.</li>
+<li>An overall positive scalar on the complete direction. Relative layer or head allocations generally remain.</li>
+<li>An independent before-update prediction, followed by evaluation on disjoint scoring examples.</li>
+<li>The probes share trained states. Counting them as independent networks would overstate the replication.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p>The empirical values come from our archived November 4 functional-step study and later scale audit. This article recomputes their aggregates and checks the displayed algebra. It does not rerun training, tune a new method, or claim a large-model result. The initialization replays, primary KL-controlled trajectories, and later diagnostic probes are separate experiments.</p>
+<p>Read <a href="../scale-geometry-12/index.html">Part 12</a> for the difference between a frozen-feature obstruction and a research claim, <a href="../scale-geometry-17/index.html">Part 17</a> for a transfer protocol, and <a href="../scale-geometry-18/index.html">Part 18</a> for the pointwise normalized-head bound.</p>
+<p><a href="https://arxiv.org/abs/2405.14813v1">Scalable Optimization in the Modular Norm</a>, Section 4, asks a broader scaling question than our fixed-width custom angular comparison. Its experiments provide a reference behavior to reproduce in a suitable benchmark, rather than an outcome established or refuted by these local controls.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-20/index.html" aria-label="Previous post: Should attention and MLPs use the same constraints?">P: Should attention and MLPs use the same constraints? <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#first-declare-the-experimental-world" id="toc-first-declare-the-experimental-world">First declare the experimental world</a></li>
+<li><a href="#a-tiny-initialization-operation-was-not-innocuous" id="toc-a-tiny-initialization-operation-was-not-innocuous">A tiny initialization operation was not innocuous</a></li>
+<li><a href="#match-predictive-motion-rather-than-matrix-angle" id="toc-match-predictive-motion-rather-than-matrix-angle">Match predictive motion, rather than matrix angle</a></li>
+<li><a href="#why-matching-can-remove-a-real-source-of-benefit" id="toc-why-matching-can-remove-a-real-source-of-benefit">Why matching can remove a real source of benefit</a></li>
+<li><a href="#separate-a-smaller-class-from-a-particular-optimizer" id="toc-separate-a-smaller-class-from-a-particular-optimizer">Separate a smaller class from a particular optimizer</a></li>
+<li><a href="#an-exact-identity-is-not-a-successful-forecast" id="toc-an-exact-identity-is-not-a-successful-forecast">An exact identity is not a successful forecast</a></li>
+<li><a href="#the-conservative-prediction-test-exposed-that-distinction" id="toc-the-conservative-prediction-test-exposed-that-distinction">The conservative prediction test exposed that distinction</a></li>
+<li><a href="#a-broader-benchmark-is-still-an-open-experiment" id="toc-a-broader-benchmark-is-still-an-open-experiment">A broader benchmark is still an open experiment</a></li>
+<li><a href="#try-identifying-the-claim-being-tested" id="toc-try-identifying-the-claim-being-tested">Try identifying the claim being tested</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>

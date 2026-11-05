@@ -78,6 +78,18 @@
         {
           "number": 18,
           "source": "blog/scale-geometry-18/index.qmd"
+        },
+        {
+          "number": 19,
+          "source": "blog/scale-geometry-19/index.qmd"
+        },
+        {
+          "number": 20,
+          "source": "blog/scale-geometry-20/index.qmd"
+        },
+        {
+          "number": 21,
+          "source": "blog/scale-geometry-21/index.qmd"
         }
       ],
       "groups": [
@@ -104,6 +116,11 @@
         {
           "title": "V. Networks, scaling, and feature motion",
           "start": 15,
+          "count": 3
+        },
+        {
+          "title": "VI. Constraints, algorithms, and evidence",
+          "start": 18,
           "count": 3
         }
       ]

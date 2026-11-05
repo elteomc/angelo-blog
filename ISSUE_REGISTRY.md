@@ -71,3 +71,13 @@ Found November 4, 2026 during publication review. The inherited plain-intro inte
 ## UI-002: cached Workshop stylesheet hides the latest presentation
 
 Found November 4, 2026 during browser verification. Reloading the changed HTML retained the prior stylesheet, so the skull ornaments were invisible and the interest sentence still used the old width cap. The rendered CSS already contained the correct rules. Status: resolved. The shared stylesheet URL now carries a release version. Browser inspection confirms the skull mask loads and the interest line uses the corrected width.
+
+
+## CHECK-001: experiment aggregate check uses an incorrect precision constant
+
+Found November 5, 2026 while checking the new experiment article. A hand-entered full-precision expectation for the four-head mean differs from the saved aggregate, although both round to the correct displayed value. Status: resolved. Verify the displayed six-decimal value against the independently recomputed paired mean. Raw seed differences and their full-precision aggregate remain checked separately.
+
+
+## UI-003: attention figure footnote clips in the rendered image
+
+Found November 5, 2026 during desktop review of Part 20. A long single-line figure footnote is clipped in the embedded rendering. Status: resolved by shortening the annotation while retaining its exact-example and no-training scope. The article carries the full assumptions beside the figure.

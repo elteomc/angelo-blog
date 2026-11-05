@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Should attention and MLPs use the same constraints? | Angelo Farfan</title>
+<meta name="description" content="Compare Stiefel and diagonal-Gram geometry, derive the logit-to-softmax mechanism, and distinguish permitted failure from observed training behavior.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 20</a>
+<h1>Should attention and MLPs use the same constraints?</h1>
+
+
+<p class="dek" hidden="">Free scales, softmax gaps, and the evidence needed for a mechanism</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>Choosing a matrix geometry is also choosing which scales remain free. Query and key scales can change a competitive routing distribution. Hidden MLP scales enter an elementwise activation and an output projection. Those roles give us a reason to investigate different constraints, without supplying a universal assignment rule.</p>
+<p>We will separate three questions: what a feasible set permits, what a particular update actually does, and what measurements would explain its training outcome.</p>
+<section id="orthogonal-columns-can-still-have-free-lengths" class="level2">
+<h2>Orthogonal columns can still have free lengths</h2>
+<p>For a tall matrix <span class="math inline">\(W\in\mathbb R^{m\times n}\)</span>, <span class="math inline">\(m\geq n\)</span>, consider</p>
+<p><span class="math display">\[
+\mathrm{St}(m,n)=\{W:W^\top W=I_n\},
+\]</span></p>
+<p>and the diagonal-Gram set</p>
+<p><span class="math display">\[
+\mathrm{DG}(m,n)=\{W:\operatorname{Off}(W^\top W)=0\}.
+\]</span></p>
+<p>Here <span class="math inline">\(\operatorname{Off}\)</span> keeps the off-diagonal entries. Stiefel fixes all <span class="math inline">\(n\)</span> singular values at one. Diagonal Gram, or DGram, requires mutually orthogonal columns while allowing their lengths to vary.</p>
+<p>Indeed, if <span class="math inline">\(W=[w_1,\ldots,w_n]\)</span> is in DGram,</p>
+<p><span class="math display">\[
+W^\top W=\operatorname{Diag}(\|w_1\|_2^2,\ldots,\|w_n\|_2^2).
+\]</span></p>
+<p>Its singular values are the column lengths, as a multiset. Thus <span class="math inline">\(\|W\|_{\rm op}=\max_j\|w_j\|_2\)</span>. If all lengths are positive, write <span class="math inline">\(W=QD\)</span> with <span class="math inline">\(Q^\top Q=I\)</span> and positive diagonal <span class="math inline">\(D\)</span>. Zero columns are feasible in the stated set, but require care when discussing a smooth manifold or using <span class="math inline">\(D^{-1}\)</span>.</p>
+<p>This is different from unit-column normalization, which fixes lengths while permitting correlations. DGram <em>permits</em> unbounded operator norm. It does not require the norm to grow along any particular training trajectory.</p>
+</section>
+<section id="query-and-key-scales-multiply" class="level2">
+<h2>Query and key scales multiply</h2>
+<p>Use a bias-free, unnormalized attention head with token-row matrix <span class="math inline">\(H\in\mathbb R^{T\times D}\)</span> and effective projections <span class="math inline">\(W_Q,W_K\in\mathbb R^{D\times d}\)</span>. Its logits are</p>
+<p><span class="math display">\[
+Z=\frac{HW_QW_K^\top H^\top}{\sqrt d}.
+\]</span></p>
+<p>Submultiplicativity gives</p>
+<p><span class="math display">\[
+\|Z\|_{\rm op}\leq
+\frac{\|H\|_{\rm op}^2\|W_Q\|_{\rm op}\|W_K\|_{\rm op}}{\sqrt d}.
+\]</span></p>
+<p>Scaling both projections by <span class="math inline">\(c\)</span> scales actual logits by <span class="math inline">\(c^2\)</span> at fixed <span class="math inline">\(H\)</span>. Scaling one by <span class="math inline">\(c\)</span> and the other by <span class="math inline">\(c^{-1}\)</span> leaves them unchanged. If the growing directions do not overlap with the features, even the first amplification can disappear.</p>
+<p>This formula is not the forward map of a head that separately normalizes queries and keys. Positive projection scales cancel in an ideal unit normalization, while learned temperatures introduce other scales. Use the actual map, including epsilon and gains, before importing the argument. <a href="../scale-geometry-18/index.html">Part 18</a> treats the normalized projection itself.</p>
+</section>
+<section id="gaps-rather-than-common-offsets-sharpen-softmax" class="level2">
+<h2>Gaps, rather than common offsets, sharpen softmax</h2>
+<p>For one finite logit row <span class="math inline">\(z\)</span>, let <span class="math inline">\(p=\operatorname{softmax}(z)\)</span>. Adding a common scalar to all logits changes nothing. Suppose there is a unique largest entry <span class="math inline">\(z_1\)</span> and gap</p>
+<p><span class="math display">\[
+\Delta=z_1-\max_{j\ne1}z_j.
+\]</span></p>
+<p>Dividing numerator and denominator by <span class="math inline">\(e^{z_1}\)</span> gives</p>
+<p><span class="math display">\[
+1-p_1\leq(T-1)e^{-\Delta}.
+\]</span></p>
+<p>The softmax Jacobian is</p>
+<p><span class="math display">\[
+J_{\rm sm}=\operatorname{Diag}(p)-pp^\top.
+\]</span></p>
+<p>It is positive semidefinite. Write <span class="math inline">\(e=1-p_1\)</span>. Since</p>
+<p><span class="math display">\[
+\operatorname{tr}J_{\rm sm}=1-\sum_i p_i^2
+\leq1-p_1^2\leq2e,
+\]</span></p>
+<p>and a positive semidefinite matrix has Frobenius norm at most its trace,</p>
+<p><span class="math display">\[
+\|J_{\rm sm}\|_F\leq2(T-1)e^{-\Delta}.
+\]</span></p>
+<p>At fixed support size, a diverging unique-winner gap makes every Jacobian singular value small. Large logit magnitude alone does not. The row <span class="math inline">\((a,a,a,a)\)</span> remains uniform for arbitrarily large <span class="math inline">\(a\)</span>.</p>
+<p>For an explicit DGram example, take <span class="math inline">\(D=d=1\)</span>, four token features <span class="math inline">\((1,0,0,0)^\top\)</span>, and <span class="math inline">\(W_Q=W_K=c\)</span>. The first row is <span class="math inline">\((c^2,0,0,0)\)</span>. Its gap grows and its Jacobian shrinks. By contrast, four identical token features give a common-offset row and uniform probabilities at every <span class="math inline">\(c\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/attention-gap-control.svg" alt="Exact four-token examples with query and key scale c from one to four. The unique-winner row has a rapidly decreasing softmax Jacobian norm, while a row of equal logits has constant norm square root three divided by four."></p>
+<figcaption>Growing query and key scale shrinks a softmax Jacobian when it creates a winner gap, while a common-offset control remains uniform.</figcaption>
+</figure>
+</div>
+<p>This is a constructed possibility within the feasible set, not a prediction of optimizer behavior. A causal mask requires applying the argument only to allowed keys. A row with one allowed key has zero Jacobian regardless of the weight geometry.</p>
+</section>
+<section id="what-a-bounded-projection-can-guarantee" class="level2">
+<h2>What a bounded projection can guarantee</h2>
+<p>Suppose each token satisfies <span class="math inline">\(\|h_i\|_2\leq R\)</span> and both projections are contractions. Then every allowed logit has magnitude at most <span class="math inline">\(M=R^2/\sqrt d\)</span>.</p>
+<p>For a support of size <span class="math inline">\(s\geq2\)</span>, every probability is at least</p>
+<p><span class="math display">\[
+a=e^{-2M}/s.
+\]</span></p>
+<p>It is also at most <span class="math inline">\(1-a\)</span>, because there is another allowed competitor with probability at least <span class="math inline">\(a\)</span>. Therefore every diagonal Jacobian entry obeys <span class="math inline">\(p_i(1-p_i)\geq a(1-a)\)</span>, giving</p>
+<p><span class="math display">\[
+\|J_{\rm sm}\|_F\geq\sqrt s\,a(1-a)&gt;0.
+\]</span></p>
+<p>This lower bound depends on the feature radius and support. It can be numerically tiny. Every softmax Jacobian still annihilates the constant vector, so a positive Frobenius norm does not ensure response to every upstream derivative. Useful end-to-end gradients additionally involve values, residual paths, and the loss.</p>
+<p>Exact Stiefel projections remove one unbounded weight-scale pathway. They do not establish a universal training-stability theorem.</p>
+</section>
+<section id="the-mlp-has-a-different-nonlinearity" class="level2">
+<h2>The MLP has a different nonlinearity</h2>
+<p>For a bias-free MLP <span class="math inline">\(f(x)=W_o\phi(W_ix)\)</span>,</p>
+<p><span class="math display">\[
+Df(x)=W_o\operatorname{Diag}(\phi'(W_ix))W_i.
+\]</span></p>
+<p>For exact GELU, <span class="math inline">\(\phi(t)=t\Phi(t)\)</span> and</p>
+<p><span class="math display">\[
+\phi'(t)=\Phi(t)+t\varphi(t),
+\]</span></p>
+<p>where <span class="math inline">\(\Phi\)</span> and <span class="math inline">\(\varphi\)</span> are the standard Gaussian distribution function and density. Its derivative approaches one on the positive tail and zero on the negative tail. There is no probability-sum constraint forcing all coordinates into a shared winner competition.</p>
+<p>This supports a structural distinction from attention. It does not bound the product of MLP weight norms. DGram can still amplify MLP outputs and derivatives. In a pre-normalized residual block <span class="math inline">\(x+\operatorname{MLP}(\operatorname{LN}(x))\)</span>, normalizing the branch input does not erase arbitrary growth of the branch relative to the skip connection.</p>
+</section>
+<section id="a-published-assignment-comparison-with-its-scope" class="level2">
+<h2>A published assignment comparison, with its scope</h2>
+<p><a href="https://arxiv.org/abs/2606.13276v1">Different Layers, Different Manifolds</a>, Table 1, reports these outcomes for GPT-2 small on OpenWebText:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Attention</th>
+<th>MLP</th>
+<th>Reported validation outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unconstrained</td>
+<td>Unconstrained</td>
+<td>3.3855</td>
+</tr>
+<tr class="even">
+<td>Stiefel</td>
+<td>Stiefel</td>
+<td>3.3679</td>
+</tr>
+<tr class="odd">
+<td>Stiefel</td>
+<td>DGram</td>
+<td>3.3544</td>
+</tr>
+<tr class="even">
+<td>DGram</td>
+<td>DGram</td>
+<td>Unstable</td>
+</tr>
+<tr class="odd">
+<td>DGram</td>
+<td>Stiefel</td>
+<td>Unstable</td>
+</tr>
+</tbody>
+</table>
+<p>These are shared-setting point estimates, with no seed distribution in the table. The unconstrained and manifold-managed weights also use different decay rules. The table motivates a module-specific hypothesis rather than establishing the best separately tuned geometry.</p>
+<p>There are implementation details to resolve before attributing the result solely to feasible sets.</p>
+<p><strong>Packing changes the constraint.</strong> For a stacked projection <span class="math inline">\(B=[B_Q^\top\ B_K^\top\ B_V^\top]^\top\)</span>, exact Stiefel gives <span class="math inline">\(B_Q^\top B_Q+B_K^\top B_K+B_V^\top B_V=I\)</span>. Each component is a contraction, but individual heads need not be isometries. Packed DGram need not diagonalize each head’s own Gram. Wide stored matrices require stating which transpose is constrained.</p>
+<p><strong>Feasible restoration need not be a retraction.</strong> The paper’s Appendix A uses <span class="math inline">\(R_{\rm DG}(Y)=(UV^\top)\Sigma\)</span> for a descending-order SVD <span class="math inline">\(Y=U\Sigma V^\top\)</span>. Its output has diagonal Gram. But at the already feasible point <span class="math inline">\(W=\operatorname{Diag}(1,2)\)</span>, the polar factor is <span class="math inline">\(I\)</span> and sorted singular values are <span class="math inline">\((2,1)\)</span>, so <span class="math inline">\(R_{\rm DG}(W)=\operatorname{Diag}(2,1)\ne W\)</span>. A manifold retraction must fix its base point at zero step. This formula can reassign column scales without a proposed displacement.</p>
+<p><strong>Actual update norms matter.</strong> If every trial direction has norm at most one and DGram restoration preserves singular values, triangle inequality gives</p>
+<p><span class="math display">\[
+\|W_N\|_{\rm op}\leq\|W_0\|_{\rm op}+\sum_{t&lt;N}\eta_t.
+\]</span></p>
+<p>The stated 50,000-step schedule with peak rate 0.02 permits growth of at most 1000 under those exact premises. Figure 2 displays attention-group norms in the hundreds of thousands. This discrepancy calls for checking actual numerical direction norms, run settings, and logs. It does not identify which premise failed. Finite polar approximations are one reason to audit the unit-budget premise explicitly.</p>
+<p>The <a href="https://github.com/kiratoyoshihara/module-wise-manifold-muon/blob/f283b76e680243a7e894e33123ba27b26d8fd834/manifold_muon.py#L33-L47">pinned accompanying implementation</a> matches the stated DGram restoration. Its exact relationship to the plotted runs is not established by the snapshot alone.</p>
+</section>
+<section id="what-would-test-the-proposed-explanation" class="level2">
+<h2>What would test the proposed explanation?</h2>
+<p>At the same checkpoints and on the same examples, measure effective per-head query and key norms, realized row gaps, entropy, Jacobian response, and loss. A maximum over the entire attention parameter group can be driven by values or output projections, so it does not locate the proposed query-key mechanism.</p>
+<p>Then intervene on the suspected pathway. Compare controlled query-key scales or temperatures, a zero-step-preserving restoration, and a verified spectral cap. Keep the assignment experiment distinct from these interventions because each changes the algorithm. Report tangent residuals, restoration displacement, learning-rate and decay searches, repeated seeds, and compute.</p>
+<p>If scale control improves loss while preventing the predicted gap and derivative changes, that supports the mechanism. If the weight statistic changes but gaps do not, the proposed mediator has not moved. If another restoration changes the outcome, constraint geometry alone is an incomplete explanation.</p>
+</section>
+<section id="try-separating-permission-from-consequence" class="level2">
+<h2>Try separating permission from consequence</h2>
+<ol type="1">
+<li>Does <span class="math inline">\(\operatorname{Diag}(2,3)\)</span> belong to DGram? What is its spectral norm?</li>
+<li>What happens to softmax after adding 1000 to every logit?</li>
+<li>With four allowed keys and gap ten, give the upper bound above for the Jacobian Frobenius norm.</li>
+<li>Why does an already feasible matrix provide a useful restoration test?</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li>Yes. Its Gram is diagonal, and its spectral norm is three.</li>
+<li>Nothing changes. Common offsets cancel.</li>
+<li><span class="math inline">\(6e^{-10}\approx0.000272400\)</span>.</li>
+<li>Zero proposed displacement should return the same point for a retraction. A changed matrix exposes behavior beyond simply enforcing feasibility.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p><a href="https://arxiv.org/abs/2606.13276v1">Different Layers, Different Manifolds: Module-Wise Weight-Space Geometry in Transformer Optimization</a>, Sections 2 to 5 and Appendix A, supplies the assignment experiment and the proposed attention mechanism. The Gram, gap, and restoration calculations above make their assumptions explicit. The tighter trace-based Jacobian upper bound follows directly from positive semidefiniteness. No training result has been reproduced for this post.</p>
+<p>Read <a href="../scale-geometry-19/index.html">Part 19</a> for an exact Stiefel tangent oracle and <a href="../scale-geometry-15/index.html">Part 15</a> for why a bounded proposal does not by itself prevent accumulated weight growth. Different feasible sets, numerical solvers, and finite restoration rules are separate parts of the algorithm.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-19/index.html" aria-label="Previous post: The exact spectral update on a tangent space">P: The exact spectral update on a tangent space <span class="link-mark" aria-hidden="true"></span></a><a href="../scale-geometry-21/index.html" aria-label="Next post: What our matched-step experiments actually tested">N: What our matched-step experiments actually tested <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#orthogonal-columns-can-still-have-free-lengths" id="toc-orthogonal-columns-can-still-have-free-lengths">Orthogonal columns can still have free lengths</a></li>
+<li><a href="#query-and-key-scales-multiply" id="toc-query-and-key-scales-multiply">Query and key scales multiply</a></li>
+<li><a href="#gaps-rather-than-common-offsets-sharpen-softmax" id="toc-gaps-rather-than-common-offsets-sharpen-softmax">Gaps, rather than common offsets, sharpen softmax</a></li>
+<li><a href="#what-a-bounded-projection-can-guarantee" id="toc-what-a-bounded-projection-can-guarantee">What a bounded projection can guarantee</a></li>
+<li><a href="#the-mlp-has-a-different-nonlinearity" id="toc-the-mlp-has-a-different-nonlinearity">The MLP has a different nonlinearity</a></li>
+<li><a href="#a-published-assignment-comparison-with-its-scope" id="toc-a-published-assignment-comparison-with-its-scope">A published assignment comparison, with its scope</a></li>
+<li><a href="#what-would-test-the-proposed-explanation" id="toc-what-would-test-the-proposed-explanation">What would test the proposed explanation?</a></li>
+<li><a href="#try-separating-permission-from-consequence" id="toc-try-separating-permission-from-consequence">Try separating permission from consequence</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>

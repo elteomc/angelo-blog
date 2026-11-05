@@ -203,3 +203,25 @@ Approved November 5, 2026 after review.
 - Publish Parts 16 through 18 with their three figures, worked derivations, exercises, and twenty-three numerical checks.
 - Remove review notices and preserve the open-ended part labels, orange emphasis, and title-based P: and N: chapter links.
 - Render the approved sources into a separate release directory before updating the published docs output.
+
+
+## Tangent geometry and experimental evidence review drafts
+
+Prepared November 5, 2026 after publication of Parts 16 through 18.
+
+- Add Parts 19 through 21 on the exact tangent spectral oracle, module-specific constraints, and archived matched-step experiments.
+- Add three reproducible SVG figures and algebraic checks in tools/check_geometry_evidence.py. Preserve a source-hashed aggregate record in specs/009-tangent-constraints-evidence, outside the rendered reader resources.
+- Extend the local hub with Constraints, algorithms, and evidence. Link Part 18 to Part 19 using the accepted title-based navigation.
+- Keep Draft for review notices on the three articles. Render the preview externally and leave docs unchanged. The new batch remains uncommitted and unpushed until review.
+
+
+Review checks for Parts 19 through 21 pass: twenty-five numerical and aggregate checks, two catalog checks, all local links across thirty-six rendered pages, and desktop and phone inspection. The three figures have alternative text, disclosures work, and the published docs tree remains unchanged. Details are in specs/009-tangent-constraints-evidence/validation.md.
+
+
+## Publish the constraint and evidence posts
+
+Approved November 5, 2026 after review.
+
+- Publish Parts 19 through 21 with their three figures, derivations, exercises, and twenty-five numerical and archived-record checks.
+- Remove their review notices while preserving orange italic emphasis, skull ornaments, and P: and N: chapter titles.
+- Render the approved site separately before replacing docs and pushing the release.

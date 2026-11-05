@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The exact spectral update on a tangent space | Angelo Farfan</title>
+<meta name="description" content="Solve the Stiefel tangent spectral problem, explain its rank conventions, and separate the exact oracle from numerical evaluation and retraction.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 19</a>
+<h1>The exact spectral update on a tangent space</h1>
+
+
+<p class="dek" hidden="">Skew lifts, a completion theorem, and the small matrix hiding inside the oracle</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>An ambient spectral update is easy to describe: take the negative polar factor of the cost matrix. Requiring the direction to be tangent to an orthogonality constraint changes the problem. <a href="../scale-geometry-8/index.html">Part 8</a> showed why computing the ambient answer and projecting it afterward can waste the budget.</p>
+<p>There is an exact solution to the tangent problem. Its central move is to represent a rectangular tangent direction using a square skew-symmetric generator. The subtle point is proving that this representation preserves the entire spectral ball. Feasibility in one direction would not establish optimality.</p>
+<section id="specify-the-local-optimization-problem" class="level2">
+<h2>Specify the local optimization problem</h2>
+<p>Let <span class="math inline">\(X\in\mathbb R^{n\times p}\)</span> satisfy <span class="math inline">\(X^\top X=I_p\)</span>, with <span class="math inline">\(n&gt;p\)</span>. Given a cost matrix <span class="math inline">\(M\)</span> of the same shape, solve</p>
+<p><span class="math display">\[
+\min_B\langle M,B\rangle_F
+\quad\text{subject to}\quad
+X^\top B+B^\top X=0,
+\quad\|B\|_{\rm op}\leq1.
+\]</span></p>
+<p>The cost could be the current gradient or a momentum estimate. The oracle is optimal for that supplied cost. If it is momentum, exact oracle evaluation does not make it the steepest direction for the current loss automatically.</p>
+<p>The tangent equation follows by differentiating <span class="math inline">\(X(t)^\top X(t)=I_p\)</span> at zero. It requires <span class="math inline">\(X^\top B\)</span> to be skew-symmetric, rather than zero. The direction can rotate columns within the current span as well as move them into its orthogonal complement.</p>
+</section>
+<section id="lift-the-direction-to-a-skew-generator" class="level2">
+<h2>Lift the direction to a skew generator</h2>
+<p>For any <span class="math inline">\(Y\in\mathbb R^{n\times n}\)</span> with <span class="math inline">\(Y^\top=-Y\)</span>, set <span class="math inline">\(B=YX\)</span>. Then</p>
+<p><span class="math display">\[
+X^\top B+B^\top X=X^\top(Y+Y^\top)X=0,
+\qquad\|B\|_{\rm op}\leq\|Y\|_{\rm op}.
+\]</span></p>
+<p>Thus every skew contraction gives a feasible tangent direction. Define</p>
+<p><span class="math display">\[
+N=\operatorname{skew}(MX^\top)
+=\frac12(MX^\top-XM^\top).
+\]</span></p>
+<p>Cyclic trace and orthogonality of symmetric and skew matrices give</p>
+<p><span class="math display">\[
+\langle M,YX\rangle_F
+=\langle MX^\top,Y\rangle_F
+=\langle N,Y\rangle_F.
+\]</span></p>
+<p>We have transformed the objective. To replace the original feasible set, however, we still need the converse: can every tangent contraction be lifted without increasing its norm?</p>
+</section>
+<section id="the-converse-is-a-norm-preserving-completion-problem" class="level2">
+<h2>The converse is a norm-preserving completion problem</h2>
+<p>Complete <span class="math inline">\(X\)</span> to an orthogonal basis <span class="math inline">\(Q=[X\ X_\perp]\)</span>. For a tangent <span class="math inline">\(B\)</span>, write</p>
+<p><span class="math display">\[
+A=X^\top B,\qquad S=X_\perp^\top B.
+\]</span></p>
+<p>In this basis, any skew lift taking <span class="math inline">\(X\)</span> to <span class="math inline">\(B\)</span> has the form</p>
+<p><span class="math display">\[
+Q^\top YQ=
+\begin{pmatrix}A&amp;-S^\top\\S&amp;D\end{pmatrix},
+\qquad D^\top=-D.
+\]</span></p>
+<p>The first block column is prescribed, while <span class="math inline">\(D\)</span> has no effect on <span class="math inline">\(YX\)</span>. Setting <span class="math inline">\(D=0\)</span> always gives a lift, but can make its norm too large.</p>
+<p>Here is the nontrivial ingredient. The norm-preserving block-completion theorem used in <a href="https://arxiv.org/abs/2608.06218v1">Muon on the Stiefel Manifold Admits an Exact Closed-Form Update</a>, Proposition 3, supplies an unrestricted block <span class="math inline">\(D_0\)</span> such that</p>
+<p><span class="math display">\[
+H_0=\begin{pmatrix}A&amp;-S^\top\\S&amp;D_0\end{pmatrix}
+\quad\text{has}\quad
+\|H_0\|_{\rm op}=\|B\|_{\rm op}.
+\]</span></p>
+<p>It applies because the fixed first block row and column have the same norm <span class="math inline">\(\|B\|_{\rm op}\)</span>. We are using this completion theorem, rather than proving it from elementary inequalities here.</p>
+<p>Now take <span class="math inline">\(H=\operatorname{skew}(H_0)\)</span>. Since <span class="math inline">\(A\)</span> is already skew and the off-diagonal blocks already match, this changes only the free block. Moreover,</p>
+<p><span class="math display">\[
+\|H\|_{\rm op}\leq\|H_0\|_{\rm op}=\|B\|_{\rm op}.
+\]</span></p>
+<p>The fixed first block column gives the opposite inequality <span class="math inline">\(\|H\|_{\rm op}\geq\|B\|_{\rm op}\)</span>. Hence equality holds. With <span class="math inline">\(Y=QHQ^\top\)</span>, we get a skew lift satisfying <span class="math inline">\(YX=B\)</span> and exactly the same norm.</p>
+<p>Together, the two directions prove</p>
+<p><span class="math display">\[
+\{YX:Y^\top=-Y,\ \|Y\|_{\rm op}\leq1\}
+=\{B:X^\top B+B^\top X=0,\ \|B\|_{\rm op}\leq1\}.
+\]</span></p>
+<p>This is equality of feasible images, not a one-to-one correspondence. Several generators can act identically on <span class="math inline">\(X\)</span>.</p>
+</section>
+<section id="why-the-apparently-unused-block-matters" class="level2">
+<h2>Why the apparently unused block matters</h2>
+<p>Take <span class="math inline">\(n=4\)</span>, <span class="math inline">\(p=2\)</span>, and</p>
+<p><span class="math display">\[
+X=\begin{pmatrix}I_2\\0\end{pmatrix},
+\quad J=\begin{pmatrix}0&amp;1\\-1&amp;0\end{pmatrix},
+\quad B=\begin{pmatrix}J\\I_2\end{pmatrix}.
+\]</span></p>
+<p>Here <span class="math inline">\(\|B\|_{\rm op}=\sqrt2\)</span>. The zero-block lift and a completed lift are</p>
+<p><span class="math display">\[
+H_z=\begin{pmatrix}J&amp;-I_2\\I_2&amp;0\end{pmatrix},
+\qquad
+H_c=\begin{pmatrix}J&amp;-I_2\\I_2&amp;-J\end{pmatrix}.
+\]</span></p>
+<p>Both have the same action on the first two coordinate vectors. But</p>
+<p><span class="math display">\[
+\|H_z\|_{\rm op}=\frac{1+\sqrt5}{2},
+\qquad\|H_c\|_{\rm op}=\sqrt2.
+\]</span></p>
+<p>The first identity follows from the eigenvalues <span class="math inline">\((3\pm\sqrt5)/2\)</span> of <span class="math inline">\(H_z^\top H_z\)</span>. The second follows from <span class="math inline">\(H_c^\top H_c=2I_4\)</span>. Divide all three matrices by <span class="math inline">\(\sqrt2\)</span>: the tangent direction and completed lift are contractions, while the zero-block lift is not.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/tangent-completion.svg" alt="Three spectral norms after division by square root two. The tangent direction and completed skew lift have norm one, while the zero-block lift has norm about 1.144. Both lifts act identically on the frame."></p>
+<figcaption>A zero-block lift exceeds the unit spectral budget even though another lift of the same tangent direction fits it exactly.</figcaption>
+</figure>
+</div>
+<p>The free block matters because the constraint controls the <em>whole generator</em>, including directions outside the current frame.</p>
+</section>
+<section id="solve-the-lifted-problem-with-a-support-polar-factor" class="level2">
+<h2>Solve the lifted problem with a support polar factor</h2>
+<p>For a square skew cost <span class="math inline">\(N\)</span>, the spectral-ball lower bound is</p>
+<p><span class="math display">\[
+\langle N,Y\rangle_F\geq-\|N\|_*,
+\qquad\|Y\|_{\rm op}\leq1,
+\]</span></p>
+<p>where <span class="math inline">\(\|N\|_*\)</span> is nuclear norm. Retain only positive singular values in a compact SVD <span class="math inline">\(N=U_r\Sigma_rV_r^\top\)</span> and define <span class="math inline">\(P_N=U_rV_r^\top\)</span>. Set <span class="math inline">\(P_0=0\)</span>.</p>
+<p>A real skew matrix has an orthogonal block decomposition into positive multiples of <span class="math inline">\(J\)</span> and a zero block. Its support polar factor replaces each positive multiple by <span class="math inline">\(J\)</span> and leaves the zero block at zero. Thus <span class="math inline">\(P_N\)</span> is itself skew, has norm at most one, and</p>
+<p><span class="math display">\[
+\langle N,-P_N\rangle_F=-\|N\|_*.
+\]</span></p>
+<p>Feasibility and equality to the lower bound certify the solution</p>
+<p><span class="math display">\[
+\boxed{B_*=-P_NX,
+\qquad\langle M,B_*\rangle_F=-\|N\|_*.}
+\]</span></p>
+<p>The feasible-image theorem is what makes this a certificate for the original tangent problem.</p>
+</section>
+<section id="specify-what-happens-at-zero-singular-values" class="level2">
+<h2>Specify what happens at zero singular values</h2>
+<p>Rank deficiency is routine here: <span class="math inline">\(\operatorname{rank}(N)\leq2p\)</span>, so <span class="math inline">\(n&gt;2p\)</span> forces a kernel. A real skew matrix of odd dimension is singular too.</p>
+<p>The support convention gives a canonical selection, with no action on the kernel. A full square SVD product <span class="math inline">\(UV^\top\)</span> can add an orthogonal action there and need not be skew. The safe alternative <span class="math inline">\(-\operatorname{skew}(UV^\top)X\)</span> is also optimal in exact arithmetic, but can choose a different tangent direction at the same cost.</p>
+<p>In particular, a purely normal cost <span class="math inline">\(M=XS\)</span> with <span class="math inline">\(S=S^\top\)</span> gives <span class="math inline">\(N=0\)</span>. Every feasible direction then has zero cost. Returning zero is a deliberate, reproducible choice.</p>
+<p>Floating-point evaluation needs a rank threshold. Treating a genuinely positive singular value as zero changes the exact support value. Keeping roundoff-sized modes can instead select a large direction from a nearly zero cost. State the convention and measure the resulting support defect.</p>
+</section>
+<section id="compress-before-evaluating-the-polar-factor" class="level2">
+<h2>Compress before evaluating the polar factor</h2>
+<p>When <span class="math inline">\(2p\leq n\)</span>, form the thin QR factorization</p>
+<p><span class="math display">\[
+F=[-X\ M]=Q_cR,
+\qquad
+J_p=\begin{pmatrix}0&amp;I_p\\-I_p&amp;0\end{pmatrix}.
+\]</span></p>
+<p>Block multiplication gives <span class="math inline">\(FJ_pF^\top=2N\)</span>. Therefore</p>
+<p><span class="math display">\[
+K=\tfrac12RJ_pR^\top,
+\quad N=Q_cKQ_c^\top,
+\quad B_*=-Q_cP_K(Q_c^\top X).
+\]</span></p>
+<p>The polar evaluation now uses a <span class="math inline">\(2p\times2p\)</span> matrix. QR and reconstruction cost order <span class="math inline">\(np^2\)</span>, with a dense small factorization costing order <span class="math inline">\(p^3\)</span>. These are arithmetic estimates, excluding cost-matrix construction, rather than measured training speedups. A rank-deficient <span class="math inline">\(F\)</span> makes <span class="math inline">\(R\)</span> singular without invalidating the factorization or requiring its inverse.</p>
+<p>For example, <span class="math inline">\(n=1024\)</span>, <span class="math inline">\(p=32\)</span> gives a 64 by 64 compressed cost. If <span class="math inline">\(2p&gt;n\)</span>, this declared QR shape is unavailable. Use the dense formulation or justify another reduction.</p>
+</section>
+<section id="a-direction-still-needs-a-finite-step" class="level2">
+<h2>A direction still needs a finite step</h2>
+<p>For a tangent <span class="math inline">\(B\)</span>, polar retraction gives</p>
+<p><span class="math display">\[
+X^+=(X+\eta B)(I_p+\eta^2B^\top B)^{-1/2}.
+\]</span></p>
+<p>Its columns are orthonormal in exact arithmetic, and</p>
+<p><span class="math display">\[
+X^+=X+\eta B-\tfrac12\eta^2XB^\top B+O(\eta^3).
+\]</span></p>
+<p>The correction is not part of the tangent direction. An exact oracle does not make an arbitrary finite step decrease a nonlinear loss. A polynomial approximation to <span class="math inline">\(P_N\)</span> adds another issue: skewing its output enforces skewness but does not prove unit norm or optimal support. <a href="../scale-geometry-13/index.html">Part 13</a> explains those numerical distinctions.</p>
+</section>
+<section id="try-checking-the-certificate" class="level2">
+<h2>Try checking the certificate</h2>
+<ol type="1">
+<li>For <span class="math inline">\(p=1\)</span>, let <span class="math inline">\(x\)</span> be unit and <span class="math inline">\(g=m-x(x^\top m)\ne0\)</span>. What direction solves the tangent problem?</li>
+<li>What should the canonical oracle return for <span class="math inline">\(M=XS\)</span> with symmetric <span class="math inline">\(S\)</span>?</li>
+<li>Why does <span class="math inline">\(D=0\)</span> fail as a general proof of norm-preserving lifting?</li>
+<li>Does identical oracle objective imply identical directions under different kernel conventions?</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li><span class="math inline">\(-g/\|g\|_2\)</span>, the unit descent direction orthogonal to <span class="math inline">\(x\)</span>. The lifted nuclear norm equals <span class="math inline">\(\|g\|_2\)</span>.</li>
+<li>Zero. The cost vanishes on every tangent direction.</li>
+<li>The explicit lift above has norm <span class="math inline">\((1+\sqrt5)/2&gt;\sqrt2\)</span>, exceeding the norm of its prescribed action.</li>
+<li>No.&nbsp;A zero-cost kernel action can change the selected direction while preserving feasibility and optimal value.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p><a href="https://arxiv.org/abs/2608.06218v1">Muon on the Stiefel Manifold Admits an Exact Closed-Form Update</a>, Sections 2 to 4 and Appendix A.3, supplies the skew formulation, norm-preserving completion argument, rank discussion, and compressed algorithm. Proposition 3 is the imported completion result. Section 5 adds assumptions for convergence of a sequence of retracted steps. The explicit lift comparison above checks the algebra and is not a reproduction of the paper’s runtime experiments.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-18/index.html" aria-label="Previous post: Small matrix steps, large normalized rotations">P: Small matrix steps, large normalized rotations <span class="link-mark" aria-hidden="true"></span></a><a href="../scale-geometry-20/index.html" aria-label="Next post: Should attention and MLPs use the same constraints?">N: Should attention and MLPs use the same constraints? <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#specify-the-local-optimization-problem" id="toc-specify-the-local-optimization-problem">Specify the local optimization problem</a></li>
+<li><a href="#lift-the-direction-to-a-skew-generator" id="toc-lift-the-direction-to-a-skew-generator">Lift the direction to a skew generator</a></li>
+<li><a href="#the-converse-is-a-norm-preserving-completion-problem" id="toc-the-converse-is-a-norm-preserving-completion-problem">The converse is a norm-preserving completion problem</a></li>
+<li><a href="#why-the-apparently-unused-block-matters" id="toc-why-the-apparently-unused-block-matters">Why the apparently unused block matters</a></li>
+<li><a href="#solve-the-lifted-problem-with-a-support-polar-factor" id="toc-solve-the-lifted-problem-with-a-support-polar-factor">Solve the lifted problem with a support polar factor</a></li>
+<li><a href="#specify-what-happens-at-zero-singular-values" id="toc-specify-what-happens-at-zero-singular-values">Specify what happens at zero singular values</a></li>
+<li><a href="#compress-before-evaluating-the-polar-factor" id="toc-compress-before-evaluating-the-polar-factor">Compress before evaluating the polar factor</a></li>
+<li><a href="#a-direction-still-needs-a-finite-step" id="toc-a-direction-still-needs-a-finite-step">A direction still needs a finite step</a></li>
+<li><a href="#try-checking-the-certificate" id="toc-try-checking-the-certificate">Try checking the certificate</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>
