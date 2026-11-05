@@ -270,3 +270,25 @@ Approved November 5, 2026 after review.
 - Publish Parts 19 through 21 with their three figures, derivations, exercises, and twenty-five numerical and archived-record checks.
 - Remove their review notices while preserving orange italic emphasis, skull ornaments, and P: and N: chapter titles.
 - Render the approved site separately before replacing docs and pushing the release.
+
+
+## Noise, sharpness, and symmetry review drafts
+
+Prepared November 5, 2026 after publication of Parts 19 through 21.
+
+- Add Parts 22 through 24 on the intrinsic-noise model, finite-step sharpness selection, and optimizer-state symmetry, splitting the remaining bundled editorial question into three articles.
+- Add three reproducible SVG figures, worked examples, exercises, and twenty-five checks in tools/check_noise_sharpness_symmetry.py.
+- Extend the local hub with Noise, sharpness, and symmetry, and link Part 21 to Part 22 using title-based navigation.
+- Mark the three articles Draft for review. Keep this batch uncommitted and unpushed until review. Render externally and preserve the published docs tree.
+
+
+Review checks for Parts 22 through 24 pass: twenty-five mathematical checks, two catalog checks, thirty-nine rendered pages with valid local links, and desktop and phone inspection. Details and source qualifications are in specs/010-noise-sharpness-symmetry/validation.md. Published docs remain unchanged.
+
+
+## Publish the noise and symmetry posts
+
+Approved November 5, 2026 after review.
+
+- Publish Parts 22 through 24 with their three figures, worked calculations, exercises, and twenty-five mathematical checks.
+- Remove review notices and preserve orange italics, skull ornaments, open-ended part labels, and title-based P: and N: links.
+- Render the approved site separately before replacing docs and pushing the release.

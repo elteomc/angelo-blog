@@ -90,6 +90,18 @@
         {
           "number": 21,
           "source": "blog/scale-geometry-21/index.qmd"
+        },
+        {
+          "number": 22,
+          "source": "blog/scale-geometry-22/index.qmd"
+        },
+        {
+          "number": 23,
+          "source": "blog/scale-geometry-23/index.qmd"
+        },
+        {
+          "number": 24,
+          "source": "blog/scale-geometry-24/index.qmd"
         }
       ],
       "groups": [
@@ -121,6 +133,11 @@
         {
           "title": "VI. Constraints, algorithms, and evidence",
           "start": 18,
+          "count": 3
+        },
+        {
+          "title": "VII. Noise, sharpness, and symmetry",
+          "start": 21,
           "count": 3
         }
       ]

@@ -63,3 +63,9 @@ For Parts 19 through 21, run python3 tools/check_geometry_evidence.py. Rebuild t
 
 
 Parts 19 through 21 were reviewed and approved for publication November 5, 2026. Future batches stay in external review output until approval.
+
+
+For Parts 22 through 24, run python3 tools/check_noise_sharpness_symmetry.py. Rebuild the three figures with python3 tools/noise_sharpness_symmetry_figures.py. The valley comparison evaluates an explicit smooth three-dimensional loss for 3000 updates, without running neural-network training. Review at http://127.0.0.1:8878/blog/scale-geometry-22/index.html and keep output outside docs until approval.
+
+
+Parts 22 through 24 were reviewed and approved for publication November 5, 2026. Future batches remain in external review output until approval.

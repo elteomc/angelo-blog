@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The learning rate hidden in the noise | Angelo Farfan</title>
+<meta name="description" content="Derive the direction-and-radius stochastic model, its noise-dependent equilibrium, and why a radius relaxation time is not a mixing theorem.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 22</a>
+<h1>The learning rate hidden in the noise</h1>
+
+
+<p class="dek" hidden="">A stochastic radius balance and the limits of the intrinsic learning rate</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>A redundant weight radius can still influence the trajectory. Part 3 made this visible in one exact SGD step: shrinking the radius increases the effective directional rate. Noise adds a second effect. Tangent kicks increase the squared radius, while decay contracts it.</p>
+<p>That competition motivates the <em>intrinsic learning rate</em>, the product <span class="math inline">\(\delta=\eta\lambda\)</span> in a particular normalized-SGD model. The product is useful, but the model also contains a covariance field, an initial radius, and a choice of time convention. We will keep those ingredients visible.</p>
+<section id="require-the-symmetry-for-every-sampled-loss" class="level2">
+<h2>Require the symmetry for every sampled loss</h2>
+<p>Let <span class="math inline">\(w=ru\)</span>, with <span class="math inline">\(r&gt;0\)</span> and <span class="math inline">\(\|u\|_2=1\)</span>. Suppose each differentiable sampled loss is invariant under <span class="math inline">\(w\mapsto cw\)</span> for <span class="math inline">\(c&gt;0\)</span>. Write its unit-radius gradient as</p>
+<p><span class="math display">\[
+\widehat g(u)=g(u)+\xi(u),
+\qquad \mathbb E[\xi(u)\mid u]=0,
+\qquad C(u)=\mathbb E[\xi(u)\xi(u)^\top\mid u].
+\]</span></p>
+<p>Differentiating the symmetry gives <span class="math inline">\(u^\top\widehat g(u)=0\)</span> and <span class="math inline">\(\widehat g(ru)=r^{-1}\widehat g(u)\)</span>. Consequently the mean gradient and noise are tangent, and <span class="math inline">\(C(u)u=0\)</span>.</p>
+<p>Invariance of the population average alone would not establish tangency of every sampled gradient. Batch construction and normalization statistics belong in that assumption.</p>
+<p>For constant <span class="math inline">\(\eta&gt;0\)</span>, <span class="math inline">\(\lambda\geq0\)</span>, and <span class="math inline">\(a=1-\eta\lambda&gt;0\)</span>, the exact update is</p>
+<p><span class="math display">\[
+w^+=ar u-\frac\eta r\widehat g(u).
+\]</span></p>
+<p>Orthogonality gives</p>
+<p><span class="math display">\[
+(r^+)^2=a^2r^2+\frac{\eta^2}{r^2}\|\widehat g(u)\|_2^2.
+\]</span></p>
+<p>Thus the conditional expected kick contains both <span class="math inline">\(\|g(u)\|^2\)</span> and <span class="math inline">\(\operatorname{tr}C(u)\)</span>. This is a finite-step identity, with no diffusion approximation yet.</p>
+</section>
+<section id="declare-the-continuous-stochastic-model" class="level2">
+<h2>Declare the continuous stochastic model</h2>
+<p>Use iteration time, so one unit represents one update, and model the noise by an Itô stochastic differential equation:</p>
+<p><span class="math display">\[
+dw=-\delta w\,dt-\eta\nabla L(w)\,dt
++\eta S(w)\,dB_t,
+\qquad S(w)S(w)^\top=C(w).
+\]</span></p>
+<p>Brownian increments satisfy <span class="math inline">\(\mathbb E[dB_t\,dB_t^\top]=I\,dt\)</span>. Choose the tangent noise factor with <span class="math inline">\(S(ru)=r^{-1}S(u)\)</span>. The sign of the Brownian term is a convention that does not change its law.</p>
+<p>This is a model of discrete SGD, rather than an exact representation of its finite steps. Within this model, however, Itô calculus gives exact identities. Define <span class="math inline">\(G=r^2\)</span> and <span class="math inline">\(T(u)=\operatorname{tr}C(u)\)</span>. Then</p>
+<p><span class="math display">\[
+dG=\left(-2\delta G+\frac{\eta^2}{G}T(u)\right)dt.
+\]</span></p>
+<p>The stochastic linear term vanishes because the noise is tangent. Its quadratic variation still contributes the positive trace term. Ordinary deterministic differentiation would miss it.</p>
+<p>For the direction,</p>
+<p><span class="math display">\[
+du=-\frac\eta G g(u)\,dt
++\frac\eta G S(u)\,dB_t
+-\frac{\eta^2T(u)}{2G^2}u\,dt.
+\]</span></p>
+<p>The last, normal drift is necessary. Its contribution to <span class="math inline">\(d\|u\|^2\)</span> cancels the noise’s quadratic variation, preserving unit norm. It is not an additional arbitrary weight penalty.</p>
+<p>These are the direction-and-radius equations in <a href="https://arxiv.org/abs/2010.02916v1">The Intrinsic Learning Rate</a>, Theorem 5.1, with an explicit iteration-time convention.</p>
+</section>
+<section id="remove-the-arbitrary-scale-of-the-raw-rate" class="level2">
+<h2>Remove the arbitrary scale of the raw rate</h2>
+<p>Let</p>
+<p><span class="math display">\[
+\Gamma=\frac{r^4}{\eta^2}=\left(\frac G\eta\right)^2,
+\qquad q=\Gamma^{-1/2}=\frac\eta{r^2}.
+\]</span></p>
+<p>Since <span class="math inline">\(G\)</span> has finite variation in this tangent-noise model,</p>
+<p><span class="math display">\[
+\frac{d\Gamma}{dt}=-4\delta\Gamma+2T(u).
+\]</span></p>
+<p>The directional equation becomes</p>
+<p><span class="math display">\[
+du=-qg(u)\,dt+qS(u)\,dB_t
+-\frac{T(u)}{2\Gamma}u\,dt.
+\]</span></p>
+<p>The raw <span class="math inline">\(\eta\)</span> has disappeared from these two equations. Their remaining inputs include <span class="math inline">\(\delta\)</span>, <span class="math inline">\(g\)</span>, <span class="math inline">\(C\)</span>, and <span class="math inline">\((u_0,\Gamma_0)\)</span>. If the raw rate changes, matching <span class="math inline">\(\Gamma_0\)</span> requires changing the initial radius proportionally to <span class="math inline">\(\sqrt\eta\)</span>.</p>
+<p>Thus equal products <span class="math inline">\(\eta\lambda\)</span> do not give an unconditional equivalence when we keep every initial weight array fixed. Nor do they equate models with different noise covariances, minibatch sizes, or scale-sensitive paths.</p>
+</section>
+<section id="solve-the-radius-equation-before-claiming-equilibrium" class="level2">
+<h2>Solve the radius equation before claiming equilibrium</h2>
+<p>For general <span class="math inline">\(T(u_t)\)</span>,</p>
+<p><span class="math display">\[
+\Gamma_t=e^{-4\delta t}\Gamma_0
++2\int_0^t e^{-4\delta(t-s)}T(u_s)\,ds.
+\]</span></p>
+<p>It is an exponentially weighted history of the noise trace. If <span class="math inline">\(T(u_t)=T_0&gt;0\)</span> is constant and <span class="math inline">\(\delta&gt;0\)</span>, then</p>
+<p><span class="math display">\[
+\Gamma_t=\Gamma_*+(\Gamma_0-\Gamma_*)e^{-4\delta t},
+\qquad\Gamma_*=\frac{T_0}{2\delta},
+\qquad q_*=\sqrt{\frac{2\delta}{T_0}}.
+\]</span></p>
+<p>The equilibrium formula concerns <span class="math inline">\(q=\eta/r^2\)</span>, so taking the reciprocal correctly matters. Larger <span class="math inline">\(\Gamma\)</span> means a smaller directional coefficient.</p>
+<p>For <span class="math inline">\(T_0=1\)</span> and <span class="math inline">\(\delta=0.001\)</span>, we get <span class="math inline">\(\Gamma_*=500\)</span>, <span class="math inline">\(q_*\approx0.0447214\)</span>, and a half-life of <span class="math inline">\(\log2/(4\delta)\approx173.287\)</span> iteration-time units. This is the half-life of <span class="math inline">\(\Gamma_t-\Gamma_*\)</span>, not necessarily of the radius or of a loss statistic.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/intrinsic-noise-clock.svg" alt="Exact constant-trace radius ODE solutions with intrinsic products 0.001 and 0.002, each starting at four times its equilibrium Gamma. Curves have different iteration-time relaxation and coincide after rescaling time by the intrinsic product."></p>
+<figcaption>Two constant-trace radius models relax at different iteration speeds but collapse when time is measured in units of the learning-rate and decay product.</figcaption>
+</figure>
+</div>
+<p>There is a legitimate constant-trace example. Take sampled losses <span class="math inline">\(\ell_\xi(w)=\xi^\top w/\|w\|\)</span>, with centered isotropic <span class="math inline">\(\xi\)</span> of covariance <span class="math inline">\(\sigma^2I\)</span> in dimension <span class="math inline">\(d\)</span>. Their mean loss is zero, while <span class="math inline">\(C(u)=\sigma^2(I-uu^\top)\)</span> and <span class="math inline">\(T_0=(d-1)\sigma^2\)</span>. The figure evaluates the resulting radius equation, rather than simulating a trained network.</p>
+</section>
+<section id="noise-strength-and-noise-shape-play-different-roles" class="level2">
+<h2>Noise strength and noise shape play different roles</h2>
+<p>At the constant-trace balance, the trace of directional quadratic variation per unit time is</p>
+<p><span class="math display">\[
+q_*^2T_0=2\delta.
+\]</span></p>
+<p>This scalar does not specify which directions receive noise. Two tangent covariance matrices can have the same trace and different eigenvectors or rank. Their normalized trajectories can behave differently even when their radius equations agree.</p>
+<p>For independent averaging over <span class="math inline">\(B\)</span> samples at a fixed state, covariance scales as <span class="math inline">\(C_B=C_1/B\)</span>. In that idealization <span class="math inline">\(q_*\propto\sqrt B\)</span> at fixed <span class="math inline">\(\delta\)</span>, while <span class="math inline">\(q_*^2T_B\)</span> remains <span class="math inline">\(2\delta\)</span>. The mean-gradient drift coefficient changes along with the covariance. This is not a general batch-size transfer rule. Correlations, sampling, and parameter motion can alter its premises.</p>
+</section>
+<section id="the-discrete-process-retains-terms-the-sde-drops" class="level2">
+<h2>The discrete process retains terms the SDE drops</h2>
+<p>Set <span class="math inline">\(Z=\|\widehat g(u)\|^2\)</span>. Squaring the exact finite-step radius identity gives</p>
+<p><span class="math display">\[
+\Gamma^+=a^4\Gamma+2a^2Z+\frac{Z^2}{\Gamma}.
+\]</span></p>
+<p>Its conditional expectation depends on <span class="math inline">\(\mathbb E Z\)</span> and <span class="math inline">\(\mathbb E Z^2\)</span>, including the mean gradient and a fourth-moment term. It is not the linear ODE above. The ODE is useful in a justified diffusion regime, but a finite step, heavy tails, or changing covariance can make its omitted terms consequential.</p>
+<p>The deterministic boundary is especially revealing. If <span class="math inline">\(C=0\)</span>, the SDE radius simply contracts exponentially. Discrete gradient descent still has the <span class="math inline">\(\eta^2\|g(u)\|^2/r^2\)</span> radius kick. That finite-step effect will be central to the sharpness-bias calculation in <a href="../scale-geometry-23/index.html">Part 23</a>.</p>
+<p>If <span class="math inline">\(\delta=0\)</span> and <span class="math inline">\(T_0&gt;0\)</span>, the modeled <span class="math inline">\(\Gamma\)</span> grows linearly instead of approaching a finite equilibrium. If the trace itself changes across the visited region, the exponential filter remains valid, while the constant-trace equilibrium does not describe the whole trajectory.</p>
+</section>
+<section id="radius-relaxation-is-not-function-space-mixing" class="level2">
+<h2>Radius relaxation is not function-space mixing</h2>
+<p>The Intrinsic Learning Rate separately proposes a Fast Equilibrium Conjecture about function-space distributions. It should remain separate from the proved radial identities. Losing memory of <span class="math inline">\(\Gamma_0\)</span> in a scalar equation does not prove that two normalized parameter processes explore the same regions, forget their initial directions, or attain the same validation loss.</p>
+<p>A practical comparison should therefore record norms, directional steps, covariance information where feasible, initialization conventions, and actual loss trajectories. If two runs with the same <span class="math inline">\(\eta\lambda\)</span> differ, the first step is to inspect those declared ingredients. A single product is a compact description of a particular model, rather than a replacement for the optimizer equation.</p>
+</section>
+<section id="try-reading-the-stochastic-clock" class="level2">
+<h2>Try reading the stochastic clock</h2>
+<ol type="1">
+<li>With <span class="math inline">\(T_0=2\)</span> and <span class="math inline">\(\delta=0.002\)</span>, find <span class="math inline">\(\Gamma_*\)</span> and <span class="math inline">\(q_*\)</span>.</li>
+<li>Halve <span class="math inline">\(\eta\)</span> while preserving <span class="math inline">\(\delta\)</span> and <span class="math inline">\(\Gamma_0\)</span>. How must <span class="math inline">\(\lambda\)</span> and the initial radius change?</li>
+<li>Why can two equal-trace covariance fields produce different directional behavior?</li>
+<li>Does convergence of <span class="math inline">\(\Gamma_t\)</span> establish the Fast Equilibrium Conjecture?</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li><span class="math inline">\(\Gamma_*=500\)</span> and <span class="math inline">\(q_*=1/\sqrt{500}\approx0.0447214\)</span>.</li>
+<li>Double <span class="math inline">\(\lambda\)</span> and divide the initial radius by <span class="math inline">\(\sqrt2\)</span>.</li>
+<li>Trace sums noise energy without recording its allocation across tangent directions.</li>
+<li>No.&nbsp;Radius relaxation is one scalar statement, whereas mixing concerns distributions of represented functions.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p><a href="https://arxiv.org/abs/2010.02916v1">Reconciling Modern Deep Learning with Traditional Optimization Analyses: The Intrinsic Learning Rate</a>, Sections 3 and 5, Theorem 5.1, Lemma 5.2, and Conjecture 5.3, supplies the normalized-network SDE and the separate mixing conjecture. The equilibrium and figure here follow from the displayed constant-trace ODE. The exact finite-step fourth-moment identity makes explicit a distinction that the diffusion model does not erase.</p>
+<p>The argument assumes exact sampled-loss scale invariance, tangent gradient noise, constant raw hyperparameters for the stated change of variables, and an SDE valid away from zero. It does not assert the same one-product description for arbitrary AdamW or Muon trajectories.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-21/index.html" aria-label="Previous post: What our matched-step experiments actually tested">P: What our matched-step experiments actually tested <span class="link-mark" aria-hidden="true"></span></a><a href="../scale-geometry-23/index.html" aria-label="Next post: How normalization can favor lower sharpness">N: How normalization can favor lower sharpness <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#require-the-symmetry-for-every-sampled-loss" id="toc-require-the-symmetry-for-every-sampled-loss">Require the symmetry for every sampled loss</a></li>
+<li><a href="#declare-the-continuous-stochastic-model" id="toc-declare-the-continuous-stochastic-model">Declare the continuous stochastic model</a></li>
+<li><a href="#remove-the-arbitrary-scale-of-the-raw-rate" id="toc-remove-the-arbitrary-scale-of-the-raw-rate">Remove the arbitrary scale of the raw rate</a></li>
+<li><a href="#solve-the-radius-equation-before-claiming-equilibrium" id="toc-solve-the-radius-equation-before-claiming-equilibrium">Solve the radius equation before claiming equilibrium</a></li>
+<li><a href="#noise-strength-and-noise-shape-play-different-roles" id="toc-noise-strength-and-noise-shape-play-different-roles">Noise strength and noise shape play different roles</a></li>
+<li><a href="#the-discrete-process-retains-terms-the-sde-drops" id="toc-the-discrete-process-retains-terms-the-sde-drops">The discrete process retains terms the SDE drops</a></li>
+<li><a href="#radius-relaxation-is-not-function-space-mixing" id="toc-radius-relaxation-is-not-function-space-mixing">Radius relaxation is not function-space mixing</a></li>
+<li><a href="#try-reading-the-stochastic-clock" id="toc-try-reading-the-stochastic-clock">Try reading the stochastic clock</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>

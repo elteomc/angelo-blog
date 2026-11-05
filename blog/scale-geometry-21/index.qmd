@@ -9,6 +9,8 @@ series-label: "Scale and geometry / Part 21"
 series-url: "scale-geometry.html"
 previous-url: "../scale-geometry-20/index.html"
 previous-title: "Should attention and MLPs use the same constraints?"
+next-url: "../scale-geometry-22/index.html"
+next-title: "The learning rate hidden in the noise"
 ---
 
 A mathematical construction can show that a normalized feature may rotate substantially under a small matrix step. A training experiment asks which directions the optimizer actually chooses, which functions it reaches, and whether those choices improve the task loss.

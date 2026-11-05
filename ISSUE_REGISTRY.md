@@ -81,3 +81,8 @@ Found November 5, 2026 while checking the new experiment article. A hand-entered
 ## UI-003: attention figure footnote clips in the rendered image
 
 Found November 5, 2026 during desktop review of Part 20. A long single-line figure footnote is clipped in the embedded rendering. Status: resolved by shortening the annotation while retaining its exact-example and no-training scope. The article carries the full assumptions beside the figure.
+
+
+## UI-004: moment-rotation annotation overlaps its curve
+
+Found November 5, 2026 during desktop review of Part 24. The point annotation touches the descending curve. Status: resolved by placing the annotation above the selected point, with the value unchanged.

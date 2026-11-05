@@ -4,7 +4,7 @@ Updated 2026-11-05.
 
 ## Published foundation and current drafts
 
-Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. The first twenty-one posts and the hub are published, including the tangent-oracle, module-constraint, and experiment case-study articles approved on November 5, 2026. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
+Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. The first twenty-four posts and the hub are published, including the intrinsic-noise, sharpness-bias, and optimizer-state articles approved on November 5, 2026. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
 
 Angelo reviewed Parts 1 through 6 in pairs, approved their publication, and authorized completion and publication of Parts 7 through 12 without another review gate. Mathematical checks and rendered presentation checks remain part of publication. No future release dates or automatic publications have been set.
 
@@ -35,6 +35,9 @@ The six free-probability posts remain available with the bold In process of rewr
 | 19 | The exact spectral update on a tangent space | Solve the tangent oracle with a norm-preserving skew lift and compressed evaluation | Published |
 | 20 | Should attention and MLPs use the same constraints? | Separate feasible spectra, softmax gaps, restoration details, and causal evidence | Published |
 | 21 | What our matched-step experiments actually tested | Read initialization, predictive-clock, capacity, and forecast controls with their limitations | Published |
+| 22 | The learning rate hidden in the noise | Derive the normalized SDE, its radius balance, and the boundary between relaxation and mixing | Published |
+| 23 | How normalization can favor lower sharpness | Derive a finite-step valley drift and state the local sharpness-reduction assumptions | Published |
+| 24 | When the optimizer respects a symmetry | Transform rates and moments, test basis dependence, and distinguish equivariance from horizontality | Published |
 
 ## Research follow-ups
 
@@ -102,7 +105,7 @@ Tensor Programs, kernel versus feature-learning regimes, and the full muP/depth 
 
 Progressive sharpening, edge of stability, self-stabilization, and central flows form another coherent dynamics sequence. Their finite-step, averaged-flow, and empirical claims need separate treatment. The [research index](/home/acru/angelo/proj/tense/.paper-mastery/RESEARCH_INDEX.md) and [central-flows map](/home/acru/angelo/proj/tense/.paper-mastery/central-flows/01-executive-map.md) locate that material.
 
-The first nine follow-up topics now have published articles through Part 21. Remaining topics are editorial candidates. The published hub keeps its approved chapter list until the next release.
+All ten follow-up questions now have published articles through Part 24. Adjacent topics remain editorial candidates. The published hub keeps its approved chapter list until the next release.
 
 
 ## Practical follow-up release
@@ -141,4 +144,19 @@ Prepared and approved for publication November 5, 2026 after review.
 - Each article includes a reproducible figure, worked mathematics, exercises, answer sketches, and source scope. Preserve orange italics, skull ornaments, and P: and N: chapter titles.
 - Parts 19 through 21 are approved for publication. Remove their review notices and render the approved source into docs before publishing.
 
-The next unprepared follow-up is redundant scales, stochastic dynamics, and sharpness bias. It still needs the focused primary-source pass identified in the original backlog. The adjacent Tensor Programs and training-dynamics arcs remain candidates rather than approved releases.
+The final follow-up question is now split into Parts 22 through 24 after a focused primary-source pass: intrinsic-rate noise models, finite-step sharpness bias, and symmetry-aware optimizer state. These actual articles were reviewed and approved for publication November 5, 2026. The adjacent Tensor Programs and training-dynamics arcs remain candidates rather than approved releases.
+
+
+## Noise, sharpness, and symmetry release
+
+Prepared and approved for publication November 5, 2026 after review.
+
+The original tenth follow-up bundled three substantive questions. Give each a complete article, keeping the new sequence within that planned scope.
+
+- Part 22 derives the tangent-noise SDE and the fourth-power radius variable. Solve the constant-trace equation, distinguish the effective-rate reciprocal from the radius variable, and keep scalar relaxation separate from the Fast Equilibrium Conjecture. Compare with the exact finite-step fourth-moment identity.
+- Part 23 removes trivial radial Hessian scaling, derives a longitudinal drift in an explicit smooth scale-invariant valley, and compares identical initial weights with and without decay over 3000 updates. State the published local theorem's assumptions and the exact-minimizer exception. Do not claim generalization from the synthetic example.
+- Part 24 derives covector and displacement transformations, scale-dependent rates and state corrections, diagonal-moment rotation defects, and a full-moment control. Distinguish equivariance from redundant orbit motion using an exact softmax translation example. Architectural symmetry tests come before optimizer claims.
+- Add one reproducible figure and exercises per article. Preserve orange italics, skull ornaments, informal source headings, and title-based P: and N: links.
+- Parts 22 through 24 are approved for publication. Remove their review notices and render the approved sources into docs before publishing.
+
+All ten questions from the follow-up map now have published articles, with the final question receiving three posts. Future proposals should be selected explicitly from the adjacent Tensor Programs, stochastic selection, or training-dynamics material after this review. No additional release or experiment is scheduled automatically.
