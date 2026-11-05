@@ -86,3 +86,10 @@ Found November 5, 2026 during desktop review of Part 20. A long single-line figu
 ## UI-004: moment-rotation annotation overlaps its curve
 
 Found November 5, 2026 during desktop review of Part 24. The point annotation touches the descending curve. Status: resolved by placing the annotation above the selected point, with the value unchanged.
+
+
+## PUB-006: Part 29 initial-coordinate subscript
+
+Found November 5, 2026 during desktop review. Status: fixed locally.
+
+The initial y-coordinate contained a missing TeX command escape, so its subscript displayed literal letters instead of the intended upright label. The command is restored, and desktop and phone inspection confirm the corrected formula in the refreshed review page. Published docs were unaffected.

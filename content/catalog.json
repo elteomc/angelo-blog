@@ -114,6 +114,18 @@
         {
           "number": 27,
           "source": "blog/scale-geometry-27/index.qmd"
+        },
+        {
+          "number": 28,
+          "source": "blog/scale-geometry-28/index.qmd"
+        },
+        {
+          "number": 29,
+          "source": "blog/scale-geometry-29/index.qmd"
+        },
+        {
+          "number": 30,
+          "source": "blog/scale-geometry-30/index.qmd"
         }
       ],
       "groups": [
@@ -155,6 +167,11 @@
         {
           "title": "VIII. Stochastic response and learned features",
           "start": 24,
+          "count": 3
+        },
+        {
+          "title": "IX. Oscillations, sharpness, and central flows",
+          "start": 27,
           "count": 3
         }
       ]

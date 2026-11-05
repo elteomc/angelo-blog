@@ -4,7 +4,7 @@ Updated 2026-11-05.
 
 ## Published foundation and current drafts
 
-Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. The first twenty-seven posts and the hub are published, including the stochastic-response, feature-selection, and ordinary-network articles approved on November 5, 2026. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
+Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. The first thirty posts and the hub are published, including the stability, oscillation-feedback, and central-flow articles approved on November 5, 2026. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
 
 Angelo reviewed Parts 1 through 6 in pairs, approved their publication, and authorized completion and publication of Parts 7 through 12 without another review gate. Mathematical checks and rendered presentation checks remain part of publication. No future release dates or automatic publications have been set.
 
@@ -41,6 +41,9 @@ The six free-probability posts remain available with the bold In process of rewr
 | 25 | What a noisy matrix update does on average | Derive Gaussian mean response and distinguish affine covariance from residual noise | Published |
 | 26 | When update noise selects a feature | Derive the constructed model's slow drift and identify its averaging assumptions | Published |
 | 27 | Why matching the angle did not explain the features | Read finite-batch response controls and the limits of the feature-collapse prediction | Published |
+| 28 | What the edge of stability actually says | Derive the frozen quadratic boundary and distinguish curvature observations from mechanisms | Published |
+| 29 | How oscillations push back on sharpness | Derive cubic feedback and verify an explicit locally attracting two-cycle | Published |
+| 30 | Averaging the steps without losing their effect | Retain displacement covariance and derive a conditional central-flow closure | Published |
 
 ## Research follow-ups
 
@@ -176,3 +179,16 @@ The original ten-question follow-up map is covered. Select the stochastic featur
 - Part 27 reports the archived untied-network controls. Average conditions within seed, retain paired uncertainty, compare angle and affine-response matching, and show how stale calibration and mixed rank signs limited the proposed collapse mechanism.
 - Each article has an original reproducible figure, worked mathematics, exercises, answer sketches, checked primary references, and the informal source heading. Preserve orange italics, skull ornaments, and P: and N: chapter titles.
 - Parts 25 through 27 are approved for publication. Remove their review notices and render the approved sources into docs before publishing. No new training run is part of this batch.
+
+
+## Oscillations and central flows release
+
+Prepared and approved for publication November 5, 2026 after review.
+
+Select the training-dynamics arc already named under Adjacent sequences: progressive sharpening, the edge of stability, self-stabilization, and central flows. Continue the current explanatory series because these articles build directly on its distinctions between gradient noise, parameter motion, and curvature. Tensor Programs and the larger width/depth sequence remain later candidates.
+
+- Part 28 derives quadratic multipliers and a mixed-mode loss curve, states the finite-step segment requirement, and gives a counterexample to a starting-Hessian descent claim. Derive the local sharpening identity without imposing a universal sign. Keep the original empirical observation and its exceptions distinct from theory.
+- Part 29 derives the cubic feedback and an explicit two-variable GD recurrence. Solve its cycle, compute the two-step return multipliers, and distinguish coordinate curvature from the full instantaneous Hessian. Keep the polynomial's local scope and the published coupling theorem's assumptions visible.
+- Part 30 derives the averaged-gradient correction, scalar variance balance, matrix complementarity, and conditional projection interpretation. The same explicit example predicts a cycle center and fluctuation loss while revealing the onset mismatch. Displacement covariance is not gradient-noise covariance.
+- Add three reproducible figures, exercises, answer sketches, and twenty-six independent mathematical checks. Use focused primary-source checks and the existing dossiers. No neural-network experiment or general discrete-to-flow approximation theorem is claimed.
+- Parts 28 through 30 are approved for publication. Remove review notices and render the approved sources into docs before publishing. Preserve orange emphasis, skull ornaments, informal source headings, and P: and N: chapter titles.

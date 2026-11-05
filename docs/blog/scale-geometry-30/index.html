@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Averaging the steps without losing their effect | Angelo Farfan</title>
+<meta name="description" content="Derive an averaged gradient correction, solve the one-mode covariance balance, and connect central flow to projected motion without confusing deterministic oscillations with gradient noise.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 30</a>
+<h1>Averaging the steps without losing their effect</h1>
+
+
+<p class="dek" hidden="">Displacement covariance, a stability constraint, and what a central flow predicts</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>An oscillating trajectory can have a smooth average and still behave differently from gradient flow. Removing the alternating displacement does not remove the effect of its squared amplitude on the gradient.</p>
+<p>The useful state is therefore more than a mean parameter vector. It also includes a <em>displacement covariance</em>. A central-flow model uses that covariance to retain the curvature feedback developed in Part 29 while discarding the fast phase.</p>
+<section id="define-the-average-before-replacing-it-with-a-flow" class="level2">
+<h2>Define the average before replacing it with a flow</h2>
+<p>For saved iterates <span class="math inline">\(w_t\)</span>, one concrete offline average is</p>
+<p><span class="math display">\[
+c_t=\sum_{j=-m}^{m}a_jw_{t+j},
+\qquad a_j\ge0,
+\qquad\sum_ja_j=1.
+\]</span></p>
+<p>Freeze this center within the window and write <span class="math inline">\(\delta_{t,j}=w_{t+j}-c_t\)</span>. Then <span class="math inline">\(\sum_ja_j\delta_{t,j}=0\)</span> exactly, and</p>
+<p><span class="math display">\[
+\Sigma_t=\sum_ja_j\delta_{t,j}\delta_{t,j}^\top\succeq0.
+\]</span></p>
+<p>This describes a particular filter applied to an existing trajectory. It uses future observations when the window is centered. A flow predicted from the objective is a different object.</p>
+<p>To connect them, we would need enough averaging to suppress oscillation, little center drift over that window, controlled derivative variation, and a justified replacement of smoothed finite differences by derivatives. At the birth of an oscillation or during a large spike, those requirements can fail.</p>
+<p>A moving average is also not generally idempotent. Subtracting a changing smoothed trajectory does not automatically give a residual whose moving average is exactly zero. The frozen-window construction makes clear which elementary centering identity is exact.</p>
+</section>
+<section id="average-gradients-rather-than-differentiating-the-average-loss-blindly" class="level2">
+<h2>Average gradients, rather than differentiating the average loss blindly</h2>
+<p>At a frozen center <span class="math inline">\(c\)</span>, let <span class="math inline">\(g=\nabla L(c)\)</span>, <span class="math inline">\(H=\nabla^2L(c)\)</span>, and define</p>
+<p><span class="math display">\[
+\mathcal T[v]=DH(c)[v].
+\]</span></p>
+<p>Its adjoint maps a symmetric matrix <span class="math inline">\(X\)</span> to a vector, with</p>
+<p><span class="math display">\[
+\langle v,\mathcal T^*[X]\rangle
+=\langle\mathcal T[v],X\rangle_F.
+\]</span></p>
+<p>Averaging the gradient Taylor expansion for centered <span class="math inline">\(\delta\)</span> gives</p>
+<p><span class="math display">\[
+\mathbb E_{\rm time}\nabla L(c+\delta)
+=g+\tfrac12\mathcal T^*[\Sigma]
++\mathbb E_{\rm time}r(\delta).
+\]</span></p>
+<p>With a bounded fourth derivative, <span class="math inline">\(\|r(\delta)\|\le C\|\delta\|^3\)</span> locally. Small average remainder, rather than visual smoothness of the plotted center, is the relevant requirement.</p>
+<p>On optimizer-step time <span class="math inline">\(t\)</span>, the resulting model is</p>
+<p><span class="math display">\[
+\boxed{\dot c=-\eta\left(g+\tfrac12\mathcal T^*[\Sigma]\right).}
+\]</span></p>
+<p>Equivalently, the correction is <span class="math inline">\(\nabla_c\langle H(c),\Sigma\rangle_F/2\)</span> with <span class="math inline">\(\Sigma\)</span> held fixed during that derivative. Differentiating a state-dependent fitted <span class="math inline">\(\Sigma(c)\)</span> inside this expression adds terms that were not present in the averaged gradient calculation.</p>
+<p>This is the deterministic time-averaging construction in <a href="https://arxiv.org/abs/2410.24206v2">Understanding Optimization in Deep Learning with Central Flows</a>, Section 3 and Appendix A. The discrete-to-flow connection is heuristic and numerically supported, rather than a proved approximation theorem with a general error bound.</p>
+</section>
+<section id="let-marginal-stability-determine-one-variance" class="level2">
+<h2>Let marginal stability determine one variance</h2>
+<p>Suppose the center has one simple critical eigenpair,</p>
+<p><span class="math display">\[
+Hu=Su,\qquad S=2/\eta,\qquad\|u\|=1.
+\]</span></p>
+<p>Model the covariance as <span class="math inline">\(\Sigma=q uu^\top\)</span>, where <span class="math inline">\(q\ge0\)</span>. Let <span class="math inline">\(a=\nabla S=\mathcal T^*[uu^\top]\)</span>. Then</p>
+<p><span class="math display">\[
+\dot c=-\eta(g+qa/2),
+\]</span></p>
+<p><span class="math display">\[
+\dot S=\eta\left(r-\frac q2\|a\|^2\right),
+\qquad r=\langle a,-g\rangle.
+\]</span></p>
+<p>If free descent pushes outward, <span class="math inline">\(r&gt;0\)</span>, remaining on the stability boundary requires</p>
+<p><span class="math display">\[
+q=\frac{2r}{\|a\|^2}.
+\]</span></p>
+<p>If <span class="math inline">\(r\le0\)</span>, zero variance is enough and the center can move inward. A negative variance is never an admissible way to enforce equality. Thus, for <span class="math inline">\(a\ne0\)</span>, the boundary rule is</p>
+<p><span class="math display">\[
+q=\left[\frac{2r}{\|a\|^2}\right]_+.
+\]</span></p>
+<p>In the strict stable interior, the model sets <span class="math inline">\(q=0\)</span>. At <span class="math inline">\(a=0\)</span>, this formula is undefined and a higher-order or degenerate analysis is needed. It does not determine onset phase or the time required for a tiny displacement to grow.</p>
+</section>
+<section id="recover-the-cycle-balance-from-part-29" class="level2">
+<h2>Recover the cycle balance from Part 29</h2>
+<p>At the center <span class="math inline">\((0,1)\)</span> of that example,</p>
+<p><span class="math display">\[
+H=\operatorname{Diag}(2,0.2),\qquad
+u=(1,0),\qquad a=(0,1),\qquad g=(0,-0.02).
+\]</span></p>
+<p>Hence <span class="math inline">\(r=0.02\)</span> and <span class="math inline">\(q=0.04\)</span>. This equals the squared cycle amplitude derived directly from the recurrence. No measured trajectory amplitude was fitted to get the prediction.</p>
+<p>For centers <span class="math inline">\((0,y)\)</span> below <span class="math inline">\(y_c=1\)</span>, ordinary gradient flow gives</p>
+<p><span class="math display">\[
+\frac{dy}{d\tau}=0.2(1.1-y),
+\qquad \tau=\eta t.
+\]</span></p>
+<p>The constrained center follows that flow until it reaches one, then stays there. Starting from <span class="math inline">\(y(0)=0.4\)</span>,</p>
+<p><span class="math display">\[
+y_{\rm central}(\tau)
+=\min\{1,\ 1.1-0.7e^{-0.2\tau}\}.
+\]</span></p>
+<p>The contact time is <span class="math inline">\(\tau_c=5\log7\approx9.72955\)</span>. Ordinary gradient flow instead approaches 1.1. Both flow curves start at the axis center <span class="math inline">\((0,0.4)\)</span>. The discrete comparison retains Part 29’s nonzero initial <span class="math inline">\(x=0.001\)</span>, so it can develop the oscillation that the center model replaces by a variance.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/central-flow-average.svg" alt="Left: the two-variable recurrence's adjacent-pair average y overshoots the constrained central path during oscillation onset, then approaches its boundary value one. Ordinary gradient flow approaches 1.1. Right: equilibrium center loss is 0.001, displacement contribution is 0.04, and cycle loss is their sum 0.041."></p>
+<figcaption>The constrained center captures the long-time cycle center but does not capture the delayed growth of oscillation amplitude. At equilibrium the raw loss includes a fluctuation contribution absent from the center loss.</figcaption>
+</figure>
+</div>
+<p>The figure deliberately retains the transient mismatch. The pair average removes the two-step carrier, not its evolving envelope. Agreement of the eventual center and variance does not make the displayed flow an exact description of the entire recurrence.</p>
+</section>
+<section id="the-center-loss-and-average-raw-loss-are-different-observables" class="level2">
+<h2>The center loss and average raw loss are different observables</h2>
+<p>The loss Taylor expansion gives</p>
+<p><span class="math display">\[
+\mathbb E_{\rm time}L(c+\delta)
+\approx L(c)+\tfrac12\operatorname{tr}(H\Sigma).
+\]</span></p>
+<p>If covariance is supported on GD-critical directions, <span class="math inline">\(H\Sigma=(2/\eta)\Sigma\)</span>, so</p>
+<p><span class="math display">\[
+\overline L\approx L(c)+\frac{\operatorname{tr}\Sigma}{\eta}.
+\]</span></p>
+<p>For the explicit cycle, this is exact: <span class="math inline">\(0.001+0.04=0.041\)</span>. Comparing a center-loss curve directly with smoothed raw losses would therefore create a discrepancy even at the perfectly balanced cycle.</p>
+<p>Likewise, a decreasing center loss does not imply decreasing fluctuation variance. The average raw loss can rise while the center continues to descend. A useful prediction needs both components.</p>
+</section>
+<section id="more-than-one-critical-mode-needs-a-matrix-condition" class="level2">
+<h2>More than one critical mode needs a matrix condition</h2>
+<p>Let</p>
+<p><span class="math display">\[
+A_s=\frac2\eta I-H(c)\succeq0.
+\]</span></p>
+<p>The model requires <span class="math inline">\(\Sigma\succeq0\)</span> and <span class="math inline">\(\langle A_s,\Sigma\rangle_F=0\)</span>. For positive semidefinite matrices this implies <span class="math inline">\(A_s\Sigma=0\)</span>, so the covariance lies in the critical subspace.</p>
+<p>These static conditions do not fix its magnitude. Zero covariance satisfies them even when free descent points out of the stable region. We also need future feasibility.</p>
+<p>With <span class="math inline">\(U\)</span> an orthonormal critical basis, write <span class="math inline">\(\Sigma=UXU^\top\)</span>. Differentiating the slack along the proposed flow gives</p>
+<p><span class="math display">\[
+\dot A_s
+=\eta\mathcal T[g]
++\frac\eta2\mathcal T\mathcal T^*[UXU^\top].
+\]</span></p>
+<p>At a regular contact, the critical block must obey a complementarity condition</p>
+<p><span class="math display">\[
+X\succeq0,\qquad
+Y:=U^\top\left(\mathcal T[g]
++\tfrac12\mathcal T\mathcal T^*[UXU^\top]\right)U\succeq0,
+\qquad\langle X,Y\rangle_F=0.
+\]</span></p>
+<p>Off-diagonal entries of <span class="math inline">\(X\)</span> can matter. Rotating a repeated-eigenvalue basis changes those entries while preserving the ambient covariance. Solving unrelated scalar balances in an arbitrary basis need not preserve that geometry.</p>
+<p>Positive definiteness of the associated operator gives a unique covariance solution. Mere positive semidefiniteness does not. Degenerate feedback can leave the covariance ambiguous or make the balance infeasible, so existence and uniqueness require hypotheses.</p>
+</section>
+<section id="the-projection-interpretation-gives-a-precise-conditional-statement" class="level2">
+<h2>The projection interpretation gives a precise conditional statement</h2>
+<p>At a regular stable center, the feasible velocity cone is</p>
+<p><span class="math display">\[
+C_c=\{v:U^\top\mathcal T[v]U\preceq0\}.
+\]</span></p>
+<p>Under the conditions identifying this linearized cone with the actual tangent cone, the GD central velocity is</p>
+<p><span class="math display">\[
+\dot c=\eta\Pi_{C_c}(-g).
+\]</span></p>
+<p>Let <span class="math inline">\(p=\Pi_{C_c}(-g)\)</span>. Projection onto a closed convex cone gives <span class="math inline">\(g^\top p=-\|p\|^2\)</span>, hence</p>
+<p><span class="math display">\[
+\frac{d}{dt}L(c(t))=-\eta\|p\|^2\le0.
+\]</span></p>
+<p>This is a property of the defined constrained flow. The stable region itself need not be globally convex. Neither the projection identity nor monotone center loss proves that arbitrary discrete GD tracks the flow.</p>
+</section>
+<section id="this-covariance-is-not-the-noise-from-part-25" class="level2">
+<h2>This covariance is not the noise from Part 25</h2>
+<p>Here <span class="math inline">\(\Sigma\)</span> has units of squared parameter displacement and can arise in deterministic full-batch training. Part 25’s gradient-noise covariance has squared gradient units. They are not interchangeable inputs to the same formula.</p>
+<p>Stochastic gradients can contribute to displacement fluctuations, but deriving their covariance needs a dynamical calculation. Momentum adds temporal state. Adaptive methods add preconditioning history and change the effective stability geometry. None follows by inserting an SGD noise matrix into the deterministic closure unchanged.</p>
+<p>The central-flows paper studies deterministic GD and RMSProp variants. Its limitations include costly numerical evaluation, reduced accuracy around large excursions and nonsmooth architectures, and the absence of a stochastic or momentum extension. Its predictive success remains distinct from a uniform approximation guarantee.</p>
+</section>
+<section id="try-reading-the-averaged-state" class="level2">
+<h2>Try reading the averaged state</h2>
+<ol type="1">
+<li>Why does averaging away the sign of an oscillation leave a gradient correction?</li>
+<li>At the boundary, should an inward free drift be balanced by negative variance?</li>
+<li>Why can the center loss differ from average raw loss?</li>
+<li>Do stability support conditions alone determine the covariance magnitude?</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li>The quadratic displacement term survives and contracts the loss’s third derivative with the covariance.</li>
+<li>No.&nbsp;Zero variance is admissible and lets the center move inward.</li>
+<li>The raw trajectory carries a quadratic fluctuation loss, approximately <span class="math inline">\(\operatorname{tr}\Sigma/\eta\)</span> on critical directions.</li>
+<li>No.&nbsp;Future feasibility and a nondegenerate response are needed to close the balance.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p><a href="https://arxiv.org/abs/2410.24206v2">Understanding Optimization in Deep Learning with Central Flows</a>, Section 3, Appendix A.1.5, Appendix A.2, and Section 8, develops the averaging, complementarity, projection, and scope qualifications. The two-variable evaluation here is an independent illustration, including its onset mismatch. It is not a reproduction of the paper’s neural-network comparisons.</p>
+<p><a href="../scale-geometry-29/index.html">Part 29</a> supplies the exact cycle. <a href="../scale-geometry-25/index.html">Part 25</a> supplies the separate Gaussian gradient-response calculation whose covariance has a different meaning.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-29/index.html" aria-label="Previous post: How oscillations push back on sharpness">P: How oscillations push back on sharpness <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#define-the-average-before-replacing-it-with-a-flow" id="toc-define-the-average-before-replacing-it-with-a-flow">Define the average before replacing it with a flow</a></li>
+<li><a href="#average-gradients-rather-than-differentiating-the-average-loss-blindly" id="toc-average-gradients-rather-than-differentiating-the-average-loss-blindly">Average gradients, rather than differentiating the average loss blindly</a></li>
+<li><a href="#let-marginal-stability-determine-one-variance" id="toc-let-marginal-stability-determine-one-variance">Let marginal stability determine one variance</a></li>
+<li><a href="#recover-the-cycle-balance-from-part-29" id="toc-recover-the-cycle-balance-from-part-29">Recover the cycle balance from Part 29</a></li>
+<li><a href="#the-center-loss-and-average-raw-loss-are-different-observables" id="toc-the-center-loss-and-average-raw-loss-are-different-observables">The center loss and average raw loss are different observables</a></li>
+<li><a href="#more-than-one-critical-mode-needs-a-matrix-condition" id="toc-more-than-one-critical-mode-needs-a-matrix-condition">More than one critical mode needs a matrix condition</a></li>
+<li><a href="#the-projection-interpretation-gives-a-precise-conditional-statement" id="toc-the-projection-interpretation-gives-a-precise-conditional-statement">The projection interpretation gives a precise conditional statement</a></li>
+<li><a href="#this-covariance-is-not-the-noise-from-part-25" id="toc-this-covariance-is-not-the-noise-from-part-25">This covariance is not the noise from Part 25</a></li>
+<li><a href="#try-reading-the-averaged-state" id="toc-try-reading-the-averaged-state">Try reading the averaged state</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>

@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How oscillations push back on sharpness | Angelo Farfan</title>
+<meta name="description" content="Derive the curvature feedback created by alternating steps, solve a two-variable cycle exactly, and distinguish a local mechanism from a general training theorem.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 29</a>
+<h1>How oscillations push back on sharpness</h1>
+
+
+<p class="dek" hidden="">The mixed cubic term, an attracting two-cycle, and the limits of self-stabilization</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>A quadratic mode above its discrete stability threshold alternates and grows. A changing loss can respond to that motion. The key is a mixed cubic term: displacement squared in the oscillating direction can drive motion in a direction that changes curvature.</p>
+<p>This is <em>negative feedback from the oscillations</em>. We will derive its sign and then study an explicit two-variable example. The example has an attracting two-cycle, so we can check more than a suggestive trajectory plot.</p>
+<section id="a-third-derivative-links-oscillation-to-curvature" class="level2">
+<h2>A third derivative links oscillation to curvature</h2>
+<p>At a reference point <span class="math inline">\(w\)</span>, let <span class="math inline">\(H=\nabla^2L(w)\)</span> have a simple leading eigenvalue <span class="math inline">\(S\)</span> with unit eigenvector <span class="math inline">\(u\)</span>. Write <span class="math inline">\(T=\nabla^3L(w)\)</span>, viewed as a symmetric trilinear form. Part 28’s eigenvalue derivative gives</p>
+<p><span class="math display">\[
+a:=\nabla S=T[u,u],
+\]</span></p>
+<p>where the vector on the right is defined by <span class="math inline">\(v^\top T[u,u]=T[v,u,u]\)</span>.</p>
+<p>For a small displacement <span class="math inline">\(\delta\)</span>, Taylor expansion gives</p>
+<p><span class="math display">\[
+\nabla L(w+\delta)
+=g+H\delta+\tfrac12T[\delta,\delta]
++O(\|\delta\|^3),
+\]</span></p>
+<p>provided a fourth-derivative bound controls the remainder locally. A displacement <span class="math inline">\(xu\)</span> contributes the quadratic gradient term</p>
+<p><span class="math display">\[
+\tfrac12x^2a.
+\]</span></p>
+<p>Its descent contribution is <span class="math inline">\(-\eta x^2a/2\)</span>. The corresponding first-order change of sharpness is</p>
+<p><span class="math display">\[
+-\frac{\eta x^2}{2}\|a\|^2.
+\]</span></p>
+<p>It has the same sign for positive and negative <span class="math inline">\(x\)</span>. Alternating directions cancel in a mean displacement, but their squared amplitude can leave a persistent curvature-reducing effect.</p>
+<p>This calculation isolates one term. For a general displacement <span class="math inline">\(xu+v\)</span>, there are also <span class="math inline">\(xT[u,v]\)</span>, <span class="math inline">\(T[v,v]/2\)</span>, moving-eigenvector effects, and Taylor errors. Dropping those terms needs a regime in which they are controlled.</p>
+</section>
+<section id="see-both-updates-in-one-mixed-monomial" class="level2">
+<h2>See both updates in one mixed monomial</h2>
+<p>Suppose, locally, the retained loss contains</p>
+<p><span class="math display">\[
+\frac{x^2}{\eta}+\frac b2yx^2-cy,
+\qquad b,c&gt;0.
+\]</span></p>
+<p>The mixed term gives <span class="math inline">\(bxy\)</span> in the <span class="math inline">\(x\)</span> gradient and <span class="math inline">\(bx^2/2\)</span> in the <span class="math inline">\(y\)</span> gradient. Thus</p>
+<p><span class="math display">\[
+x^+=-(1+\eta by)x,
+\qquad
+y^+=y+\eta c-\frac{\eta b}{2}x^2.
+\]</span></p>
+<p>Positive <span class="math inline">\(y\)</span> makes the oscillation grow. The growing squared amplitude then opposes the upward drift of <span class="math inline">\(y\)</span>. Omitting either derivative of the mixed term destroys this feedback loop.</p>
+<p>This is the explanatory structure developed in <a href="https://arxiv.org/abs/2209.15594v2">Self-Stabilization</a>, Section 4. Its more general analysis tracks a moving reference and additional terms. Progressive sharpening enters as an assumption, rather than a consequence of the curvature-reduction calculation.</p>
+</section>
+<section id="an-explicit-loss-with-a-restoring-curvature-coordinate" class="level2">
+<h2>An explicit loss with a restoring curvature coordinate</h2>
+<p>For our worked example, use</p>
+<p><span class="math display">\[
+L(x,y)=\tfrac12(a+by)x^2+\tfrac\gamma2(y-y_0)^2.
+\]</span></p>
+<p>Here <span class="math inline">\(x\)</span> is the oscillating coordinate. The quadratic penalty pulls <span class="math inline">\(y\)</span> toward <span class="math inline">\(y_0\)</span>, while <span class="math inline">\(y\)</span> controls the curvature in <span class="math inline">\(x\)</span>. Choose</p>
+<p><span class="math display">\[
+\eta=1,\qquad a=b=1,\qquad\gamma=0.2,
+\qquad y_0=1.1.
+\]</span></p>
+<p>Exact simultaneous gradient descent is</p>
+<p><span class="math display">\[
+x^+=(1-\eta(a+by))x,
+\]</span></p>
+<p><span class="math display">\[
+y^+=(1-\eta\gamma)y+\eta\gamma y_0
+-\frac{\eta b}{2}x^2.
+\]</span></p>
+<p>The coordinate curvature <span class="math inline">\(\kappa(y)=a+by\)</span> reaches <span class="math inline">\(2/\eta\)</span> at</p>
+<p><span class="math display">\[
+y_c=\frac{2/\eta-a}{b}=1.
+\]</span></p>
+<p>Without oscillations, the restoring term would move <span class="math inline">\(y\)</span> toward 1.1 and the <span class="math inline">\(x\)</span> curvature toward 2.1. With sufficiently large squared amplitude, the last term pushes <span class="math inline">\(y\)</span> back.</p>
+<p>This polynomial is a local model. It is not globally bounded below over all <span class="math inline">\((x,y)\)</span>, and the calculation does not claim global convergence from arbitrary starting points. We analyze a specified trajectory and a neighborhood of its cycle.</p>
+</section>
+<section id="solve-the-two-cycle-before-simulating-it" class="level2">
+<h2>Solve the two-cycle before simulating it</h2>
+<p>Seek a cycle <span class="math inline">\((A,y_c)\mapsto(-A,y_c)\mapsto(A,y_c)\)</span>. The <span class="math inline">\(x\)</span> update flips sign exactly because <span class="math inline">\(a+by_c=2/\eta\)</span>.</p>
+<p>The <span class="math inline">\(y\)</span> update stays fixed when</p>
+<p><span class="math display">\[
+\gamma(y_0-y_c)=\frac b2A^2.
+\]</span></p>
+<p>Therefore</p>
+<p><span class="math display">\[
+\boxed{A^2=\frac{2\gamma(y_0-y_c)}b=0.04,\qquad A=0.2.}
+\]</span></p>
+<p>The center is <span class="math inline">\((0,1)\)</span>, but neither cycle point equals the center. Both have loss</p>
+<p><span class="math display">\[
+L(\pm0.2,1)=0.041,
+\]</span></p>
+<p>while <span class="math inline">\(L(0,1)=0.001\)</span>. The additional loss is the cost of the persistent oscillation. A stable training trajectory need not converge to a stationary parameter vector.</p>
+</section>
+<section id="check-that-the-cycle-attracts-nearby-points" class="level2">
+<h2>Check that the cycle attracts nearby points</h2>
+<p>Existence of a cycle alone does not establish stability. Let <span class="math inline">\(F\)</span> be the one-step map. At <span class="math inline">\((A,y_c)\)</span> its Jacobian is</p>
+<p><span class="math display">\[
+DF(A,y_c)=
+\begin{pmatrix}
+-1&amp;-k\\
+-k&amp;1-h
+\end{pmatrix},
+\qquad k=\eta bA,\quad h=\eta\gamma.
+\]</span></p>
+<p>At <span class="math inline">\((-A,y_c)\)</span>, both off-diagonal signs reverse. Multiplying in trajectory order gives the two-step Jacobian</p>
+<p><span class="math display">\[
+M=
+\begin{pmatrix}
+1-k^2&amp;k(2-h)\\
+-k(2-h)&amp;(1-h)^2-k^2
+\end{pmatrix}.
+\]</span></p>
+<p>For <span class="math inline">\(k=h=0.2\)</span>,</p>
+<p><span class="math display">\[
+M=\begin{pmatrix}0.96&amp;0.36\\-0.36&amp;0.60\end{pmatrix}.
+\]</span></p>
+<p>Its eigenvalues are <span class="math inline">\(0.78\pm0.311769i\)</span>, each of modulus 0.84. The cycle is locally attracting. A one-step Jacobian at only one cycle point would not be the relevant return map.</p>
+<p>This is a mathematical property of the displayed example. It is not an application of a neural-network coupling theorem to unchecked assumptions.</p>
+</section>
+<section id="follow-the-full-recurrence" class="level2">
+<h2>Follow the full recurrence</h2>
+<p>Starting at <span class="math inline">\((x_0,y_{\mathrm{init}})=(0.001,0.4)\)</span>, evaluate 400 simultaneous updates in float64. The small oscillation initially shrinks. The restoring force raises <span class="math inline">\(y\)</span>, the multiplier crosses its threshold, and the oscillation grows until its squared amplitude regulates <span class="math inline">\(y\)</span> near one.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/self-stabilizing-cycle.svg" alt="Three panels show the two-variable example. The first tracks alternating x and its predicted cycle amplitude through update 160. The other panels span all 400 updates. The second distinguishes coordinate curvature from the full Hessian's largest eigenvalue near the boundary two. The third shows nonmonotone raw loss and its limiting cycle value 0.041."></p>
+<figcaption>An exact two-variable gradient-descent recurrence approaches a locally attracting two-cycle, with squared oscillation amplitude opposing the force that increases curvature.</figcaption>
+</figure>
+</div>
+<p>By update 400, the trajectory is numerically at the predicted cycle. This is a cheap evaluation of an explicit polynomial, with no neural-network training, data fitting, or random noise.</p>
+<p>The initial loss is about 0.0490. It falls close to zero before the instability becomes visible, rises as the oscillation develops, and approaches 0.041. The curve illustrates why a short loss window and eventual bounded motion are different diagnostics.</p>
+</section>
+<section id="the-full-sharpness-is-not-exactly-the-coordinate-curvature" class="level2">
+<h2>The full sharpness is not exactly the coordinate curvature</h2>
+<p>The Hessian is</p>
+<p><span class="math display">\[
+H(x,y)=
+\begin{pmatrix}
+a+by&amp;bx\\bx&amp;\gamma
+\end{pmatrix}.
+\]</span></p>
+<p>At the cycle center it has eigenvalues two and 0.2. At either actual cycle point, its largest eigenvalue is</p>
+<p><span class="math display">\[
+S_{\mathrm{cycle}}
+=\frac{2+0.2+\sqrt{(2-0.2)^2+4(0.2)^2}}2
+\approx2.021954.
+\]</span></p>
+<p>So the full instantaneous sharpness remains slightly above <span class="math inline">\(2/\eta\)</span>, even though the two-step orbit attracts. There is no contradiction: the two changing one-step maps have a stable product. The frozen-quadratic calculation does not describe that product.</p>
+<p>Calling <span class="math inline">\(a+by\)</span> the full sharpness away from <span class="math inline">\(x=0\)</span> would erase this distinction. For smaller cycle amplitudes, the difference is quadratic in amplitude when the center eigengap stays positive, but it is visible at the finite values used here.</p>
+</section>
+<section id="a-perturbation-and-an-averaging-window-both-matter" class="level2">
+<h2>A perturbation and an averaging window both matter</h2>
+<p>If <span class="math inline">\(x_0=0\)</span> exactly, the recurrence preserves <span class="math inline">\(x=0\)</span>. Then <span class="math inline">\(y\)</span> approaches 1.1 without any oscillation-induced correction. The resulting fixed point is transversely unstable, but exact arithmetic does not invent a displacement.</p>
+<p>A tiny nonzero initial <span class="math inline">\(x\)</span> can take many steps to regrow after an initial contraction. The onset delay depends on that amplitude. A model that immediately imposes the eventual equilibrium variance will miss this transient, even if it predicts the final cycle center correctly.</p>
+<p>Likewise, averaging two adjacent iterates cancels an exact two-cycle. It need not eliminate a changing envelope, curvature-coordinate drift, or a burst. A smooth curve should identify what was averaged and over which time window.</p>
+</section>
+<section id="what-the-general-theory-does-and-does-not-give" class="level2">
+<h2>What the general theory does and does not give</h2>
+<p>Self-Stabilization’s Theorem 1 is a finite-horizon local coupling to a constrained reference plus a predicted oscillatory displacement. Its hypotheses include an eigengap, positive sharpening alignment, controlled higher derivatives and transverse terms, a small error parameter, and a nonvanishing oscillatory component over the stated horizon. It is not global convergence or a proof that every loss progressively sharpens.</p>
+<p>Our example verifies a local cycle directly. The paper supplies a broader conditional analysis. Both support keeping the feedback term. Neither establishes that a larger learning rate always improves generalization or that stochastic momentum training has the same reduced dynamics.</p>
+<p>The next post asks what survives after the fast phase is removed: a covariance that still contributes to the center’s motion.</p>
+</section>
+<section id="try-following-the-feedback" class="level2">
+<h2>Try following the feedback</h2>
+<ol type="1">
+<li>Why does the curvature-reducing term survive a sign flip of <span class="math inline">\(x\)</span>?</li>
+<li>What return map checks local stability of the displayed cycle?</li>
+<li>Is the full Hessian’s largest eigenvalue exactly two at the actual cycle points?</li>
+<li>Why does the initial state <span class="math inline">\(x_0=0\)</span> need separate treatment?</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li>It depends on <span class="math inline">\(x^2\)</span>.</li>
+<li>The product of the two one-step Jacobians, in trajectory order.</li>
+<li>No.&nbsp;It is about 2.021954 because the off-diagonal Hessian entries are nonzero.</li>
+<li>That coordinate remains zero exactly, so the instability is never excited.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p><a href="https://arxiv.org/abs/2209.15594v2">Self-Stabilization: The Implicit Bias of Gradient Descent at the Edge of Stability</a>, Lemma 2, Sections 4 and 5.3, and Section 8.3, gives the cubic feedback, conditional coupling, and unresolved sharpening question. The polynomial, cycle, return-map calculation, and figure here are independent worked examples. They do not reproduce its experiments or certify all of its assumptions.</p>
+<p><a href="../scale-geometry-28/index.html">Part 28</a> derives the frozen boundary. <a href="../scale-geometry-30/index.html">Part 30</a> retains the effect of the oscillations through their covariance.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-28/index.html" aria-label="Previous post: What the edge of stability actually says">P: What the edge of stability actually says <span class="link-mark" aria-hidden="true"></span></a><a href="../scale-geometry-30/index.html" aria-label="Next post: Averaging the steps without losing their effect">N: Averaging the steps without losing their effect <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#a-third-derivative-links-oscillation-to-curvature" id="toc-a-third-derivative-links-oscillation-to-curvature">A third derivative links oscillation to curvature</a></li>
+<li><a href="#see-both-updates-in-one-mixed-monomial" id="toc-see-both-updates-in-one-mixed-monomial">See both updates in one mixed monomial</a></li>
+<li><a href="#an-explicit-loss-with-a-restoring-curvature-coordinate" id="toc-an-explicit-loss-with-a-restoring-curvature-coordinate">An explicit loss with a restoring curvature coordinate</a></li>
+<li><a href="#solve-the-two-cycle-before-simulating-it" id="toc-solve-the-two-cycle-before-simulating-it">Solve the two-cycle before simulating it</a></li>
+<li><a href="#check-that-the-cycle-attracts-nearby-points" id="toc-check-that-the-cycle-attracts-nearby-points">Check that the cycle attracts nearby points</a></li>
+<li><a href="#follow-the-full-recurrence" id="toc-follow-the-full-recurrence">Follow the full recurrence</a></li>
+<li><a href="#the-full-sharpness-is-not-exactly-the-coordinate-curvature" id="toc-the-full-sharpness-is-not-exactly-the-coordinate-curvature">The full sharpness is not exactly the coordinate curvature</a></li>
+<li><a href="#a-perturbation-and-an-averaging-window-both-matter" id="toc-a-perturbation-and-an-averaging-window-both-matter">A perturbation and an averaging window both matter</a></li>
+<li><a href="#what-the-general-theory-does-and-does-not-give" id="toc-what-the-general-theory-does-and-does-not-give">What the general theory does and does not give</a></li>
+<li><a href="#try-following-the-feedback" id="toc-try-following-the-feedback">Try following the feedback</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>

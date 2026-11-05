@@ -9,6 +9,8 @@ series-label: "Scale and geometry / Part 27"
 series-url: "scale-geometry.html"
 previous-url: "../scale-geometry-26/index.html"
 previous-title: "When update noise selects a feature"
+next-url: "../scale-geometry-28/index.html"
+next-title: "What the edge of stability actually says"
 ---
 
 The model in Part 26 predicts different feature drifts under different matrix updates. Its local mathematics is valid within the declared construction. The harder question is whether that proposed explanation transfers to a network whose features learn independently.

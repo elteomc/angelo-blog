@@ -1,0 +1,76 @@
+{
+  "scope": "Finite evaluation of explicit low-dimensional examples. No neural-network training.",
+  "parameters": {
+    "eta": 1.0,
+    "a": 1,
+    "b": 1,
+    "gamma": 0.2,
+    "target_y": 1.1,
+    "initial": [
+      0.001,
+      0.4
+    ],
+    "steps": 400
+  },
+  "cycle": {
+    "amplitude": 0.2000000000000001,
+    "center_y": 1.0,
+    "loss": 0.041000000000000036,
+    "center_loss": 0.0010000000000000018,
+    "full_sharpness": 2.021954445729289,
+    "return_matrix": [
+      [
+        0.96,
+        0.36000000000000015
+      ],
+      [
+        -0.36000000000000015,
+        0.6000000000000001
+      ]
+    ],
+    "return_multiplier_moduli": [
+      0.8400000000000002,
+      0.8400000000000002
+    ]
+  },
+  "trajectory": {
+    "final": [
+      0.20000000000006393,
+      1.0000000000001508
+    ],
+    "maximum_absolute_x": 0.2238413269799768,
+    "initial_loss": 0.049000700000000015,
+    "maximum_loss": 0.05108464671250744,
+    "minimum_loss": 1.6561209935485546e-07
+  },
+  "central": {
+    "contact_time": 9.729550745276565,
+    "boundary_variance": 0.04
+  },
+  "source_dossiers": [
+    {
+      "source": "/home/acru/angelo/proj/tense/.paper-mastery/edge-of-stability/01-executive-map.md",
+      "sha256": "8b502d93dc9a402042f55c7367fe23eb1dc132586f19a9b83a0352e9e77aa028"
+    },
+    {
+      "source": "/home/acru/angelo/proj/tense/.paper-mastery/edge-of-stability/06-derivations.md",
+      "sha256": "4936544ee7ef0895dde46f523588ddf60ce8f9ae46d92f609474a9c943a1afa1"
+    },
+    {
+      "source": "/home/acru/angelo/proj/tense/.paper-mastery/self-stabilization/01-executive-map.md",
+      "sha256": "087c811830927f7f0c37ebe44635520cceae349e6ecd53c2b25e45c2a6d2b499"
+    },
+    {
+      "source": "/home/acru/angelo/proj/tense/.paper-mastery/self-stabilization/06-derivations.md",
+      "sha256": "0a8c4c4be0ab755acfeadb2644c119c09cd50e69efd7f0062356a43c43043021"
+    },
+    {
+      "source": "/home/acru/angelo/proj/tense/.paper-mastery/central-flows/01-executive-map.md",
+      "sha256": "3ac2b994b56f844bea6f455876513a5db24cf531744defc6d69d37939ecc6050"
+    },
+    {
+      "source": "/home/acru/angelo/proj/tense/.paper-mastery/central-flows/06-derivations.md",
+      "sha256": "35d1b37a5ca37a661e054a3ad0ed62b32c98a98ae3f1500695b6ef059cdced69"
+    }
+  ]
+}

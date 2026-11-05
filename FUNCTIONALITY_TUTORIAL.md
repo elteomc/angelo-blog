@@ -270,3 +270,26 @@ Approved November 5, 2026 after review.
 - Publish Parts 25 through 27 with their three figures, worked derivations, exercises, and twenty-five mathematical and archival checks.
 - Remove review notices and preserve the selected source records, orange emphasis, skull ornaments, and title-based P: and N: navigation.
 - Render the approved site separately before updating docs and pushing the release.
+
+
+## Stability and central-flow review drafts
+
+Prepared November 5, 2026 after publishing Parts 25 through 27.
+
+- Add Parts 28 through 30 on the quadratic stability boundary, cubic self-stabilization feedback, and central-flow averaging.
+- Add three reproducible figures and twenty-six checks in tools/check_stability_central_flows.py. Record the explicit two-variable example and its source dossier hashes in specs/012-stability-central-flows/example-record.json.
+- Extend the local hub with Oscillations, sharpness, and central flows. Connect Part 27 to Part 28 using title-based P: and N: navigation.
+- Preserve orange italic emphasis, skull ornaments, exercises, answer sketches, and informal source headings. Mark all three articles Draft for review.
+- Keep the batch uncommitted and unpushed until review, with external rendering and no changes to the published docs tree. No neural-network training is part of this batch.
+
+
+Review checks for Parts 28 through 30 pass: twenty-six mathematical checks, two catalog checks, forty-five rendered pages with valid local links, and desktop and phone inspection. Details and source qualifications are in specs/012-stability-central-flows/validation.md. The formula-label correction is recorded as PUB-006. Published docs remain unchanged, and the new batch awaits review.
+
+
+## Publish the stability and central-flow posts
+
+Approved November 5, 2026 after review.
+
+- Publish Parts 28 through 30 with three figures, worked derivations, exercises, and twenty-six mathematical checks.
+- Remove review notices and preserve source qualifications, the explicit example record, orange emphasis, skull ornaments, and title-based chapter links.
+- Build the approved site separately before updating docs and pushing the release.

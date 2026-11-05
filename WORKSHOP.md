@@ -75,3 +75,9 @@ For Parts 25 through 27, run `PYTHONDONTWRITEBYTECODE=1 python3 tools/check_stoc
 
 
 Parts 25 through 27 were reviewed and approved for publication November 5, 2026. Future batches remain in external review output until approval.
+
+
+For Parts 28 through 30, run `PYTHONDONTWRITEBYTECODE=1 python3 tools/check_stability_central_flows.py`. Rebuild the three figures with `PYTHONDONTWRITEBYTECODE=1 MPLCONFIGDIR=/tmp/angelo-blog-matplotlib python3 tools/stability_central_flow_figures.py`. The example record evaluates an explicit two-variable polynomial for 400 updates, without neural-network training. Review at http://127.0.0.1:8878/blog/scale-geometry-28/index.html and keep output outside docs until approval.
+
+
+Parts 28 through 30 were reviewed and approved for publication November 5, 2026. Future batches remain in external review output until approval.
