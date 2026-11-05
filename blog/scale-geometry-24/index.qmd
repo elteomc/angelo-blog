@@ -9,6 +9,8 @@ series-label: "Scale and geometry / Part 24"
 series-url: "scale-geometry.html"
 previous-url: "../scale-geometry-23/index.html"
 previous-title: "How normalization can favor lower sharpness"
+next-url: "../scale-geometry-25/index.html"
+next-title: "What a noisy matrix update does on average"
 ---
 
 Two parameter arrays can represent the same function and still produce different next functions under an optimizer. The update rule contains more than the forward map: it also contains a metric, moments, damping, and often a choice of coordinate axes.

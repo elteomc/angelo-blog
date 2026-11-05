@@ -69,3 +69,9 @@ For Parts 22 through 24, run python3 tools/check_noise_sharpness_symmetry.py. Re
 
 
 Parts 22 through 24 were reviewed and approved for publication November 5, 2026. Future batches remain in external review output until approval.
+
+
+For Parts 25 through 27, run `PYTHONDONTWRITEBYTECODE=1 python3 tools/check_stochastic_feature_response.py`. Rebuild the three figures with `PYTHONDONTWRITEBYTECODE=1 MPLCONFIGDIR=/tmp/angelo-blog-matplotlib python3 tools/stochastic_feature_response_figures.py`. The selected experiment record retains source hashes and archived aggregates, without a new training run. Keep review builds outside docs and review at http://127.0.0.1:8878/blog/scale-geometry-25/index.html.
+
+
+Parts 25 through 27 were reviewed and approved for publication November 5, 2026. Future batches remain in external review output until approval.

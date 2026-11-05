@@ -247,3 +247,26 @@ Approved November 5, 2026 after review.
 - Publish Parts 22 through 24 with their three figures, worked calculations, exercises, and twenty-five mathematical checks.
 - Remove review notices and preserve orange italics, skull ornaments, open-ended part labels, and title-based P: and N: links.
 - Render the approved site separately before replacing docs and pushing the release.
+
+
+## Stochastic response and learned features review drafts
+
+Prepared November 5, 2026 after publishing Parts 22 through 24.
+
+- Add Parts 25 through 27 on Gaussian mean response, constructed stochastic feature selection, and archived untied-network controls.
+- Add three reproducible figures, worked derivations, exercises, and twenty-five mathematical and archival checks in tools/check_stochastic_feature_response.py.
+- Preserve selected source-hashed records in specs/011-stochastic-feature-response. Recompute summaries from archived results without rerunning training.
+- Extend the local catalog with Stochastic response and learned features. Connect Part 24 to Part 25 using title-based chapter navigation.
+- Mark the three articles Draft for review and keep them uncommitted and unpushed until approval. Render externally and preserve the published docs tree.
+
+
+Review checks for Parts 25 through 27 pass: twenty-five mathematical and archival checks, two catalog checks, forty-two rendered pages with valid local links, and desktop and phone inspection. The source qualifications and archived pairing are recorded in specs/011-stochastic-feature-response/validation.md. Published docs remain unchanged, and the new batch awaits review.
+
+
+## Publish the stochastic response and feature posts
+
+Approved November 5, 2026 after review.
+
+- Publish Parts 25 through 27 with their three figures, worked derivations, exercises, and twenty-five mathematical and archival checks.
+- Remove review notices and preserve the selected source records, orange emphasis, skull ornaments, and title-based P: and N: navigation.
+- Render the approved site separately before updating docs and pushing the release.

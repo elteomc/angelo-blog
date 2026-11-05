@@ -4,7 +4,7 @@ Updated 2026-11-05.
 
 ## Published foundation and current drafts
 
-Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. The first twenty-four posts and the hub are published, including the intrinsic-noise, sharpness-bias, and optimizer-state articles approved on November 5, 2026. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
+Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. The first twenty-seven posts and the hub are published, including the stochastic-response, feature-selection, and ordinary-network articles approved on November 5, 2026. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
 
 Angelo reviewed Parts 1 through 6 in pairs, approved their publication, and authorized completion and publication of Parts 7 through 12 without another review gate. Mathematical checks and rendered presentation checks remain part of publication. No future release dates or automatic publications have been set.
 
@@ -38,6 +38,9 @@ The six free-probability posts remain available with the bold In process of rewr
 | 22 | The learning rate hidden in the noise | Derive the normalized SDE, its radius balance, and the boundary between relaxation and mixing | Published |
 | 23 | How normalization can favor lower sharpness | Derive a finite-step valley drift and state the local sharpness-reduction assumptions | Published |
 | 24 | When the optimizer respects a symmetry | Transform rates and moments, test basis dependence, and distinguish equivariance from horizontality | Published |
+| 25 | What a noisy matrix update does on average | Derive Gaussian mean response and distinguish affine covariance from residual noise | Published |
+| 26 | When update noise selects a feature | Derive the constructed model's slow drift and identify its averaging assumptions | Published |
+| 27 | Why matching the angle did not explain the features | Read finite-batch response controls and the limits of the feature-collapse prediction | Published |
 
 ## Research follow-ups
 
@@ -160,3 +163,16 @@ The original tenth follow-up bundled three substantive questions. Give each a co
 - Parts 22 through 24 are approved for publication. Remove their review notices and render the approved sources into docs before publishing.
 
 All ten questions from the follow-up map now have published articles, with the final question receiving three posts. Future proposals should be selected explicitly from the adjacent Tensor Programs, stochastic selection, or training-dynamics material after this review. No additional release or experiment is scheduled automatically.
+
+
+## Stochastic response and learned features release
+
+Prepared and approved for publication November 5, 2026 after review.
+
+The original ten-question follow-up map is covered. Select the stochastic feature-selection calculation and ordinary-network response controls already named in the dossier backlog as the next three-post arc. Continue the existing series because these articles use the polar, averaging, and decay distinctions developed earlier.
+
+- Part 25 derives the Gaussian score identity, the affine projection and residual covariance, and an exact scalar sign example. Separate common-shift response from non-Gaussian regression and separate one-step covariance from a complete training-loss comparison.
+- Part 26 derives a constructed coupled-feature model with fixed total energy, an identifiable off-design term, response-dependent fast variance, and a leading slow drift. Check archived predictions at two step sizes. State the unproved uniform averaging step and the limits of output-step normalization.
+- Part 27 reports the archived untied-network controls. Average conditions within seed, retain paired uncertainty, compare angle and affine-response matching, and show how stale calibration and mixed rank signs limited the proposed collapse mechanism.
+- Each article has an original reproducible figure, worked mathematics, exercises, answer sketches, checked primary references, and the informal source heading. Preserve orange italics, skull ornaments, and P: and N: chapter titles.
+- Parts 25 through 27 are approved for publication. Remove their review notices and render the approved sources into docs before publishing. No new training run is part of this batch.

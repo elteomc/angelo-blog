@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why matching the angle did not explain the features | Angelo Farfan</title>
+<meta name="description" content="Read the archived untied-network experiment through angular, affine-response, calibration, and deterministic-label controls without mistaking a feature difference for a new mechanism.">
+<link rel="stylesheet" href="../../assets/workshop/workshop.css?v=20261104-2">
+<script src="../../assets/workshop/theme.js"></script>
+
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+</head>
+<body data-direction="workshop">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead"><a class="wordmark" href="../../index.html">Angelo Farfan<span class="mark link-mark" aria-hidden="true"></span></a><nav aria-label="Main navigation"><a href="../../blog.html" aria-current="page">Writing</a><a href="../../projects.html">Projects</a><a href="../../about.html">About</a><select id="theme-choice" aria-label="Color theme" hidden=""><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></nav></header>
+<main id="main" tabindex="-1">
+<div class="article-layout"><article><header class="article-header quarto-title-block">
+<a class="eyebrow" href="../../scale-geometry.html">Scale and geometry / Part 27</a>
+<h1>Why matching the angle did not explain the features</h1>
+
+
+<p class="dek" hidden="">An ordinary network, response controls, and a collapse prediction that did not transfer</p>
+<div class="article-meta">Angelo Farfan</div>
+</header><div class="article-body full-draft"><p>The model in Part 26 predicts different feature drifts under different matrix updates. Its local mathematics is valid within the declared construction. The harder question is whether that proposed explanation transfers to a network whose features learn independently.</p>
+<p>Our archived ordinary-network experiment found a real difference after matching matrix angles and radii. But that difference was largely reproduced by a calibrated affine response baseline, and the proposed extra feature-collapse pattern was not reliable.</p>
+<p>This is another useful boundary between <em>an observation and its explanation</em>. The experiment did not erase the constructed-model result. It changed what that result justified claiming about a more ordinary network.</p>
+<section id="remove-the-deliberately-shared-feature-parameter" class="level2">
+<h2>Remove the deliberately shared feature parameter</h2>
+<p>The network was</p>
+<p><span class="math display">\[
+f(x)=V\tanh\left(\gamma\odot\operatorname{LayerNorm}(Wx+b)+\beta\right)+c.
+\]</span></p>
+<p>It had six inputs, 12 hidden units, two outputs, and 134 independently trained parameters. Both matrices, all biases, and both LayerNorm parameter vectors learned. No scalar tied a feature energy to a separate nonlinear output term.</p>
+<p>The nonlinear teacher depended on the first three inputs. Each dataset had 384 training examples. In one distribution, nuisance coordinates were independent. In the other, two nuisance coordinates correlated with the teacher outputs, creating spurious shortcuts. Evaluation included clean labels on an independent-input distribution where those correlations disappeared.</p>
+<p>In the main grid, label noise of standard deviation 0.25 was added once to the training labels. It was not refreshed each update. A fixed partition supplied 12 blocks of 32 examples, sampled uniformly with replacement. Their gradients were unbiased for the finite-data training objective, with genuine non-Gaussian minibatch noise.</p>
+<p>This differs from the fresh Gaussian target noise in Part 26. Later controls removed the fixed observational label noise as well.</p>
+</section>
+<section id="match-the-quantities-the-original-explanation-might-hide-behind" class="level2">
+<h2>Match the quantities the original explanation might hide behind</h2>
+<p>Every paired continuation began from the same checkpoint after 2000 Adam steps and lasted 1024 updates. The grid used four independent dataset and initialization seeds, two matrix step sizes, zero or positive decay, zero momentum, and float64 arithmetic.</p>
+<p>The polar reference applied an exact rectangular polar map to matrix gradients. The angular-gradient comparison used ordinary gradient tangent directions while copying the reference’s actual matrix angle and radius at each step. Vector parameters used the same rule across arms.</p>
+<p>For a matrix treated as a vector under the Frobenius inner product, write <span class="math inline">\(u=W/\|W\|_F\)</span> and choose unit <span class="math inline">\(q\perp u\)</span>. The explicit sphere step</p>
+<p><span class="math display">\[
+W^+=r^+\left(\cos\alpha\,u-\sin\alpha\,q\right)
+\]</span></p>
+<p>has prescribed radius <span class="math inline">\(r^+\)</span> and angle <span class="math inline">\(\alpha\)</span> with <span class="math inline">\(W\)</span>. This makes clear what the angular control does: it fixes displacement scale on the sphere while allowing the tangent direction to differ.</p>
+<p>Matching those quantities does not match the response of the mean update to changing gradients. Part 25 showed why that distinction matters near a fitted model.</p>
+</section>
+<section id="fit-the-actual-finite-minibatch-response" class="level2">
+<h2>Fit the actual finite-minibatch response</h2>
+<p>At a calibration checkpoint, enumerate all 12 batch gradients <span class="math inline">\(g_i\)</span> and their unit polar tangent directions <span class="math inline">\(q_i\)</span>. Let</p>
+<p><span class="math display">\[
+\bar g=\frac1{12}\sum_i g_i,
+\qquad\bar q=\frac1{12}\sum_i q_i,
+\qquad J=\frac1{12}\sum_i Dq(g_i).
+\]</span></p>
+<p>The global affine control is</p>
+<p><span class="math display">\[
+L(g)=\bar q+J(g-\bar g).
+\]</span></p>
+<p>At calibration, it matches the expected tangent direction and its derivative under a common perturbation of the gradient input. The full block Jacobian was obtained by finite differences, with a two-scale numerical check.</p>
+<p>This is not a Gaussian approximation or a regression on the 12 noise samples. Such a regression would not generally identify the same derivative, and its centered input covariance has rank at most 11.</p>
+<p>An affine proposal has variable length. Renormalizing it to restore an exact common angle changes its response through the derivative of normalization. The experiment retained both versions and measured their realized errors. It did not declare simultaneous response and angle matching merely because both were intended.</p>
+</section>
+<section id="preserve-more-than-the-mean-with-a-local-control" class="level2">
+<h2>Preserve more than the mean with a local control</h2>
+<p>A stronger diagnostic kept a separate affine expansion for each batch:</p>
+<p><span class="math display">\[
+L_i(g)=q_i+J_i(g-g_i),\qquad J_i=Dq(g_i).
+\]</span></p>
+<p>At calibration, it reproduces every discrete proposal and its first derivative. It therefore preserves the batchwise update distribution at that point, before the subsequent declared angular step. It is a minibatch-conditioned model, rather than one global linear preconditioner.</p>
+<p>As features evolve, both fitted controls can become stale. Recalibration interval and measured response error are part of the comparison. These are expensive diagnostic oracles, not proposed faster optimizers.</p>
+</section>
+<section id="features-differed-after-angle-and-radius-matching" class="level2">
+<h2>Features differed after angle and radius matching</h2>
+<p>For spurious training inputs and decay 0.1, the refreshed control recalibrated every eight steps. Averaging the two step sizes within each independent seed gave:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Continuation</th>
+<th>Clean independent-input MSE</th>
+<th>Hidden effective rank</th>
+<th>Spurious sensitivity fraction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Polar</td>
+<td>0.08083</td>
+<td>6.3959</td>
+<td>0.07984</td>
+</tr>
+<tr class="even">
+<td>Angular gradient</td>
+<td>0.06867</td>
+<td>6.3001</td>
+<td>0.06148</td>
+</tr>
+<tr class="odd">
+<td>Affine response</td>
+<td>0.08084</td>
+<td>6.4308</td>
+<td>0.07985</td>
+</tr>
+<tr class="even">
+<td>Batchwise local response</td>
+<td>0.08242</td>
+<td>6.4330</td>
+<td>0.08205</td>
+</tr>
+</tbody>
+</table>
+<p>Positive polar-minus-comparator loss differences mean higher error for polar. The paired mean difference against angular gradient was <span class="math inline">\(0.012163\)</span>, with standard error <span class="math inline">\(0.003785\)</span> across four seeds. Against affine response, it was <span class="math inline">\(-0.000010\)</span>, with standard error <span class="math inline">\(0.000453\)</span>.</p>
+<p>The geometry-dependent observation survived matching angles and norms. The affine response control reproduced most of its held-out error and spurious-input sensitivity. This is evidence against treating the contrast as a phenomenon beyond the measured local response description in this setting.</p>
+<p>The hidden rank was the entropy effective rank of the feature covariance. For eigenvalues <span class="math inline">\(\lambda_j\)</span> and <span class="math inline">\(p_j=\lambda_j/\sum_k\lambda_k\)</span>, it is</p>
+<p><span class="math display">\[
+r_{\rm eff}=\exp\left(-\sum_j p_j\log p_j\right).
+\]</span></p>
+<p>The polar-minus-angular-gradient rank difference was <span class="math inline">\(+0.0959\)</span> with standard error <span class="math inline">\(0.1175\)</span>, and its sign varied across seeds. That does not support a robust extra-collapse prediction. A feature difference, a rank decrease, and a useful predictor are three distinct claims.</p>
+</section>
+<section id="removing-label-noise-did-not-remove-the-response-explanation" class="level2">
+<h2>Removing label noise did not remove the response explanation</h2>
+<p>The final strict control used deterministic teacher labels, the smaller prescribed matrix angle 0.003, positive decay, and affine recalibration at every step. Polar and angular gradient shared their prescribed angles and radius profile.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Continuation</th>
+<th>Clean independent-input MSE</th>
+<th>Hidden effective rank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Polar</td>
+<td>0.055550</td>
+<td>5.18060</td>
+</tr>
+<tr class="even">
+<td>Angular gradient</td>
+<td>0.049221</td>
+<td>4.99908</td>
+</tr>
+<tr class="odd">
+<td>Affine response at every step</td>
+<td>0.055303</td>
+<td>5.17852</td>
+</tr>
+</tbody>
+</table>
+<p>The paired polar-minus-gradient error difference was <span class="math inline">\(0.006329\pm0.002593\)</span>. The polar-minus-affine difference was <span class="math inline">\(0.000247\pm0.000407\)</span>, with signs differing across seeds. Here the plus-minus terms are one standard error, not confidence intervals or a proof of equivalence.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="../../assets/scale-geometry/network-response-controls.svg" alt="Two panels show polar-minus-comparator independent-input MSE for four paired seeds. The noisy-label control averages two step sizes within each seed. The deterministic-label control uses the smaller angle and every-step affine calibration. Mean bars include one standard error."></p>
+<figcaption>Paired seed comparisons show a consistent difference from angular gradient but much smaller differences from affine response in the two archived controls.</figcaption>
+</figure>
+</div>
+<p>Fixed observational label noise was therefore unnecessary for the contrast with angular gradient. Minibatch noise remained. The clean-label control also changed the clock and recalibration protocol, so the difference between the two tables cannot isolate the effect of removing label noise alone.</p>
+<p>The affine arm’s angular RMS was about 1.082 times the prescribed polar angle in the strict control. It was response matched rather than exactly angle matched. A separate normalized-affine control restored angles but retained response error. This limits any claim of exact simultaneous global affine-response and angular equivalence.</p>
+</section>
+<section id="stale-controls-can-manufacture-a-misleading-gap" class="level2">
+<h2>Stale controls can manufacture a misleading gap</h2>
+<p>With 128 steps between calibrations, the batchwise local model’s independent-input MSE in the same spurious, positive-decay setting was about 0.18915, compared with 0.08083 for polar. Its midpoint median response error was about 28 percent over the main grid.</p>
+<p>Recalibrating every eight steps reduced its error to 0.08242. The midpoint median response error still reached about 10.3 percent over that refreshed grid. A shorter interval helped, but did not certify uniform accuracy.</p>
+<p>Thus a bad result from an outdated local approximation is not evidence that a valid response control fails. Conversely, close losses from an approximate control are not an exact equivalence theorem. The every-step affine experiment was added to probe this distinction directly.</p>
+</section>
+<section id="keep-the-statistical-unit-visible" class="level2">
+<h2>Keep the statistical unit visible</h2>
+<p>The noisy-label summary averages step sizes within each seed before computing paired differences and standard errors. Four seeds remain four independent dataset and initialization draws. Repeated conditions and many continuation arms do not turn into additional independent datasets.</p>
+<p>Likewise, the hidden features were not frozen: they moved from the common checkpoint, and linear probes and sensitivities changed. That fact establishes an ordinary learned-feature experiment. It does not establish that the specific two-feature collapse mechanism from Part 26 describes those changes.</p>
+<p>The benchmark was small, synthetic, finite-horizon, and used exact polar evaluation without momentum. It does not establish an optimizer ranking on natural datasets, Transformers, practical finite polar routines, or the asymptotic time scale of a minimizer-manifold theorem.</p>
+</section>
+<section id="what-changed-in-the-research-conclusion" class="level2">
+<h2>What changed in the research conclusion</h2>
+<p>The appropriate conclusion was to demote the proposed collapse mechanism as the main submission hypothesis. The constructed calculation still illustrates a valid possible bias. The network experiment still shows features can differ after angular matching. The stronger claim that these observations reveal a new useful effect beyond response and minibatch noise did not earn support.</p>
+<p>A future proposal needs a prediction that distinguishes it from the strongest accurate controls, survives independently learned features, and improves a declared task outcome under fair tuning and compute comparisons. The present experiment helps specify that target by showing which explanations were insufficient.</p>
+</section>
+<section id="try-checking-the-control" class="level2">
+<h2>Try checking the control</h2>
+<ol type="1">
+<li>Does matching matrix angle determine the expected update Jacobian?</li>
+<li>Why is averaging all 12 batch derivatives different from regressing on their gradient noise?</li>
+<li>What should happen before interpreting a large loss gap from a stale local approximation?</li>
+<li>Why are eight step-size conditions in the refreshed setting still summarized with four independent seeds?</li>
+</ol>
+<details>
+<summary>
+Answer sketches
+</summary>
+<ol type="1">
+<li>No.&nbsp;Angle fixes a geometric step size, while response describes how the mean proposal changes with its input.</li>
+<li>The derivative concerns a common perturbation of each input. A finite non-Gaussian regression need not recover that operator.</li>
+<li>Measure its current response error and recalibrate or otherwise validate the approximation.</li>
+<li>Two step sizes share each dataset and initialization draw. Average within those draws before reporting uncertainty across them.</li>
+</ol>
+</details>
+</section>
+<section id="sources-and-scope" class="level2">
+<h2>Yo twin, go read…</h2>
+<p>The empirical values come from our archived untied LayerNorm-network study, including its refreshed, deterministic-label, and every-step response controls. This article recomputes selected aggregates and checks the displayed identities. It does not rerun the continuations or claim a new network result.</p>
+<p><a href="https://arxiv.org/abs/2609.32861v1">Muon Under Gradient Noise and the Limits of Orthogonalization Near Optima</a>, Sections 4 through 6, motivates separating response from remaining fluctuations under its Gaussian and surrogate assumptions. Our finite-batch controls instead enumerate the actual gradient outcomes and evaluate the response directly.</p>
+<p>Read <a href="../scale-geometry-25/index.html">Part 25</a> for why the Gaussian score formula is not a universal empirical regression rule, and <a href="../scale-geometry-26/index.html">Part 26</a> for the constructed model whose extrapolation this experiment tested.</p>
+
+</section></div>
+<nav class="chapter-navigation" aria-label="Chapter navigation"><a href="../scale-geometry-26/index.html" aria-label="Previous post: When update noise selects a feature">P: When update noise selects a feature <span class="link-mark" aria-hidden="true"></span></a></nav>
+</article><aside class="contents"><nav aria-label="On this page"><ul>
+<li><a href="#remove-the-deliberately-shared-feature-parameter" id="toc-remove-the-deliberately-shared-feature-parameter">Remove the deliberately shared feature parameter</a></li>
+<li><a href="#match-the-quantities-the-original-explanation-might-hide-behind" id="toc-match-the-quantities-the-original-explanation-might-hide-behind">Match the quantities the original explanation might hide behind</a></li>
+<li><a href="#fit-the-actual-finite-minibatch-response" id="toc-fit-the-actual-finite-minibatch-response">Fit the actual finite-minibatch response</a></li>
+<li><a href="#preserve-more-than-the-mean-with-a-local-control" id="toc-preserve-more-than-the-mean-with-a-local-control">Preserve more than the mean with a local control</a></li>
+<li><a href="#features-differed-after-angle-and-radius-matching" id="toc-features-differed-after-angle-and-radius-matching">Features differed after angle and radius matching</a></li>
+<li><a href="#removing-label-noise-did-not-remove-the-response-explanation" id="toc-removing-label-noise-did-not-remove-the-response-explanation">Removing label noise did not remove the response explanation</a></li>
+<li><a href="#stale-controls-can-manufacture-a-misleading-gap" id="toc-stale-controls-can-manufacture-a-misleading-gap">Stale controls can manufacture a misleading gap</a></li>
+<li><a href="#keep-the-statistical-unit-visible" id="toc-keep-the-statistical-unit-visible">Keep the statistical unit visible</a></li>
+<li><a href="#what-changed-in-the-research-conclusion" id="toc-what-changed-in-the-research-conclusion">What changed in the research conclusion</a></li>
+<li><a href="#try-checking-the-control" id="toc-try-checking-the-control">Try checking the control</a></li>
+<li><a href="#sources-and-scope" id="toc-sources-and-scope">Yo twin, go read…</a></li>
+</ul></nav><a class="back-to-series" href="../../scale-geometry.html">All chapters <span class="link-mark" aria-hidden="true"></span></a></aside></div>
+</main>
+<footer><a href="../../index.html">Angelo Farfan</a><nav class="spaced-labels" aria-label="Additional pages"><a href="../../notes.html">Notes</a><a href="../../cv.html">CV</a><a href="https://github.com/elteomc">GitHub <span class="link-mark" aria-hidden="true"></span></a></nav></footer>
+
+
+
+</body></html>
