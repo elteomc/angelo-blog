@@ -5,7 +5,7 @@ description: "Test simultaneous norm constraints with a frozen-feature compatibi
 date: "2026-11-04"
 categories: ["normalization", "shared gains", "research"]
 site-root: "../../"
-series-label: "Scale and geometry / Part 11 of 12"
+series-label: "Scale and geometry / Part 11"
 series-url: "scale-geometry.html"
 previous-url: "../scale-geometry-10/index.html"
 previous-title: "Which scales should stay learnable?"

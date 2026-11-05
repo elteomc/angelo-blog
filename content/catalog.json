@@ -54,6 +54,18 @@
         {
           "number": 12,
           "source": "blog/scale-geometry-12/index.qmd"
+        },
+        {
+          "number": 13,
+          "source": "blog/scale-geometry-13/index.qmd"
+        },
+        {
+          "number": 14,
+          "source": "blog/scale-geometry-14/index.qmd"
+        },
+        {
+          "number": 15,
+          "source": "blog/scale-geometry-15/index.qmd"
         }
       ],
       "groups": [
@@ -71,6 +83,11 @@
           "title": "III. Which scales should we constrain?",
           "start": 8,
           "count": 4
+        },
+        {
+          "title": "IV. Computation, noise, and norm budgets",
+          "start": 12,
+          "count": 3
         }
       ]
     },

@@ -5,7 +5,7 @@ description: "Separate a weight manifold, tangent directions, update size, and r
 date: "2026-11-04"
 categories: ["optimization", "manifolds", "matrix geometry"]
 site-root: "../../"
-series-label: "Scale and geometry / Part 8 of 12"
+series-label: "Scale and geometry / Part 8"
 series-url: "scale-geometry.html"
 previous-url: "../scale-geometry-7/index.html"
 previous-title: "How Modula combines layer budgets"

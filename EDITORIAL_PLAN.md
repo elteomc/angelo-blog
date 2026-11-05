@@ -1,10 +1,10 @@
 # Editorial plan
 
-Updated 2026-11-04.
+Updated 2026-11-05.
 
-## Completed main series
+## Published foundation and current drafts
 
-Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. All twelve posts and the hub are published. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
+Scale and geometry completes the agreed twelve-part sequence on normalization, weight decay, layer geometry, and modular optimization. The first fifteen posts and the hub are published, including the practical polar, stochastic averaging, and norm-budget articles approved on November 5, 2026. The opening posts establish exact scale dynamics, the middle posts build layer and modular geometry, and the closing posts develop the shared-gain question under explicit assumptions.
 
 Angelo reviewed Parts 1 through 6 in pairs, approved their publication, and authorized completion and publication of Parts 7 through 12 without another review gate. Mathematical checks and rendered presentation checks remain part of publication. No future release dates or automatic publications have been set.
 
@@ -26,6 +26,9 @@ The six free-probability posts remain available with the bold In process of rewr
 | 10 | Which scales should stay learnable? | Trace gains, branch multipliers, and effective-map differentials | Published |
 | 11 | One gain, several constraints | Derive positive shared-gain feasibility and a scalar fitting floor | Published |
 | 12 | From a counterexample to a research claim | Evaluate synthetic controls and test the explanation against attention symmetries | Published |
+| 13 | What a finite polar iteration actually does | Follow finite singular-mode computation and distinguish approximation from training quality | Published |
+| 14 | Why average before choosing an update? | Derive stochastic normalization bias, variance, tracking lag, and support-error bounds | Published |
+| 15 | Weight decay as a norm budget | Derive the invariant ball and initialization envelope under bounded proposals | Published |
 
 ## Research follow-ups
 
@@ -94,3 +97,16 @@ Tensor Programs, kernel versus feature-learning regimes, and the full muP/depth 
 Progressive sharpening, edge of stability, self-stabilization, and central flows form another coherent dynamics sequence. Their finite-step, averaged-flow, and empirical claims need separate treatment. The [research index](/home/acru/angelo/proj/tense/.paper-mastery/RESEARCH_INDEX.md) and [central-flows map](/home/acru/angelo/proj/tense/.paper-mastery/central-flows/01-executive-map.md) locate that material.
 
 These are editorial candidates. The public hub keeps its existing chapter list, and no additional article or experiment is created by this review.
+
+
+## Practical follow-up release
+
+Prepared November 4 and approved for publication November 5, 2026.
+
+| Part | Title | Review state |
+| --- | --- | --- |
+| 13 | What a finite polar iteration actually does | Published November 5 after review |
+| 14 | Why average before choosing an update? | Published November 5 after review |
+| 15 | Weight decay as a norm budget | Published November 5 after review |
+
+All three were reviewed and approved for publication. Their sources, figures, hub entries, and title-based chapter links are included in the release. The series uses open-ended part labels.

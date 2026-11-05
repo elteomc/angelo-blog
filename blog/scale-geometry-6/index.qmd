@@ -5,7 +5,7 @@ description: "Solve a matrix support problem, derive the polar update, and disti
 date: 2026-11-04
 categories: [optimization, dual norms, matrix geometry]
 site-root: ../../
-series-label: "Scale and geometry / Part 6 of 12"
+series-label: "Scale and geometry / Part 6"
 series-url: scale-geometry.html
 previous-url: ../scale-geometry-5/index.html
 previous-title: "What counts as a small layer change?"

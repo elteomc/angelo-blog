@@ -48,4 +48,9 @@ For Parts 7 through 12, run `PYTHONDONTWRITEBYTECODE=1 python3 tools/check_serie
 
 The finite frozen-teacher control uses eight equally weighted inputs in four dimensions and 45 target norm ratios. It directly evaluates analytically specified representatives, with no optimizer training. Reproduce its saved record with `PYTHONDONTWRITEBYTECODE=1 python3 tools/check_series_completion.py --results specs/006-complete-scale-geometry-series/frozen-teacher-results.json`. The record stays in the source repository and is not bundled as a reader resource.
 
-All twelve Scale and geometry chapters now have sources in the catalog. Chapter footer links display P: or N: followed by the respective title. The first chapter has only N:, and the last has only P:. The shared layout preserves descriptive previous and next assistive labels.
+Scale and geometry chapters have ordered source entries in the catalog. Chapter footer links display P: or N: followed by the respective title. The first chapter has only N:, and the last has only P:. The shared layout preserves descriptive previous and next assistive labels.
+
+
+For the practical follow-up drafts, run `PYTHONDONTWRITEBYTECODE=1 python3 tools/check_practical_followups.py`. Use `--tables` to inspect the numerical values printed in the polar and averaging articles. Rebuild all four figures with `PYTHONDONTWRITEBYTECODE=1 MPLCONFIGDIR=/tmp/angelo-blog-matplotlib python3 tools/practical_followup_figures.py`.
+
+Parts 13 through 15 were approved for publication November 5, 2026. Future review builds should stay outside docs until approval. Article review notices identify local drafts. The series hub keeps its simple presentation and uses a fourth chapter group. Part labels have no fixed total, and the established title-based P: and N: links connect the sequence.

@@ -5,7 +5,7 @@ description: "What survives a comparison that tunes angular schedules fairly?"
 date: "2026-11-04"
 categories: ["optimization", "normalization", "learning rates"]
 site-root: "../../"
-series-label: "Scale and geometry / Part 9 of 12"
+series-label: "Scale and geometry / Part 9"
 series-url: "scale-geometry.html"
 previous-url: "../scale-geometry-8/index.html"
 previous-title: "Constraining weights, constraining motion"

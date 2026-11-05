@@ -166,3 +166,20 @@ Updated November 4, 2026.
 - Apply the same neutral wording to earlier repository revisions and verify the published history before replacing it.
 
 The editorial plan now maps ten follow-up questions to dossier sources and distinguishes the neighboring width-scaling and training-dynamics sequences. The backlog also includes the stochastic feature-selection calculation and ordinary-network response controls. This is an internal backlog, with no additional public chapters.
+
+## Practical polar, averaging, and norm-budget drafts
+
+Prepared November 4, 2026 for review.
+
+- Add Parts 13 through 15 with worked derivations, four reproducible figures, numerical tables, exercises, and primary references.
+- Verify finite polar evaluation, stochastic normalization bias, estimator variance and lag, support defects, and norm envelopes with eighteen numerical checks.
+- Extend the local hub and P: and N: chapter navigation with open-ended part labels, preserving orange italics and skull ornaments.
+- Mark the new articles as review drafts. Keep the published docs output unchanged and render the local preview externally.
+
+## Publish the practical follow-up posts
+
+Approved November 5, 2026 after review.
+
+- Publish Parts 13 through 15 and their four figures, worked examples, exercises, and eighteen numerical checks.
+- Remove review notices and retain the open-ended part labels and title-based P: and N: links.
+- Render the complete site afresh so the published output matches the approved sources.

@@ -5,7 +5,7 @@ description: "Decompose the momentum buffer into radial and tangent parts, compu
 date: 2026-11-04
 categories: [optimization, momentum, geometry]
 site-root: ../../
-series-label: "Scale and geometry / Part 4 of 12"
+series-label: "Scale and geometry / Part 4"
 series-url: scale-geometry.html
 previous-url: ../scale-geometry-3/index.html
 previous-title: "Weight decay changes the clock"

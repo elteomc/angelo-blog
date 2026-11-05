@@ -5,7 +5,7 @@ description: "Two identical predictors take different SGD steps. A two-dimension
 date: 2026-11-04
 categories: [optimization, normalization, geometry]
 site-root: ../../
-series-label: "Scale and geometry / Part 1 of 12"
+series-label: "Scale and geometry / Part 1"
 series-url: scale-geometry.html
 next-url: ../scale-geometry-2/index.html
 next-title: "What normalization makes invariant"

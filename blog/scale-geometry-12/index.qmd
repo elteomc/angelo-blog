@@ -5,10 +5,12 @@ description: "Which attention symmetries and learning experiments could overturn
 date: "2026-11-04"
 categories: ["normalization", "attention", "research"]
 site-root: "../../"
-series-label: "Scale and geometry / Part 12 of 12"
+series-label: "Scale and geometry / Part 12"
 series-url: "scale-geometry.html"
 previous-url: "../scale-geometry-11/index.html"
 previous-title: "One gain, several constraints"
+next-url: "../scale-geometry-13/index.html"
+next-title: "What a finite polar iteration actually does"
 ---
 
 We now have an exact obstruction: prescribed branch maps can fail to admit representatives with independent fixed matrix radii and one shared gain. We also have a proposed repair, grouping the matrices or restoring branch multipliers.
@@ -128,7 +130,7 @@ The series began with identical predictors taking different gradient steps. That
 
 The final question is sharper than fixing all norms or freeing all gains: which redundant scales can be controlled while preserving useful module behavior, and what measurable consequence follows?
 
-We have exact toy calculations and controls that can reject an overly broad interpretation. We do not yet have evidence of a new optimizer advantage on a trainable Transformer. That is the research program to carry beyond these twelve posts.
+We have exact toy calculations and controls that can reject an overly broad interpretation. We do not yet have evidence of a new optimizer advantage on a trainable Transformer. That is the research program to carry into the next stage of the series.
 
 ## Try to break the explanation
 
